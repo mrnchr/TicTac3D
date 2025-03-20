@@ -13,15 +13,20 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay.Cell
   {
     private readonly InputProvider _inputProvider;
     private readonly List<CellModel> _cells;
-    private readonly Camera _camera;
     private readonly IConfigLoader _configLoader;
+    private readonly GameInfo _gameInfo;
+    private readonly Camera _camera;
     private readonly CellConfig _config;
 
-    public CellRaycaster(InputProvider inputProvider, List<CellModel> cells, IConfigLoader configLoader)
+    public CellRaycaster(InputProvider inputProvider,
+      List<CellModel> cells,
+      IConfigLoader configLoader,
+      GameInfo gameInfo)
     {
-      _configLoader = configLoader;
       _inputProvider = inputProvider;
       _cells = cells;
+      _configLoader = configLoader;
+      _gameInfo = gameInfo;
       _camera = Camera.main;
       _config = _configLoader.LoadConfig<CellConfig>();
     }
@@ -29,6 +34,9 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay.Cell
     public void Tick()
     {
       ClearHovering();
+
+      if (!_gameInfo.IsMoving)
+        return;
       
       Ray ray = _camera.ScreenPointToRay(_inputProvider.MousePosition);
       var minDistance = float.MaxValue;
@@ -43,7 +51,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay.Cell
         }
       }
 
-      if (minDistance <= _config.MaxRaycastDistance && hoveredCell != null && hoveredCell.CanHover())
+      if (minDistance <= _config.MaxRaycastDistance && hoveredCell != null && !hoveredCell.HasShape())
         hoveredCell.IsHovered.Value = true;
     }
 

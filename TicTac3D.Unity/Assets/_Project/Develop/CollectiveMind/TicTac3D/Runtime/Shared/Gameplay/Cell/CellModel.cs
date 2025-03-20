@@ -14,9 +14,9 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Cell
     
     public ReactiveProperty<ShapeType> Shape = new ReactiveProperty<ShapeType>();
 
-    public bool CanHover()
+    public bool HasShape()
     {
-      return Shape.Value == ShapeType.None;
+      return Shape.Value != ShapeType.None;
     }
   }
 }

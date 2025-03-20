@@ -18,7 +18,6 @@ namespace CollectiveMind.TicTac3D.Runtime.Server
     private readonly IRpcProvider _rpcProvider;
     private readonly IPrefabLoader _prefabLoader;
     private readonly SessionInfo _sessionInfo;
-    private bool _isGameStarted;
 
     private readonly ReactiveProperty<bool> _isPlayerSpawned = new ReactiveProperty<bool>();
 
@@ -54,25 +53,29 @@ namespace CollectiveMind.TicTac3D.Runtime.Server
     {
       if (isPlayerSpawned)
       {
-        _isGameStarted = true;
         _sessionInfo.ClientInfos.Clear();
-        List<ShapeType> shapes = new List<ShapeType> { ShapeType.X, ShapeType.O };
+        _rpcProvider.SendRequest<StartedGameResponse>(_networkManager.RpcTarget.Everyone);
+        var shapes = new List<ShapeType> { ShapeType.X, ShapeType.O };
         foreach (KeyValuePair<ulong, NetworkClient> client in _networkManager.ConnectedClients)
         {
           int index = Random.Range(0, shapes.Count);
+          ShapeType shape = shapes[index];
           _sessionInfo.ClientInfos.Add(new SessionInfoAboutClient
           {
             Client = client.Value,
             Shape = shapes[index]
           });
-          
+
+          _rpcProvider.SendRequest(new DefinedShapeResponse { Shape = shape },
+            _networkManager.RpcTarget.Single(client.Key, RpcTargetUse.Persistent));
+
           shapes.RemoveAt(index);
         }
 
-        _rpcProvider.SendRequest<StartedGameResponse>(_networkManager.RpcTarget.Everyone);
+        _sessionInfo.CurrentMove = ShapeType.X;
+        _rpcProvider.SendRequest(new ChangedMoveResponse { CurrentMove = ShapeType.X });
       }
     }
-
 
     public void Dispose()
     {

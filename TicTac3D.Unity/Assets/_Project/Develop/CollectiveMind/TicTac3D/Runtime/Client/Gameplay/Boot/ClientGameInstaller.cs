@@ -25,6 +25,9 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay
       BindCellShapeUpdater();
 
       BindShapeFactory();
+
+      BindGameInfo();
+      BindCurrentMoveChanger();
     }
 
     private void BindCellVisualFactory()
@@ -66,6 +69,20 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay
     {
       Container
         .BindInterfacesTo<ShapeFactory>()
+        .AsSingle();
+    }
+
+    private void BindGameInfo()
+    {
+      Container
+        .Bind<GameInfo>()
+        .AsSingle();
+    }
+
+    private void BindCurrentMoveChanger()
+    {
+      Container
+        .BindInterfacesTo<CurrentMoveChanger>()
         .AsSingle();
     }
   }

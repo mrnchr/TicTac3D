@@ -4,6 +4,7 @@ using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Cell;
 using CollectiveMind.TicTac3D.Runtime.Shared.Network;
 using Unity.Netcode;
+using UnityEngine;
 
 namespace CollectiveMind.TicTac3D.Runtime.Server
 {
@@ -28,10 +29,12 @@ namespace CollectiveMind.TicTac3D.Runtime.Server
     {
       CellModel cell = _cells.Find(c => c.Index == evt.CellIndex);
       SessionInfoAboutClient clientInfo = _sessionInfo.GetClientInfo(rpcParams.Receive.SenderClientId);
-      if (clientInfo != null)
+      if (clientInfo != null && clientInfo == _sessionInfo.GetMovingPlayer() && !cell.HasShape())
       {
         cell.Shape.Value = clientInfo.Shape;
         _rpcProvider.SendRequest(new UpdatedShapeResponse { CellIndex = evt.CellIndex, Shape = clientInfo.Shape });
+        _sessionInfo.CurrentMove = _sessionInfo.CurrentMove == ShapeType.X ? ShapeType.O : ShapeType.X;
+        _rpcProvider.SendRequest(new ChangedMoveResponse { CurrentMove = _sessionInfo.CurrentMove });
       }
     }
 

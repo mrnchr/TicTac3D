@@ -1,4 +1,5 @@
 ﻿using System;
+using R3;
 using UnityEngine;
 
 namespace CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Cell
@@ -6,7 +7,9 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Cell
   [Serializable]
   public class CellModel
   {
-    public Vector3Int Position;
-    public int Value;
+    public Vector3 Index;
+    public Vector3 Position;
+
+    public ReactiveProperty<bool> IsHovered = new ReactiveProperty<bool>();
   }
 }

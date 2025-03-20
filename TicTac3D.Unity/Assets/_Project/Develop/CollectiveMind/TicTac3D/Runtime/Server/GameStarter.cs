@@ -26,7 +26,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Server
     public void Tick()
     {
       _isPlayerSpawned.Value = _networkManager.IsServer
-        && _networkManager.ConnectedClients.Count == 2
+        // && _networkManager.ConnectedClients.Count == 2
         && _networkManager.SpawnManager.PlayerObjects.All(x => x.IsSpawned);
     }
 

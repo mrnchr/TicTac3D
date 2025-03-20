@@ -8,6 +8,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Input
   {
     public bool Rotate;
     public Vector2 Delta;
+    public Vector2 MousePosition;
 
     public void Reset()
     {

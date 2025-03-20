@@ -110,6 +110,15 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Input
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""MousePosition"",
+                    ""type"": ""Value"",
+                    ""id"": ""c689bd58-d28c-4c23-8dbb-7956d76fa9f0"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -145,6 +154,17 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Input
                     ""action"": ""Rotate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f3648d78-7142-4803-b677-8810378c1338"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard & Mouse"",
+                    ""action"": ""MousePosition"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -172,6 +192,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Input
             m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
             m_Gameplay_Rotate = m_Gameplay.FindAction("Rotate", throwIfNotFound: true);
             m_Gameplay_Delta = m_Gameplay.FindAction("Delta", throwIfNotFound: true);
+            m_Gameplay_MousePosition = m_Gameplay.FindAction("MousePosition", throwIfNotFound: true);
         }
 
         ~@PlayerInputActions()
@@ -254,6 +275,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Input
         private List<IGameplayActions> m_GameplayActionsCallbackInterfaces = new List<IGameplayActions>();
         private readonly InputAction m_Gameplay_Rotate;
         private readonly InputAction m_Gameplay_Delta;
+        private readonly InputAction m_Gameplay_MousePosition;
         /// <summary>
         /// Provides access to input actions defined in input action map "Gameplay".
         /// </summary>
@@ -273,6 +295,10 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Input
             /// Provides access to the underlying input action "Gameplay/Delta".
             /// </summary>
             public InputAction @Delta => m_Wrapper.m_Gameplay_Delta;
+            /// <summary>
+            /// Provides access to the underlying input action "Gameplay/MousePosition".
+            /// </summary>
+            public InputAction @MousePosition => m_Wrapper.m_Gameplay_MousePosition;
             /// <summary>
             /// Provides access to the underlying input action map instance.
             /// </summary>
@@ -305,6 +331,9 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Input
                 @Delta.started += instance.OnDelta;
                 @Delta.performed += instance.OnDelta;
                 @Delta.canceled += instance.OnDelta;
+                @MousePosition.started += instance.OnMousePosition;
+                @MousePosition.performed += instance.OnMousePosition;
+                @MousePosition.canceled += instance.OnMousePosition;
             }
 
             /// <summary>
@@ -322,6 +351,9 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Input
                 @Delta.started -= instance.OnDelta;
                 @Delta.performed -= instance.OnDelta;
                 @Delta.canceled -= instance.OnDelta;
+                @MousePosition.started -= instance.OnMousePosition;
+                @MousePosition.performed -= instance.OnMousePosition;
+                @MousePosition.canceled -= instance.OnMousePosition;
             }
 
             /// <summary>
@@ -389,6 +421,13 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Input
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
             void OnDelta(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "MousePosition" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnMousePosition(InputAction.CallbackContext context);
         }
     }
 }

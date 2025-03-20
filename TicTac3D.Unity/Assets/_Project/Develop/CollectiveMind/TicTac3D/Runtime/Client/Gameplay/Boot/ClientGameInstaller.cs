@@ -18,6 +18,8 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay
     {
       BindCellVisualFactory();
       BindFieldCreator();
+
+      BindCellRaycaster();
     }
 
     private void BindCellVisualFactory()
@@ -31,6 +33,13 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay
     {
       Container
         .BindInterfacesTo<FieldCreator>()
+        .AsSingle();
+    }
+
+    private void BindCellRaycaster()
+    {
+      Container
+        .BindInterfacesTo<CellRaycaster>()
         .AsSingle();
     }
   }

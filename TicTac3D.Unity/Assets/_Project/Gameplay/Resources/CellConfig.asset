@@ -13,3 +13,6 @@ MonoBehaviour:
   m_Name: CellConfig
   m_EditorClassIdentifier: 
   CellSize: 1
+  MaxRaycastDistance: 1
+  DefaultColor: {r: 0.40392157, g: 0.05882353, b: 0.54901963, a: 0.5019608}
+  HoveredColor: {r: 0.058823537, g: 0.54901963, b: 0.530444, a: 1}

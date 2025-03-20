@@ -29,7 +29,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Boot
     private void BindCellModelFactory()
     {
       Container
-        .Bind<CellModelFactory>()
+        .BindInterfacesTo<CellModelFactory>()
         .AsSingle();
     }
 

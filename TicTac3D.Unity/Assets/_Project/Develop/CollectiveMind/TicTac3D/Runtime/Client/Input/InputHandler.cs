@@ -24,6 +24,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Input
 
       _inputProvider.Rotate = _gameplayInputs.Rotate.ReadValue<float>() > 0;
       _inputProvider.Delta = _gameplayInputs.Delta.ReadValue<Vector2>();
+      _inputProvider.MousePosition = _gameplayInputs.MousePosition.ReadValue<Vector2>();
     }
   }
 }

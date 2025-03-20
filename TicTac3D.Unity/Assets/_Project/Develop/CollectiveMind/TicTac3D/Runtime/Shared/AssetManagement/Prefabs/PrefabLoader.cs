@@ -31,7 +31,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.AssetManagement
       }
 
       reference.ReferenceCount++;
-      return reference.Prefab.GetComponent<TObject>();
+      return reference.Prefab as TObject ?? reference.Prefab.GetComponent<TObject>();
     }
 
     public void UnloadPrefab(EntityType prefabId)

@@ -2,6 +2,7 @@
 {
   public enum EntityType
   {
-    Cell = 1
+    Cell = 1,
+    Player = 2
   }
 }

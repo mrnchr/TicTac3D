@@ -11,6 +11,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Boot
     {
       BindConfigLoader();
       BindPrefabLoader();
+      BindPrefabFactory();
       
       BindNetworkManager();
       BindRpcProvider();
@@ -31,6 +32,13 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Boot
     {
       Container
         .BindInterfacesTo<PrefabLoader>()
+        .AsSingle();
+    }
+
+    private void BindPrefabFactory()
+    {
+      Container
+        .BindInterfacesTo<PrefabFactory>()
         .AsSingle();
     }
 

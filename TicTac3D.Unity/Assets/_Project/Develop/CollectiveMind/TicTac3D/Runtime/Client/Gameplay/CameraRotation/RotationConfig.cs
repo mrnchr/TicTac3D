@@ -6,7 +6,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay.CameraRotation
   [CreateAssetMenu(menuName = CAC.Names.ROTATION_CONFIG_MENU, fileName = CAC.Names.ROTATION_CONFIG_FILE)]
   public class RotationConfig : ScriptableObject
   {
-    public float Sensitivity;
-    public float Smoothing;
+    public float Sensitivity = 1;
+    public float Smoothing = 1;
   }
 }

@@ -4,9 +4,9 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Network
 {
   public interface INetworkBus
   {
-    void AddRpc<T>(Action handler);
-    void AddRpcWithParameter<T>(Action<T> handler);
-    void RemoveRpc<T>();
+    void SubscribeOnRpc<T>(Action handler);
+    void SubscribeOnRpcWithParameter<T>(Action<T> handler);
+    void UnsubscribeFromRpc<T>();
     void HandleRpc<T>(T rpcData);
   }
 }

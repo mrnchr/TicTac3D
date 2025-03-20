@@ -10,18 +10,27 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Boot
     public override void InstallBindings()
     {
       BindConfigLoader();
+      BindPrefabLoader();
+      
       BindNetworkManager();
       BindRpcProvider();
 
       BindNetworkBus();
 
-      BridgeProjectInstaller();
+      InstallProjectInstallerBridge();
     }
 
     private void BindConfigLoader()
     {
       Container
         .BindInterfacesTo<ConfigLoader>()
+        .AsSingle();
+    }
+
+    private void BindPrefabLoader()
+    {
+      Container
+        .BindInterfacesTo<PrefabLoader>()
         .AsSingle();
     }
 
@@ -49,7 +58,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Boot
         .AsSingle();
     }
 
-    private void BridgeProjectInstaller()
+    private void InstallProjectInstallerBridge()
     {
       InstallerBridge.Install<ProjectInstaller>(Container);
     }

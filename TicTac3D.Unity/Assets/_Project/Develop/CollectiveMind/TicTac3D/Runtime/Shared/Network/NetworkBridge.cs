@@ -1,6 +1,7 @@
 ﻿using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay;
 using JetBrains.Annotations;
 using Unity.Netcode;
+using UnityEngine;
 using Zenject;
 
 namespace CollectiveMind.TicTac3D.Runtime.Shared.Network

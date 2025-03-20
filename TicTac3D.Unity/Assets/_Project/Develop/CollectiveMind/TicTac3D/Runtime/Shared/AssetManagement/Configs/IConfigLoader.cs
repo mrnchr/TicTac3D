@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace CollectiveMind.TicTac3D.Runtime.Shared
+namespace CollectiveMind.TicTac3D.Runtime.Shared.AssetManagement
 {
   public interface IConfigLoader
   {

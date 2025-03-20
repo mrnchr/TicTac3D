@@ -4,7 +4,7 @@ using Zenject;
 
 namespace CollectiveMind.TicTac3D.Runtime.Shared.Boot
 {
-  public class InstallerBridge
+  public static class InstallerBridge
   {
     private static readonly Dictionary<Type, Action<DiContainer>> _installerActions =
       new Dictionary<Type, Action<DiContainer>>();

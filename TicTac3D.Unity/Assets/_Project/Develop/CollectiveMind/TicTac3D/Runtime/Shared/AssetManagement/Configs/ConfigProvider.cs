@@ -15,7 +15,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.AssetManagement
 
     public string GetConfigPath<TConfig>() where TConfig : ScriptableObject
     {
-      return _configs.Find(x => x.ConfigType == typeof(TConfig).Name).ConfigPath;
+      return _configs.Find(x => x.TypeName == typeof(TConfig).Name).Path;
     }
   }
 
@@ -24,13 +24,13 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.AssetManagement
   public class ConfigTuple
   {
     [Dropdown("GetConfigNames")]
-    [GroupNext(nameof(ConfigType))]
+    [GroupNext(nameof(ConfigTuple))]
     [HideLabel]
-    public string ConfigType;
+    public string TypeName;
 
     [HideLabel]
-    [ResourcePath]
-    public string ConfigPath;
+    [ResourcePath(ResourceType = typeof(ScriptableObject))]
+    public string Path;
 
 #if UNITY_EDITOR
     private string[] GetConfigNames()

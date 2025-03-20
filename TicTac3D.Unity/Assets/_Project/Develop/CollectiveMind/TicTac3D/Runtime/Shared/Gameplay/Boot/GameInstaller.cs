@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using CollectiveMind.TicTac3D.Runtime.Shared.Boot;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Cell;
 using Zenject;
 
@@ -14,6 +15,8 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Boot
       BindGameInitializer();
 
       BindCellModelListMonitor();
+      
+      InstallGameInstallerBridge();
     }
 
     private void BindCellModelList()
@@ -33,7 +36,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Boot
     private void BindGameInitializer()
     {
       Container
-        .BindInterfacesTo<GameInitializer>()
+        .BindInterfacesTo<CellCreator>()
         .AsSingle();
     }
 
@@ -45,6 +48,11 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Boot
         .WithGameObjectName("CellListMonitor")
         .AsCached()
         .NonLazy();
+    }
+
+    private void InstallGameInstallerBridge()
+    {
+      InstallerBridge.Install<GameInstaller>(Container);
     }
   }
 }

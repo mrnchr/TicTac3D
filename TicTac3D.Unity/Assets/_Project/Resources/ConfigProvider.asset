@@ -13,7 +13,11 @@ MonoBehaviour:
   m_Name: ConfigProvider
   m_EditorClassIdentifier: 
   _configs:
-  - ConfigType: ConfigProvider
-    ConfigPath: ConfigProvider
-  - ConfigType: RotationConfig
-    ConfigPath: RotationConfig
+  - TypeName: ConfigProvider
+    Path: ConfigProvider
+  - TypeName: PrefabProvider
+    Path: PrefabProvider
+  - TypeName: RotationConfig
+    Path: RotationConfig
+  - TypeName: CellConfig
+    Path: CellConfig

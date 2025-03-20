@@ -26,20 +26,22 @@ namespace CollectiveMind.TicTac3D.Editor
 
     public override TriElement CreateElement(TriProperty property, TriElement next)
     {
-      return new FilePathElement(property);
+      return new ResourcePathElement(property, Attribute);
     }
 
-    private class FilePathElement : TriElement
+    private class ResourcePathElement : TriElement
     {
       private const string RESOURCES_FOLDER = "Resources/";
 
       private readonly TriProperty _property;
+      private readonly ResourcePathAttribute _attribute;
 
-      private ScriptableObject _asset;
+      private Object _asset;
 
-      public FilePathElement(TriProperty property)
+      public ResourcePathElement(TriProperty property, ResourcePathAttribute attribute)
       {
         _property = property;
+        _attribute = attribute;
       }
 
       protected override void OnAttachToPanel()
@@ -79,8 +81,7 @@ namespace CollectiveMind.TicTac3D.Editor
       {
         EditorGUI.BeginChangeCheck();
 
-        Object asset = EditorGUI.ObjectField(position, _property.DisplayName, _asset,
-          typeof(ScriptableObject), false);
+        Object asset = EditorGUI.ObjectField(position, _property.DisplayName, _asset, _attribute.ResourceType, false);
 
         if (EditorGUI.EndChangeCheck())
         {
@@ -104,7 +105,7 @@ namespace CollectiveMind.TicTac3D.Editor
 
       private void RefreshAsset()
       {
-        _asset = Resources.Load<ScriptableObject>(_property.Value as string);
+        _asset = Resources.Load<Object>(_property.Value as string);
       }
     }
   }

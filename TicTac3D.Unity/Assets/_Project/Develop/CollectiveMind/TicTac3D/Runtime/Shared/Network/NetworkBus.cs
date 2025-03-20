@@ -7,19 +7,19 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Network
   {
     private Dictionary<Type, Delegate> _rpcs = new Dictionary<Type, Delegate>();
 
-    public void AddRpc<T>(Action handler)
+    public void SubscribeOnRpc<T>(Action handler)
     {
       Type type = typeof(T);
       _rpcs[type] = handler;
     }
 
-    public void AddRpcWithParameter<T>(Action<T> handler)
+    public void SubscribeOnRpcWithParameter<T>(Action<T> handler)
     {
       Type type = typeof(T);
       _rpcs[type] = handler;
     }
 
-    public void RemoveRpc<T>()
+    public void UnsubscribeFromRpc<T>()
     {
       Type type = typeof(T);
       _rpcs.Remove(type);

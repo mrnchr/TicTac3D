@@ -17,33 +17,25 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.AssetManagement
     public TConfig LoadConfig<TConfig>() where TConfig : ScriptableObject
     {
       string path = _provider.GetConfigPath<TConfig>();
-      if (_loadedConfigs.TryGetValue(typeof(TConfig), out ConfigReference reference))
-      {
-        reference.ReferenceCount++;
-        return (TConfig)reference.Config;
-      }
-      
-      var config = Resources.Load<TConfig>(path);
-      _loadedConfigs.Add(typeof(TConfig), new ConfigReference{ Config = config, ReferenceCount = 1 });
-      return config;
+      return LoadConfig<TConfig>(path);
     }
-    
+
     public TConfig LoadConfig<TConfig>(string path) where TConfig : ScriptableObject
     {
-      if (_loadedConfigs.TryGetValue(typeof(TConfig), out ConfigReference reference))
+      if (!_loadedConfigs.TryGetValue(typeof(TConfig), out ConfigReference reference))
       {
-        reference.ReferenceCount++;
-        return (TConfig)reference.Config;
+        var config = Resources.Load<TConfig>(path);
+        reference = new ConfigReference { Config = config, ReferenceCount = 0 };
+        _loadedConfigs[typeof(TConfig)] = reference;
       }
-      
-      var config = Resources.Load<TConfig>(path);
-      _loadedConfigs.Add(typeof(TConfig), new ConfigReference{ Config = config, ReferenceCount = 1 });
-      return config;
+
+      reference.ReferenceCount++;
+      return (TConfig)reference.Config;
     }
 
     public void UnloadConfig<TConfig>() where TConfig : ScriptableObject
     {
-      if(_loadedConfigs.TryGetValue(typeof(TConfig), out ConfigReference reference))
+      if (_loadedConfigs.TryGetValue(typeof(TConfig), out ConfigReference reference))
       {
         reference!.ReferenceCount--;
         if (reference.ReferenceCount <= 0)

@@ -1,5 +1,5 @@
 ﻿using CollectiveMind.TicTac3D.Runtime.Client.Input;
-using CollectiveMind.TicTac3D.Runtime.Shared;
+using CollectiveMind.TicTac3D.Runtime.Shared.AssetManagement;
 using UnityEngine;
 using Zenject;
 

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay;
 using CollectiveMind.TicTac3D.Runtime.Shared.Network;
 using R3;
@@ -8,7 +7,7 @@ using Zenject;
 
 namespace CollectiveMind.TicTac3D.Runtime.Server
 {
-  public class GameStarter : IDisposable, ITickable
+  public class GameStarter : ITickable
   {
     private readonly NetworkManager _networkManager;
     private readonly IRpcProvider _rpcProvider;
@@ -36,12 +35,8 @@ namespace CollectiveMind.TicTac3D.Runtime.Server
       if (isPlayerSpawned)
       {
         _isGameStarted = true;
-        _rpcProvider.SendRequest<GameStartedEvent>();
+        _rpcProvider.SendRequest<GameStartedEvent>(_networkManager.RpcTarget.Everyone);
       }
-    }
-
-    public void Dispose()
-    {
     }
   }
 }

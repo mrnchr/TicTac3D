@@ -8,5 +8,6 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Utils
   [Conditional("UNITY_EDITOR")]
   public class ResourcePathAttribute : PreserveAttribute
   {
+    public Type ResourceType;
   }
 }

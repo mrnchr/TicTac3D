@@ -4,6 +4,7 @@ using System.Linq;
 using CollectiveMind.TicTac3D.Runtime.Client.Input;
 using CollectiveMind.TicTac3D.Runtime.Shared.AssetManagement;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Cell;
+using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Shape;
 using UnityEngine;
 using Zenject;
 

@@ -3,6 +3,7 @@ using System.Linq;
 using CollectiveMind.TicTac3D.Runtime.Server.Session;
 using CollectiveMind.TicTac3D.Runtime.Shared.Network;
 using Unity.Netcode;
+using UnityEngine;
 
 namespace CollectiveMind.TicTac3D.Runtime.Server
 {
@@ -25,9 +26,14 @@ namespace CollectiveMind.TicTac3D.Runtime.Server
 
     private void OnClientConnected(NetworkManager network, ConnectionEventData connectionEvent)
     {
-      if (connectionEvent.EventType != ConnectionEvent.ClientConnected)
-        return;
-      
+      if (connectionEvent.EventType == ConnectionEvent.ClientConnected)
+        AddOrCreateSession(connectionEvent);
+      else if (connectionEvent.EventType == ConnectionEvent.ClientDisconnected)
+        CompleteOrRemoveSession(connectionEvent);
+    }
+
+    private void AddOrCreateSession(ConnectionEventData connectionEvent)
+    {
       GameSession session = _sessionRegistry.GetWaitingSession();
       if (session != null)
       {
@@ -43,6 +49,27 @@ namespace CollectiveMind.TicTac3D.Runtime.Server
       _sessionRegistry.Sessions.Add(session);
       session.AddPlayer(connectionEvent.ClientId);
       session.Status = SessionState.Waiting;
+    }
+
+    private void CompleteOrRemoveSession(ConnectionEventData connectionEvent)
+    {
+      GameSession session = _sessionRegistry.GetSessionByPlayerId(connectionEvent.ClientId);
+      if (session.Status == SessionState.Waiting)
+      {
+        _sessionRegistry.Sessions.Remove(session);
+      }
+      else if (session.Status == SessionState.Playing)
+      {
+        session.Players.RemoveAll(x => x.PlayerId == connectionEvent.ClientId);
+        session.Status = SessionState.Completed;
+        _networkManager.DisconnectClient(session.Players[0].PlayerId);
+      }
+      else if (session.Status == SessionState.Completed)
+      {
+        session.Players.RemoveAll(x => x.PlayerId == connectionEvent.ClientId);
+        if(session.Players.Count == 0)
+          _sessionRegistry.Sessions.Remove(session);
+      }
     }
 
     public void Dispose()

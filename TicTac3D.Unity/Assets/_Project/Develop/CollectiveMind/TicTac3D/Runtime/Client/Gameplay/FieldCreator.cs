@@ -14,18 +14,21 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay
     private readonly ICellVisualFactory _cellVisualFactory;
     private readonly List<CellModel> _cells;
     private readonly GameInfo _gameInfo;
+    private readonly List<CellVisual> _cellVisuals;
 
     public FieldCreator(INetworkBus networkBus,
       ICellCreator cellCreator,
       ICellVisualFactory cellVisualFactory,
       List<CellModel> cells,
-      GameInfo gameInfo)
+      GameInfo gameInfo,
+      List<CellVisual> cellVisuals)
     {
       _networkBus = networkBus;
       _cellCreator = cellCreator;
       _cellVisualFactory = cellVisualFactory;
       _cells = cells;
       _gameInfo = gameInfo;
+      _cellVisuals = cellVisuals;
 
       _networkBus.SubscribeOnRpcWithParameter<StartedGameResponse>(CreateField);
       _networkBus.SubscribeOnRpcWithParameter<DefinedShapeResponse>(DefineShape);
@@ -36,7 +39,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay
       _cellCreator.CreateCells(_cells);
 
       foreach (CellModel cell in _cells)
-        _cellVisualFactory.Create(cell);
+        _cellVisuals.Add(_cellVisualFactory.Create(cell));
     }
 
     private void DefineShape(DefinedShapeResponse response)

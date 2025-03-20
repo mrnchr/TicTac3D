@@ -1,4 +1,4 @@
-﻿namespace CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Cell
+﻿namespace CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Shape
 {
   public enum ShapeType
   {

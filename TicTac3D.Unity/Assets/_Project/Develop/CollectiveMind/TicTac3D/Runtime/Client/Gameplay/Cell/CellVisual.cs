@@ -1,5 +1,6 @@
 ﻿using CollectiveMind.TicTac3D.Runtime.Client.Gameplay.Shape;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Cell;
+using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Shape;
 using UnityEngine;
 using Zenject;
 using R3;

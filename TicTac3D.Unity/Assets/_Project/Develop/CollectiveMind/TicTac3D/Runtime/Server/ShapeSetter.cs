@@ -2,6 +2,7 @@
 using CollectiveMind.TicTac3D.Runtime.Server.Session;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Cell;
+using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Shape;
 using CollectiveMind.TicTac3D.Runtime.Shared.Network;
 using Unity.Netcode;
 

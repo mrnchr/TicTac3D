@@ -21,6 +21,9 @@
       
       public const string PREFAB_PROVIDER_MENU = CONFIG_MENU + "PrefabProvider";
       public const string PREFAB_PROVIDER_FILE = "PrefabProvider";
+      
+      public const string GAME_CONFIG_MENU = CONFIG_MENU + "Game";
+      public const string GAME_CONFIG_FILE = "GameConfig";
     }
   }
 }

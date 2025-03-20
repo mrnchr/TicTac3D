@@ -31,6 +31,9 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay
 
       BindGameInfo();
       BindCurrentMoveChanger();
+      BindCellVisualList();
+
+      BindFieldCleaner();
     }
 
     private void BindCellVisualFactory()
@@ -93,6 +96,20 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay
     {
       Container
         .BindInterfacesTo<CurrentMoveChanger>()
+        .AsSingle();
+    }
+
+    private void BindCellVisualList()
+    {
+      Container
+        .Bind<List<CellVisual>>()
+        .AsSingle();
+    }
+
+    private void BindFieldCleaner()
+    {
+      Container
+        .BindInterfacesTo<FieldCleaner>()
         .AsSingle();
     }
   }

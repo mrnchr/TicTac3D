@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/NGO_Minimal_Setup/NGO_Setup.unity
+    path: Assets/_Project/Scenes/Gameplay.unity
     guid: daf73a4e4ce991740861d6ba24bbf0e4
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 66aa2c7919496fe41a3451b133b11bbe, type: 3}

@@ -35,9 +35,9 @@ namespace CollectiveMind.TicTac3D.Runtime.Server
     
     private void OnServerStarted()
     {
-      var bridgePrefab = _prefabLoader.LoadPrefab<NetworkObject>(EntityType.Player);
+      var bridgePrefab = _prefabLoader.LoadPrefab<NetworkObject>(EntityType.NetworkBridge);
       Object.DontDestroyOnLoad(_networkManager.SpawnManager.InstantiateAndSpawn(bridgePrefab));
-      _prefabLoader.UnloadPrefab(EntityType.Player);
+      _prefabLoader.UnloadPrefab(EntityType.NetworkBridge);
     }
 
     public async void StartGame(GameSession session)

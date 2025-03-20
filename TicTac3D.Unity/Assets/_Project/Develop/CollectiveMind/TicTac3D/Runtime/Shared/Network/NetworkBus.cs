@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Unity.Netcode;
+using UnityEngine;
 
 namespace CollectiveMind.TicTac3D.Runtime.Shared.Network
 {
@@ -18,6 +20,12 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Network
       Type type = typeof(T);
       _rpcs[type] = handler;
     }
+    
+    public void SubscribeOnRpcWithParameter<T>(Action<T, RpcParams> handler)
+    {
+      Type type = typeof(T);
+      _rpcs[type] = handler;
+    }
 
     public void UnsubscribeFromRpc<T>()
     {
@@ -25,14 +33,23 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Network
       _rpcs.Remove(type);
     }
 
-    public void HandleRpc<T>(T rpcData)
+    public void HandleRpc<T>(T rpcData, RpcParams rpcParams)
     {
       if (_rpcs.TryGetValue(typeof(T), out Delegate handler))
       {
-        if(handler.Method.GetParameters().Length > 0)
-          handler.DynamicInvoke(rpcData);
-        else 
-          handler.DynamicInvoke();
+        Debug.Log($"Calling RPC handler for {typeof(T).Name}");
+        switch (handler.Method.GetParameters().Length)
+        {
+          case > 1:
+            handler.DynamicInvoke(rpcData, rpcParams);
+            break;
+          case > 0:
+            handler.DynamicInvoke(rpcData);
+            break;
+          default:
+            handler.DynamicInvoke();
+            break;
+        }
       }
     }
   }

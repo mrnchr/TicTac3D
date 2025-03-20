@@ -13,30 +13,41 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay
     private readonly ICellCreator _cellCreator;
     private readonly ICellVisualFactory _cellVisualFactory;
     private readonly List<CellModel> _cells;
+    private readonly GameInfo _gameInfo;
 
-    public FieldCreator(INetworkBus networkBus, ICellCreator cellCreator, ICellVisualFactory cellVisualFactory,
-      List<CellModel> cells)
+    public FieldCreator(INetworkBus networkBus,
+      ICellCreator cellCreator,
+      ICellVisualFactory cellVisualFactory,
+      List<CellModel> cells,
+      GameInfo gameInfo)
     {
       _networkBus = networkBus;
       _cellCreator = cellCreator;
       _cellVisualFactory = cellVisualFactory;
       _cells = cells;
+      _gameInfo = gameInfo;
 
-      if (NetworkRole.IsClient)
-        _networkBus.SubscribeOnRpc<GameStartedEvent>(CreateField);
+      _networkBus.SubscribeOnRpcWithParameter<StartedGameResponse>(CreateField);
+      _networkBus.SubscribeOnRpcWithParameter<DefinedShapeResponse>(DefineShape);
     }
 
-    private void CreateField()
+    private void CreateField(StartedGameResponse response)
     {
-      _cellCreator.CreateModels();
+      _cellCreator.CreateCells(_cells);
 
       foreach (CellModel cell in _cells)
         _cellVisualFactory.Create(cell);
     }
 
+    private void DefineShape(DefinedShapeResponse response)
+    {
+      _gameInfo.Shape = response.Shape;
+    }
+
     public void Dispose()
     {
-      _networkBus.UnsubscribeFromRpc<GameStartedEvent>();
+      _networkBus.UnsubscribeFromRpc<StartedGameResponse>();
+      _networkBus.UnsubscribeFromRpc<DefinedShapeResponse>();
     }
   }
 }

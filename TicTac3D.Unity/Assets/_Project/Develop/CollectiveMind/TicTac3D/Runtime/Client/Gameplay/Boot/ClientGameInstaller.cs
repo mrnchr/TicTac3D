@@ -1,6 +1,9 @@
-﻿using CollectiveMind.TicTac3D.Runtime.Client.Gameplay.Cell;
+﻿using System.Collections.Generic;
+using CollectiveMind.TicTac3D.Runtime.Client.Gameplay.Cell;
+using CollectiveMind.TicTac3D.Runtime.Client.Gameplay.Shape;
 using CollectiveMind.TicTac3D.Runtime.Shared.Boot;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Boot;
+using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Cell;
 using UnityEngine;
 using Zenject;
 
@@ -17,15 +20,30 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay
     public override void InstallBindings()
     {
       BindCellVisualFactory();
+      BindCellModelList();
       BindFieldCreator();
 
       BindCellRaycaster();
+      BindCellSelector();
+      BindCellShapeUpdater();
+
+      BindShapeFactory();
+
+      BindGameInfo();
+      BindCurrentMoveChanger();
     }
 
     private void BindCellVisualFactory()
     {
       Container
         .BindInterfacesTo<CellVisualFactory>()
+        .AsSingle();
+    }
+
+    private void BindCellModelList()
+    {
+      Container
+        .Bind<List<CellModel>>()
         .AsSingle();
     }
 
@@ -40,6 +58,41 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay
     {
       Container
         .BindInterfacesTo<CellRaycaster>()
+        .AsSingle();
+    }
+
+    private void BindCellSelector()
+    {
+      Container
+        .BindInterfacesTo<CellSelector>()
+        .AsSingle();
+    }
+
+    private void BindCellShapeUpdater()
+    {
+      Container
+        .BindInterfacesTo<CellShapeUpdater>()
+        .AsSingle();
+    }
+
+    private void BindShapeFactory()
+    {
+      Container
+        .BindInterfacesTo<ShapeFactory>()
+        .AsSingle();
+    }
+
+    private void BindGameInfo()
+    {
+      Container
+        .Bind<GameInfo>()
+        .AsSingle();
+    }
+
+    private void BindCurrentMoveChanger()
+    {
+      Container
+        .BindInterfacesTo<CurrentMoveChanger>()
         .AsSingle();
     }
   }

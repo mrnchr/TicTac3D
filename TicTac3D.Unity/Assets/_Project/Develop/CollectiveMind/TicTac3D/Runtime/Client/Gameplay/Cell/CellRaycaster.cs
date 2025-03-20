@@ -13,15 +13,20 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay.Cell
   {
     private readonly InputProvider _inputProvider;
     private readonly List<CellModel> _cells;
-    private readonly Camera _camera;
     private readonly IConfigLoader _configLoader;
+    private readonly GameInfo _gameInfo;
+    private readonly Camera _camera;
     private readonly CellConfig _config;
 
-    public CellRaycaster(InputProvider inputProvider, List<CellModel> cells, IConfigLoader configLoader)
+    public CellRaycaster(InputProvider inputProvider,
+      List<CellModel> cells,
+      IConfigLoader configLoader,
+      GameInfo gameInfo)
     {
-      _configLoader = configLoader;
       _inputProvider = inputProvider;
       _cells = cells;
+      _configLoader = configLoader;
+      _gameInfo = gameInfo;
       _camera = Camera.main;
       _config = _configLoader.LoadConfig<CellConfig>();
     }
@@ -30,10 +35,13 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay.Cell
     {
       ClearHovering();
       
+      if (!_gameInfo.IsMoving || _gameInfo.CurrentMove == ShapeType.None)
+        return;
+      
       Ray ray = _camera.ScreenPointToRay(_inputProvider.MousePosition);
       var minDistance = float.MaxValue;
       CellModel hoveredCell = null;
-      foreach (CellModel cell in _cells)
+      foreach (CellModel cell in _cells.Where(x => !x.HasShape()))
       {
         float distance = FindDistance(cell.Position, ray);
         if (minDistance > distance)
@@ -42,8 +50,8 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay.Cell
           minDistance = distance;
         }
       }
-
-      if (minDistance <= _config.MaxRaycastDistance && hoveredCell != null)
+      
+      if (minDistance <= _config.MaxRaycastDistance && hoveredCell != null && !hoveredCell.HasShape())
         hoveredCell.IsHovered.Value = true;
     }
 

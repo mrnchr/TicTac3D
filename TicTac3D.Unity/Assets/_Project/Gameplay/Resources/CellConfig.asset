@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 093334ab59c2440f8a829250279f8032, type: 3}
   m_Name: CellConfig
   m_EditorClassIdentifier: 
-  CellSize: 1
-  MaxRaycastDistance: 1
+  CellSize: 4
+  MaxRaycastDistance: 4
   DefaultColor: {r: 0.40392157, g: 0.05882353, b: 0.54901963, a: 0.5019608}
   HoveredColor: {r: 0.058823537, g: 0.54901963, b: 0.530444, a: 1}

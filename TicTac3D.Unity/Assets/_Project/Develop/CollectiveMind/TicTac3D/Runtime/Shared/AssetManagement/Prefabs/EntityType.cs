@@ -5,9 +5,9 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.AssetManagement
   public enum EntityType
   {
     Cell = 1,
-    Player = 2,
-    XShape = Player + ShapeType.X,
-    OShape = Player + ShapeType.O,
-    XOShape = Player + ShapeType.XO
+    NetworkBridge = 2,
+    XShape = NetworkBridge + ShapeType.X,
+    OShape = NetworkBridge + ShapeType.O,
+    XOShape = NetworkBridge + ShapeType.XO
   }
 }

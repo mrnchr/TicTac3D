@@ -43,7 +43,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay.Cell
         }
       }
 
-      if (minDistance <= _config.MaxRaycastDistance && hoveredCell != null)
+      if (minDistance <= _config.MaxRaycastDistance && hoveredCell != null && hoveredCell.CanHover())
         hoveredCell.IsHovered.Value = true;
     }
 

@@ -16,7 +16,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Server
       _cellCreator = cellCreator;
 
       if (NetworkRole.IsOnlyServer)
-        _networkBus.SubscribeOnRpc<GameStartedEvent>(CreateField);
+        _networkBus.SubscribeOnRpc<StartedGameResponse>(CreateField);
     }
 
     private void CreateField()
@@ -26,7 +26,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Server
 
     public void Dispose()
     {
-      _networkBus.UnsubscribeFromRpc<GameStartedEvent>();
+      _networkBus.UnsubscribeFromRpc<StartedGameResponse>();
     }
   }
 }

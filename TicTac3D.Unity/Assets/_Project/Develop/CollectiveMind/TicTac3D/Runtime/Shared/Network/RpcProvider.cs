@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Unity.Netcode;
+using UnityEngine;
 
 namespace CollectiveMind.TicTac3D.Runtime.Shared.Network
 {
@@ -55,6 +56,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Network
       if (_bridge && _rpcMap.TryGetValue(new RpcHandlerKey(typeof(TRequest), !_networkManager.IsServer),
         out Delegate action))
       {
+        Debug.Log($"SendRequest<{typeof(TRequest).Name}>");
         action.DynamicInvoke(request, rpcParams);
       }
     }

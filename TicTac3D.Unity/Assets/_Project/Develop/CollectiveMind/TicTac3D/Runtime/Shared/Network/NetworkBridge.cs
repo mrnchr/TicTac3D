@@ -1,7 +1,7 @@
 ﻿using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay;
+using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Cell;
 using JetBrains.Annotations;
 using Unity.Netcode;
-using UnityEngine;
 using Zenject;
 
 namespace CollectiveMind.TicTac3D.Runtime.Shared.Network
@@ -32,21 +32,35 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Network
     [UsedImplicitly]
     public void SendRequestClientRpc(int request, RpcParams rpcParams)
     {
-      _networkBus.HandleRpc(request);
+      _networkBus.HandleRpc(request, rpcParams);
     }
     
     [Rpc(SendTo.SpecifiedInParams)]
     [UsedImplicitly]
     public void SendResponseServerRpc(int response, RpcParams rpcParams)
     {
-      _networkBus.HandleRpc(response);
+      _networkBus.HandleRpc(response, rpcParams);
     }
     
     [Rpc(SendTo.SpecifiedInParams)]
     [UsedImplicitly]
-    public void SendRequestClientRpc(GameStartedEvent response, RpcParams rpcParams)
+    public void SendRequestClientRpc(StartedGameResponse response, RpcParams rpcParams)
     {
-      _networkBus.HandleRpc(response);
+      _networkBus.HandleRpc(response, rpcParams);
+    }
+
+    [Rpc(SendTo.SpecifiedInParams)]
+    [UsedImplicitly]
+    public void SendRequestServerRpc(SetShapeRequest request, RpcParams rpcParams)
+    {
+      _networkBus.HandleRpc(request, rpcParams);
+    }
+
+    [Rpc(SendTo.SpecifiedInParams)]
+    [UsedImplicitly]
+    public void SendResponseClientRpc(UpdatedShapeResponse response, RpcParams rpcParams)
+    {
+      _networkBus.HandleRpc(response, rpcParams);
     }
   }
 }

@@ -23,7 +23,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay
       _cells = cells;
 
       if (NetworkRole.IsClient)
-        _networkBus.SubscribeOnRpc<GameStartedEvent>(CreateField);
+        _networkBus.SubscribeOnRpc<StartedGameResponse>(CreateField);
     }
 
     private void CreateField()
@@ -36,7 +36,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay
 
     public void Dispose()
     {
-      _networkBus.UnsubscribeFromRpc<GameStartedEvent>();
+      _networkBus.UnsubscribeFromRpc<StartedGameResponse>();
     }
   }
 }

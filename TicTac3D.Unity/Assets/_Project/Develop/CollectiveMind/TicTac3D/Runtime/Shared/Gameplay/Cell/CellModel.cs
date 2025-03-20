@@ -11,5 +11,12 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Cell
     public Vector3 Position;
 
     public ReactiveProperty<bool> IsHovered = new ReactiveProperty<bool>();
+    
+    public ReactiveProperty<ShapeType> Shape = new ReactiveProperty<ShapeType>();
+
+    public bool CanHover()
+    {
+      return Shape.Value == ShapeType.None;
+    }
   }
 }

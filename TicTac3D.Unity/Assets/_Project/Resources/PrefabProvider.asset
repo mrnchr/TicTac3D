@@ -16,4 +16,10 @@ MonoBehaviour:
   - Id: 1
     Path: Cell
   - Id: 2
-    Path: PlayerPrefab
+    Path: NetworkBridge
+  - Id: 3
+    Path: XShape
+  - Id: 4
+    Path: OShape
+  - Id: 5
+    Path: XOShape

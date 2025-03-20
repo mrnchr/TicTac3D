@@ -2,7 +2,7 @@
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Cell;
 using Zenject;
 
-namespace CollectiveMind.TicTac3D.Runtime.Shared.Gameplay
+namespace CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Boot
 {
   public class GameInstaller : MonoInstaller
   {

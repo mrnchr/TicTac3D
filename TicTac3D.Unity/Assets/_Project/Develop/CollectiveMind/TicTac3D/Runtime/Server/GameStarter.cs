@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
-using CollectiveMind.TicTac3D.Runtime.Shared;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay;
+using CollectiveMind.TicTac3D.Runtime.Shared.Network;
 using R3;
 using Unity.Netcode;
 using Zenject;

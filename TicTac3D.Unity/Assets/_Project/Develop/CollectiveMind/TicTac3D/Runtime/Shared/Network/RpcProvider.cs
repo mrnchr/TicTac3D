@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using Unity.Netcode;
 
-namespace CollectiveMind.TicTac3D.Runtime.Shared
+namespace CollectiveMind.TicTac3D.Runtime.Shared.Network
 {
   public class RpcProvider : IRpcProvider
   {

@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Cell;
+using CollectiveMind.TicTac3D.Runtime.Shared.Network;
 using UnityEngine;
 
-namespace CollectiveMind.TicTac3D.Runtime.Shared.Gameplay
+namespace CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Boot
 {
   public class GameInitializer : IDisposable
   {
@@ -22,7 +23,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Gameplay
       _networkBus.AddRpc<GameStartedEvent>(Initialize);
     }
 
-    public void Initialize()
+    private void Initialize()
     {
       for (int i = 0; i < 3; i++)
       {

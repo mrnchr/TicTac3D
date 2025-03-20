@@ -1,4 +1,6 @@
-﻿using Unity.Netcode;
+﻿using CollectiveMind.TicTac3D.Runtime.Shared.AssetManagement;
+using CollectiveMind.TicTac3D.Runtime.Shared.Network;
+using Unity.Netcode;
 using Zenject;
 
 namespace CollectiveMind.TicTac3D.Runtime.Shared.Boot
@@ -7,12 +9,20 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Boot
   {
     public override void InstallBindings()
     {
+      BindConfigLoader();
       BindNetworkManager();
       BindRpcProvider();
 
       BindNetworkBus();
 
       BridgeProjectInstaller();
+    }
+
+    private void BindConfigLoader()
+    {
+      Container
+        .BindInterfacesTo<ConfigLoader>()
+        .AsSingle();
     }
 
     private void BindNetworkManager()

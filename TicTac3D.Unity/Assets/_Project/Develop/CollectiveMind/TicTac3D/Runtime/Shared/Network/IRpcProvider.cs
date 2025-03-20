@@ -1,6 +1,6 @@
 ﻿using Unity.Netcode;
 
-namespace CollectiveMind.TicTac3D.Runtime.Shared
+namespace CollectiveMind.TicTac3D.Runtime.Shared.Network
 {
   public interface IRpcProvider
   {

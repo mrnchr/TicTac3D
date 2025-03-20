@@ -5,16 +5,14 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Cell
 {
   public class CellCreator : ICellCreator
   {
-    private readonly List<CellModel> _cells;
     private readonly ICellModelFactory _cellModelFactory;
 
-    public CellCreator(List<CellModel> cells, ICellModelFactory cellModelFactory)
+    public CellCreator(ICellModelFactory cellModelFactory)
     {
-      _cells = cells;
       _cellModelFactory = cellModelFactory;
     }
 
-    public void CreateModels()
+    public void CreateCells(List<CellModel> cells)
     {
       for (int i = 0; i < 3; i++)
       {
@@ -24,7 +22,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Cell
           {
             Vector3 index = new Vector3(i, j, k) - Vector3.one;
             CellModel cell = _cellModelFactory.Create(index);
-            _cells.Add(cell);
+            cells.Add(cell);
           }
         }
       }

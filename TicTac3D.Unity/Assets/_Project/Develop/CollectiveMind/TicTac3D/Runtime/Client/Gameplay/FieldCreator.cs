@@ -4,6 +4,7 @@ using CollectiveMind.TicTac3D.Runtime.Client.Gameplay.Cell;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Cell;
 using CollectiveMind.TicTac3D.Runtime.Shared.Network;
+using UnityEngine;
 
 namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay
 {
@@ -27,15 +28,13 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay
       _cells = cells;
       _gameInfo = gameInfo;
 
-      if (NetworkRole.IsClient)
-        _networkBus.SubscribeOnRpcWithParameter<StartedGameResponse>(CreateField);
-      
+      _networkBus.SubscribeOnRpcWithParameter<StartedGameResponse>(CreateField);
       _networkBus.SubscribeOnRpcWithParameter<DefinedShapeResponse>(DefineShape);
     }
 
     private void CreateField(StartedGameResponse response)
     {
-      _cellCreator.CreateModels();
+      _cellCreator.CreateCells(_cells);
 
       foreach (CellModel cell in _cells)
         _cellVisualFactory.Create(cell);

@@ -1,7 +1,8 @@
-﻿using Unity.Netcode;
+﻿using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Cell;
+using Unity.Netcode;
 using UnityEngine;
 
-namespace CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Cell
+namespace CollectiveMind.TicTac3D.Runtime.Shared.Gameplay
 {
   public struct UpdatedShapeResponse : INetworkSerializeByMemcpy
   {

@@ -1,40 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CollectiveMind.TicTac3D.Runtime.Server.Session;
 using CollectiveMind.TicTac3D.Runtime.Shared.AssetManagement;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Cell;
 using CollectiveMind.TicTac3D.Runtime.Shared.Network;
-using R3;
+using Cysharp.Threading.Tasks;
 using Unity.Netcode;
-using Zenject;
+using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
 namespace CollectiveMind.TicTac3D.Runtime.Server
 {
-  public class GameStarter : ITickable, IDisposable
+  public class GameStarter : IGameStarter, IDisposable
   {
     private readonly NetworkManager _networkManager;
     private readonly IRpcProvider _rpcProvider;
     private readonly IPrefabLoader _prefabLoader;
-    private readonly SessionInfo _sessionInfo;
-
-    private readonly ReactiveProperty<bool> _isPlayerSpawned = new ReactiveProperty<bool>();
+    private readonly ICellCreator _cellCreator;
 
     public GameStarter(NetworkManager networkManager,
       IRpcProvider rpcProvider,
       IPrefabLoader prefabLoader,
-      SessionInfo sessionInfo)
+      ICellCreator cellCreator)
     {
       _networkManager = networkManager;
       _rpcProvider = rpcProvider;
       _prefabLoader = prefabLoader;
-      _sessionInfo = sessionInfo;
-
+      _cellCreator = cellCreator;
+      
       _networkManager.OnServerStarted += OnServerStarted;
-      _isPlayerSpawned.Subscribe(StartGame);
     }
-
+    
     private void OnServerStarted()
     {
       var player = _prefabLoader.LoadPrefab<NetworkObject>(EntityType.Player);
@@ -42,39 +40,28 @@ namespace CollectiveMind.TicTac3D.Runtime.Server
       _prefabLoader.UnloadPrefab(EntityType.Player);
     }
 
-    public void Tick()
+    public async void StartGame(GameSession session)
     {
-      _isPlayerSpawned.Value = _networkManager.IsServer
-        && _networkManager.ConnectedClients.Count == 2
-        && _networkManager.SpawnManager.PlayerObjects.All(x => x.IsSpawned);
-    }
+      await UniTask.WaitUntil(() =>
+        session.Players.All(x => Object.FindAnyObjectByType<NetworkBridge>().IsSpawned));
 
-    private void StartGame(bool isPlayerSpawned)
-    {
-      if (isPlayerSpawned)
+      _rpcProvider.SendRequest<StartedGameResponse>(session.Target);
+      _cellCreator.CreateCells(session.Cells);
+      var shapes = new List<ShapeType> { ShapeType.X, ShapeType.O };
+      foreach (PlayerInfo player in session.Players)
       {
-        _sessionInfo.ClientInfos.Clear();
-        _rpcProvider.SendRequest<StartedGameResponse>(_networkManager.RpcTarget.Everyone);
-        var shapes = new List<ShapeType> { ShapeType.X, ShapeType.O };
-        foreach (KeyValuePair<ulong, NetworkClient> client in _networkManager.ConnectedClients)
-        {
-          int index = Random.Range(0, shapes.Count);
-          ShapeType shape = shapes[index];
-          _sessionInfo.ClientInfos.Add(new SessionInfoAboutClient
-          {
-            Client = client.Value,
-            Shape = shapes[index]
-          });
+        int index = Random.Range(0, shapes.Count);
+        ShapeType shape = shapes[index];
+        player.Shape = shape;
 
-          _rpcProvider.SendRequest(new DefinedShapeResponse { Shape = shape },
-            _networkManager.RpcTarget.Single(client.Key, RpcTargetUse.Persistent));
+        _rpcProvider.SendRequest(new DefinedShapeResponse { Shape = shape },
+          _networkManager.RpcTarget.Single(player.PlayerId, RpcTargetUse.Persistent));
 
-          shapes.RemoveAt(index);
-        }
-
-        _sessionInfo.CurrentMove = ShapeType.X;
-        _rpcProvider.SendRequest(new ChangedMoveResponse { CurrentMove = ShapeType.X });
+        shapes.RemoveAt(index);
       }
+
+      session.CurrentMove = ShapeType.X;
+      _rpcProvider.SendRequest(new ChangedMoveResponse { CurrentMove = ShapeType.X }, session.Target);
     }
 
     public void Dispose()

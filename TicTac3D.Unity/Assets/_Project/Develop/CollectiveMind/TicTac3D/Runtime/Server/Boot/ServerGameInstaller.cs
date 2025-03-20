@@ -15,32 +15,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Server.Boot
 
     public override void InstallBindings()
     {
-      BindGameStarter();
-      BindFieldCreator();
-      BindSessionInfo();
-
       BindShapeSetter();
-    }
-
-    private void BindGameStarter()
-    {
-      Container
-        .BindInterfacesTo<GameStarter>()
-        .AsSingle();
-    }
-
-    private void BindFieldCreator()
-    {
-      Container
-        .BindInterfacesTo<FieldCreator>()
-        .AsSingle();
-    }
-
-    private void BindSessionInfo()
-    {
-      Container
-        .Bind<SessionInfo>()
-        .AsSingle();
     }
 
     private void BindShapeSetter()

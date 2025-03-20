@@ -1,7 +1,9 @@
-﻿using CollectiveMind.TicTac3D.Runtime.Client.Gameplay.Cell;
+﻿using System.Collections.Generic;
+using CollectiveMind.TicTac3D.Runtime.Client.Gameplay.Cell;
 using CollectiveMind.TicTac3D.Runtime.Client.Gameplay.Shape;
 using CollectiveMind.TicTac3D.Runtime.Shared.Boot;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Boot;
+using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Cell;
 using UnityEngine;
 using Zenject;
 
@@ -18,6 +20,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay
     public override void InstallBindings()
     {
       BindCellVisualFactory();
+      BindCellModelList();
       BindFieldCreator();
 
       BindCellRaycaster();
@@ -34,6 +37,13 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay
     {
       Container
         .BindInterfacesTo<CellVisualFactory>()
+        .AsSingle();
+    }
+
+    private void BindCellModelList()
+    {
+      Container
+        .Bind<List<CellModel>>()
         .AsSingle();
     }
 

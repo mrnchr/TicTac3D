@@ -1,4 +1,5 @@
 ﻿using CollectiveMind.TicTac3D.Runtime.Shared.AssetManagement;
+using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Cell;
 using CollectiveMind.TicTac3D.Runtime.Shared.Network;
 using Unity.Netcode;
 using Zenject;
@@ -17,6 +18,10 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Boot
       BindRpcProvider();
 
       BindNetworkBus();
+      
+      BindCellModelFactory();
+      BindCellCreator();
+      BindCellModelListMonitor();
 
       InstallProjectInstallerBridge();
     }
@@ -64,6 +69,30 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Boot
         .Bind<INetworkBus>()
         .To<NetworkBus>()
         .AsSingle();
+    }
+    
+    private void BindCellModelFactory()
+    {
+      Container
+        .BindInterfacesTo<CellModelFactory>()
+        .AsSingle();
+    }
+
+    private void BindCellCreator()
+    {
+      Container
+        .BindInterfacesTo<CellCreator>()
+        .AsSingle();
+    }
+
+    private void BindCellModelListMonitor()
+    {
+      Container
+        .Bind<CellListMonitor>()
+        .FromNewComponentOnNewGameObject()
+        .WithGameObjectName("CellListMonitor")
+        .AsCached()
+        .NonLazy();
     }
 
     private void InstallProjectInstallerBridge()

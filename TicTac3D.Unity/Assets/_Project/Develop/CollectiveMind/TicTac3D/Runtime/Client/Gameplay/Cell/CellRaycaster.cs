@@ -34,8 +34,8 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay.Cell
     public void Tick()
     {
       ClearHovering();
-
-      if (!_gameInfo.IsMoving)
+      
+      if (!_gameInfo.IsMoving || _gameInfo.CurrentMove == ShapeType.None)
         return;
       
       Ray ray = _camera.ScreenPointToRay(_inputProvider.MousePosition);
@@ -50,7 +50,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay.Cell
           minDistance = distance;
         }
       }
-
+      
       if (minDistance <= _config.MaxRaycastDistance && hoveredCell != null && !hoveredCell.HasShape())
         hoveredCell.IsHovered.Value = true;
     }

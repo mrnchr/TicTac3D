@@ -1,0 +1,29 @@
+﻿using UnityEngine;
+using UnityEngine.InputSystem;
+using Zenject;
+
+namespace CollectiveMind.TicTac3D.Runtime.Client.Input
+{
+  public class InputHandler : ITickable
+  {
+    private readonly InputProvider _inputProvider;
+    private readonly PlayerInputActions.GameplayActions _gameplayInputs;
+
+    public InputHandler(InputProvider inputProvider, PlayerInputActions playerInputActions, PlayerInput playerInput)
+    {
+      _inputProvider = inputProvider;
+
+      playerInput.actions = playerInputActions.asset;
+      playerInputActions.Gameplay.Enable();
+      _gameplayInputs = playerInputActions.Gameplay;
+    }
+
+    public void Tick()
+    {
+      _inputProvider.Reset();
+
+      _inputProvider.Rotate = _gameplayInputs.Rotate.ReadValue<float>() > 0;
+      _inputProvider.Delta = _gameplayInputs.Delta.ReadValue<Vector2>();
+    }
+  }
+}

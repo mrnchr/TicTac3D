@@ -207,6 +207,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 525946558}
+  - component: {fileID: 525946559}
+  - component: {fileID: 525946560}
   m_Layer: 0
   m_Name: Rotator
   m_TagString: Untagged
@@ -230,6 +232,29 @@ Transform:
   - {fileID: 2010926097}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &525946559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 525946557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8e99537f31f41ff90f95425e0b8ee70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1652712579 &525946560
+MultiplayerRolesData:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 525946557}
+  m_GameObjectRolesMask: 3
+  m_ComponentsRolesMasks:
+  - m_Object: {fileID: 525946559}
+    m_RolesMask: 3
 --- !u!1 &814369474
 GameObject:
   m_ObjectHideFlags: 0

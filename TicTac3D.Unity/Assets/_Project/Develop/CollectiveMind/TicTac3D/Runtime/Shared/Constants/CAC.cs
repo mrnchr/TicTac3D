@@ -12,6 +12,8 @@
     {
       public const string CONFIG_PROVIDER_MENU = CONFIG_MENU + "Provider";
       public const string CONFIG_PROVIDER_FILE = "ConfigProvider";
+      public const string ROTATION_CONFIG_MENU = CONFIG_MENU + "Rotation";
+      public const string ROTATION_CONFIG_FILE = "RotationConfig";
     }
   }
 }

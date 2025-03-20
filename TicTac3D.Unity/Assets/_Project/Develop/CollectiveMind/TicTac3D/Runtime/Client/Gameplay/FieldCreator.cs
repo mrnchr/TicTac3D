@@ -4,7 +4,6 @@ using CollectiveMind.TicTac3D.Runtime.Client.Gameplay.Cell;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Cell;
 using CollectiveMind.TicTac3D.Runtime.Shared.Network;
-using UnityEngine;
 
 namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay
 {

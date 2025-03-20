@@ -41,7 +41,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay.Cell
       Ray ray = _camera.ScreenPointToRay(_inputProvider.MousePosition);
       var minDistance = float.MaxValue;
       CellModel hoveredCell = null;
-      foreach (CellModel cell in _cells)
+      foreach (CellModel cell in _cells.Where(x => !x.HasShape()))
       {
         float distance = FindDistance(cell.Position, ray);
         if (minDistance > distance)

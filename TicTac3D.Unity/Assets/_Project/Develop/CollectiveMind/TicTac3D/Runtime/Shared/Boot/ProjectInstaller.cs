@@ -10,6 +10,8 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Boot
   {
     public override void InstallBindings()
     {
+      BindNetworkInitializer();
+      
       BindConfigLoader();
       BindPrefabLoader();
       BindPrefabFactory();
@@ -24,6 +26,13 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Boot
       BindCellModelListMonitor();
 
       InstallProjectInstallerBridge();
+    }
+
+    private void BindNetworkInitializer()
+    {
+      Container
+        .BindInterfacesTo<NetworkInitializer>()
+        .AsSingle();
     }
 
     private void BindConfigLoader()

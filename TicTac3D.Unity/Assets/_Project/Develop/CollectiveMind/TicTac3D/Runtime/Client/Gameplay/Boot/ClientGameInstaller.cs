@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using CollectiveMind.TicTac3D.Runtime.Client.Gameplay.Cell;
 using CollectiveMind.TicTac3D.Runtime.Client.Gameplay.Shape;
+using CollectiveMind.TicTac3D.Runtime.Client.WindowManagement.Boot;
 using CollectiveMind.TicTac3D.Runtime.Shared.Boot;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Boot;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Cell;
@@ -19,6 +20,8 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay
 
     public override void InstallBindings()
     {
+      InstallWindow();
+      
       BindCellVisualFactory();
       BindCellModelList();
       BindFieldCreator();
@@ -34,6 +37,13 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay
       BindCellVisualList();
 
       BindFieldCleaner();
+
+      BindMenuInitializer();
+    }
+
+    private void InstallWindow()
+    {
+      WindowInstaller.Install(Container);
     }
 
     private void BindCellVisualFactory()
@@ -110,6 +120,13 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay
     {
       Container
         .BindInterfacesTo<FieldCleaner>()
+        .AsSingle();
+    }
+
+    private void BindMenuInitializer()
+    {
+      Container
+        .BindInterfacesTo<MenuInitializer>()
         .AsSingle();
     }
   }

@@ -5,7 +5,7 @@ using Zenject;
 
 namespace CollectiveMind.TicTac3D.Runtime.Shared.UI
 {
-  public class MenuWindow : MonoBehaviour
+  public class ConnectionWindow : MonoBehaviour
   {
     [SerializeField]
     private Button _serverButton;

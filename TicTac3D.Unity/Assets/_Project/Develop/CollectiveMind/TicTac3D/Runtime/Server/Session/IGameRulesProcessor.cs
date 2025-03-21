@@ -5,7 +5,6 @@ namespace CollectiveMind.TicTac3D.Runtime.Server.Session
 {
   public interface IGameRulesProcessor
   {
-    ShapeType GetNextMove(GameSession session);
     void SetShape(GameSession session, CellModel cell, ShapeType shape);
   }
 }

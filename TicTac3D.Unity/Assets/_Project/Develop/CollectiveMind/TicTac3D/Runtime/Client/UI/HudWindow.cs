@@ -2,7 +2,7 @@
 
 namespace CollectiveMind.TicTac3D.Runtime.Client.UI
 {
-  public class HubWindow : BaseWindow
+  public class HudWindow : BaseWindow
   {
   }
 }

@@ -48,7 +48,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay
     {
       _mainMenu.gameObject.SetActive(false);
       await _windowManager.CloseWindowsBy<MenuWindow>();
-      await _windowManager.OpenWindow<HubWindow>();
+      await _windowManager.OpenWindow<HudWindow>();
       
       _cellCreator.CreateCells(_cells);
 

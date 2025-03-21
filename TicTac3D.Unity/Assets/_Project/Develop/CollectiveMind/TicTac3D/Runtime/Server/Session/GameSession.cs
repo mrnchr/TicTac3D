@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Cell;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Shape;
 using Unity.Netcode;
@@ -14,7 +15,10 @@ namespace CollectiveMind.TicTac3D.Runtime.Server.Session
     public BaseRpcTarget Target;
     public List<PlayerInfo> Players = new List<PlayerInfo>();
 
+    public GameRules Rules;
     public List<CellModel> Cells = new List<CellModel>();
+    
+    public ShapeType LastMove;
     public ShapeType CurrentMove;
 
     public PlayerInfo GetPlayerInfo(ulong clientId)

@@ -7,6 +7,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Gameplay
   public class GameConfig : ScriptableObject
   {
     [InlineProperty]
-    public GameContext Context;
+    [HideLabel]
+    public GameRules Rules;
   }
 }

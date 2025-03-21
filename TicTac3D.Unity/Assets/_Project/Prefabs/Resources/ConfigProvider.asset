@@ -21,3 +21,5 @@ MonoBehaviour:
     Path: RotationConfig
   - TypeName: CellConfig
     Path: CellConfig
+  - TypeName: GameConfig
+    Path: GameConfig

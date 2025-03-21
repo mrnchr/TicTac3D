@@ -18,6 +18,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Server.Boot
       BindClientManager();
       BindGameStarter();
       BindSessionRegistry();
+      BindGameRuleProcessor();
     }
 
     private void BindClientManager()
@@ -39,6 +40,13 @@ namespace CollectiveMind.TicTac3D.Runtime.Server.Boot
     {
       Container
         .Bind<SessionRegistry>()
+        .AsSingle();
+    }
+
+    private void BindGameRuleProcessor()
+    {
+      Container
+        .BindInterfacesTo<GameRulesProcessor>()
         .AsSingle();
     }
   }

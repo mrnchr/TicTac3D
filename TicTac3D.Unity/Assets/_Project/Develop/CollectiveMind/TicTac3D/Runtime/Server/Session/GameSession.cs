@@ -17,9 +17,11 @@ namespace CollectiveMind.TicTac3D.Runtime.Server.Session
 
     public GameRules Rules;
     public List<CellModel> Cells = new List<CellModel>();
-    
+
     public ShapeType LastMove;
     public ShapeType CurrentMove;
+
+    public ShapeType Winner;
 
     public PlayerInfo GetPlayerInfo(ulong clientId)
     {
@@ -31,9 +33,14 @@ namespace CollectiveMind.TicTac3D.Runtime.Server.Session
       return Players.Find(x => x.Shape == CurrentMove);
     }
 
-    public void AddPlayer(ulong playerId)
+    public void AddPlayer(ulong playerId, GameRulesData rules)
     {
-      Players.Add(new PlayerInfo { PlayerId = playerId });
+      var playerInfo = new PlayerInfo
+      {
+        PlayerId = playerId,
+        GameRules = new GameRules { Data = rules }
+      };
+      Players.Add(playerInfo);
     }
   }
 }

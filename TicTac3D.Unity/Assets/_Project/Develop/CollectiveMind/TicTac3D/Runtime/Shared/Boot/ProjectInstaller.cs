@@ -99,7 +99,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Boot
       Container
         .Bind<CellListMonitor>()
         .FromNewComponentOnNewGameObject()
-        .WithGameObjectName("CellListMonitor")
+        .WithGameObjectName(nameof(CellListMonitor))
         .AsCached()
         .NonLazy();
     }

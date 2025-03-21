@@ -15,14 +15,16 @@ namespace CollectiveMind.TicTac3D.Runtime.Server.Session
   {
     private readonly IConfigLoader _configLoader;
     private readonly IRpcProvider _rpcProvider;
-    private readonly IPlayerManager _playerManager;
+    private readonly SessionRegistry _sessionRegistry;
     private readonly GameConfig _config;
 
-    public GameRulesProcessor(IConfigLoader configLoader, IRpcProvider rpcProvider, IPlayerManager playerManager)
+    public GameRulesProcessor(IConfigLoader configLoader,
+      IRpcProvider rpcProvider,
+      SessionRegistry sessionRegistry)
     {
       _configLoader = configLoader;
       _rpcProvider = rpcProvider;
-      _playerManager = playerManager;
+      _sessionRegistry = sessionRegistry;
       _config = _configLoader.LoadConfig<GameConfig>();
     }
 
@@ -37,7 +39,10 @@ namespace CollectiveMind.TicTac3D.Runtime.Server.Session
         ShapeType winner = CheckWin(session);
         if (winner != ShapeType.None)
         {
-          _playerManager.CompleteSession(session);
+          session.Winner = winner;
+          session.Status = SessionState.Completed;
+          _sessionRegistry.Sessions.Remove(session);
+          _rpcProvider.SendRequest(new FinishGameResponse { Winner = winner }, session.Target);
           return;
         }
 
@@ -53,7 +58,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Server.Session
 
     private ShapeType GetNextMove(GameSession session)
     {
-      int botMoveCount = _config.Rules.BotMoveCount;
+      int botMoveCount = _config.DefaultRules.Data.BotMoveCount;
       ShapeType current = session.CurrentMove;
       return botMoveCount switch
       {

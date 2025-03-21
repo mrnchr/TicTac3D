@@ -30,8 +30,12 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.WindowManagement
         await lastWindow.Hide();
       
       var window = GetWindow<TWindow>();
-      _history.Push(window);
-      await window.Open();
+      if (window)
+      {
+        _history.Push(window);
+        await window.Open();
+      }
+
       return window;
     }
 

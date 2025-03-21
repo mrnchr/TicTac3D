@@ -1,4 +1,5 @@
-﻿using CollectiveMind.TicTac3D.Runtime.Client.WindowManagement;
+﻿using CollectiveMind.TicTac3D.Runtime.Client.UI.LobbySettings;
+using CollectiveMind.TicTac3D.Runtime.Client.WindowManagement;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;

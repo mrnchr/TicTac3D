@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4636548761384a4f8efd53f1b989c5e1, type: 3}
   m_Name: GameConfig
   m_EditorClassIdentifier: 
-  Rules:
-    DesiredShape: 0
-    BotMoveCount: 2
-    MoveTime: 0
-    ShapeFading: 0
-    FadingMoveCount: 0
+  DefaultRules:
+    Data:
+      DesiredShape: 0
+      BotMoveCount: 2
+      MoveTime: 0
+      ShapeFading: 0
+      FadingMoveCount: 0

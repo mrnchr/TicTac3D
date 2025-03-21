@@ -5,6 +5,7 @@ using CollectiveMind.TicTac3D.Runtime.Client.WindowManagement.Boot;
 using CollectiveMind.TicTac3D.Runtime.Shared.Boot;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Boot;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Cell;
+using CollectiveMind.TicTac3D.Runtime.Shared.Network;
 using UnityEngine;
 using Zenject;
 
@@ -21,7 +22,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay
     public override void InstallBindings()
     {
       InstallWindow();
-      
+
       BindCellVisualFactory();
       BindCellModelList();
       BindFieldCreator();
@@ -118,16 +119,18 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay
 
     private void BindFieldCleaner()
     {
-      Container
-        .BindInterfacesTo<FieldCleaner>()
-        .AsSingle();
+      if (NetworkRole.IsClient)
+        Container
+          .BindInterfacesTo<FieldCleaner>()
+          .AsSingle();
     }
 
     private void BindMenuInitializer()
     {
-      Container
-        .BindInterfacesTo<MenuInitializer>()
-        .AsSingle();
+      if (NetworkRole.IsClient)
+        Container
+          .BindInterfacesAndSelfTo<MenuInitializer>()
+          .AsSingle();
     }
   }
 }

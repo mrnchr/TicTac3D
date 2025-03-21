@@ -12,20 +12,17 @@ namespace CollectiveMind.TicTac3D.Runtime.Server
   {
     private readonly INetworkBus _networkBus;
     private readonly SessionRegistry _sessionRegistry;
-    private readonly IRpcProvider _rpcProvider;
     private readonly IGameRulesProcessor _gameRulesProcessor;
 
     public ShapeSetter(INetworkBus networkBus,
       SessionRegistry sessionRegistry,
-      IRpcProvider rpcProvider,
       IGameRulesProcessor gameRulesProcessor)
     {
       _networkBus = networkBus;
       _sessionRegistry = sessionRegistry;
-      _rpcProvider = rpcProvider;
       _gameRulesProcessor = gameRulesProcessor;
 
-      _networkBus.SubscribeOnRpcWithParameter<SetShapeRequest>(SetShape);
+      _networkBus.SubscribeOnRpcWithParameters<SetShapeRequest>(SetShape);
     }
 
     private void SetShape(SetShapeRequest evt, RpcParams rpcParams)

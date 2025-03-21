@@ -15,13 +15,19 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Network
       _rpcs[type] = handler;
     }
 
+    public void SubscribeOnRpcWithParameter<T>(Action<RpcParams> handler)
+    {
+      Type type = typeof(T);
+      _rpcs[type] = handler;
+    }
+
     public void SubscribeOnRpcWithParameter<T>(Action<T> handler)
     {
       Type type = typeof(T);
       _rpcs[type] = handler;
     }
-    
-    public void SubscribeOnRpcWithParameter<T>(Action<T, RpcParams> handler)
+
+    public void SubscribeOnRpcWithParameters<T>(Action<T, RpcParams> handler)
     {
       Type type = typeof(T);
       _rpcs[type] = handler;
@@ -42,6 +48,9 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Network
         {
           case > 1:
             handler.DynamicInvoke(rpcData, rpcParams);
+            break;
+          case > 0 when handler.Method.GetParameters()[0].ParameterType == typeof(RpcParams):
+            handler.DynamicInvoke(rpcParams);
             break;
           case > 0:
             handler.DynamicInvoke(rpcData);

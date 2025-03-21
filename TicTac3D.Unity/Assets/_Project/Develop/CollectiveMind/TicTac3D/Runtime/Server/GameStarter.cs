@@ -16,6 +16,8 @@ namespace CollectiveMind.TicTac3D.Runtime.Server
 {
   public class GameStarter : IGameStarter, IDisposable
   {
+    private readonly List<ShapeType> _defaultShapes = new List<ShapeType> { ShapeType.X, ShapeType.O };
+    private readonly List<ShapeType> _shapes =  new List<ShapeType>();
     private readonly NetworkManager _networkManager;
     private readonly IRpcProvider _rpcProvider;
     private readonly IPrefabLoader _prefabLoader;
@@ -48,28 +50,38 @@ namespace CollectiveMind.TicTac3D.Runtime.Server
 
     public async void StartGame(GameSession session)
     {
-      await UniTask.WaitUntil(() =>
-        session.Players.All(x => Object.FindAnyObjectByType<NetworkBridge>().IsSpawned));
+      await UniTask.WaitUntil(() => Object.FindAnyObjectByType<NetworkBridge>().IsSpawned);
 
       _rpcProvider.SendRequest<StartedGameResponse>(session.Target);
       _cellCreator.CreateCells(session.Cells);
 
-      session.Rules = _config.Rules.Clone();
-      var shapes = new List<ShapeType> { ShapeType.X, ShapeType.O };
+      session.Rules = _config.DefaultRules.Clone();
+      DefineShapes(session);
+
+      session.CurrentMove = ShapeType.X;
+      _rpcProvider.SendRequest(new ChangedMoveResponse { CurrentMove = ShapeType.X }, session.Target);
+    }
+
+    private void DefineShapes(GameSession session)
+    {
+      _shapes.Clear();
+      _shapes.AddRange(_defaultShapes);
+      _shapes.RemoveAll(x => session.Players.Any(y => y.GameRules.Data.DesiredShape == x));
       foreach (PlayerInfo player in session.Players)
       {
-        int index = Random.Range(0, shapes.Count);
-        ShapeType shape = shapes[index];
+        ShapeType shape = player.GameRules.Data.DesiredShape;
+        if (shape is < ShapeType.X or > ShapeType.O)
+        {
+          int index = Random.Range(0, _shapes.Count);
+          shape = _shapes[index];
+          _shapes.RemoveAt(index);
+        }
+        
         player.Shape = shape;
 
         _rpcProvider.SendRequest(new DefinedShapeResponse { Shape = shape },
           _networkManager.RpcTarget.Single(player.PlayerId, RpcTargetUse.Persistent));
-
-        shapes.RemoveAt(index);
       }
-
-      session.CurrentMove = ShapeType.X;
-      _rpcProvider.SendRequest(new ChangedMoveResponse { CurrentMove = ShapeType.X }, session.Target);
     }
 
     public void Dispose()

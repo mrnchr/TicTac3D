@@ -13,12 +13,17 @@ namespace CollectiveMind.TicTac3D.Runtime.Server
     private readonly INetworkBus _networkBus;
     private readonly SessionRegistry _sessionRegistry;
     private readonly IRpcProvider _rpcProvider;
+    private readonly IGameRulesProcessor _gameRulesProcessor;
 
-    public ShapeSetter(INetworkBus networkBus, SessionRegistry sessionRegistry, IRpcProvider rpcProvider)
+    public ShapeSetter(INetworkBus networkBus,
+      SessionRegistry sessionRegistry,
+      IRpcProvider rpcProvider,
+      IGameRulesProcessor gameRulesProcessor)
     {
       _networkBus = networkBus;
       _sessionRegistry = sessionRegistry;
       _rpcProvider = rpcProvider;
+      _gameRulesProcessor = gameRulesProcessor;
 
       _networkBus.SubscribeOnRpcWithParameter<SetShapeRequest>(SetShape);
     }
@@ -26,16 +31,9 @@ namespace CollectiveMind.TicTac3D.Runtime.Server
     private void SetShape(SetShapeRequest evt, RpcParams rpcParams)
     {
       GameSession session = _sessionRegistry.GetSessionByPlayerId(rpcParams.Receive.SenderClientId);
+      ShapeType playerShape = session.GetPlayerInfo(rpcParams.Receive.SenderClientId).Shape;
       CellModel cell = session.Cells.Find(c => c.Index == evt.CellIndex);
-      PlayerInfo clientInfo = session.GetPlayerInfo(rpcParams.Receive.SenderClientId);
-      if (clientInfo != null && clientInfo == session.GetMovingPlayer() && !cell.HasShape())
-      {
-        cell.Shape.Value = clientInfo.Shape;
-        _rpcProvider.SendRequest(new UpdatedShapeResponse { CellIndex = evt.CellIndex, Shape = clientInfo.Shape },
-          session.Target);
-        session.CurrentMove = session.CurrentMove == ShapeType.X ? ShapeType.O : ShapeType.X;
-        _rpcProvider.SendRequest(new ChangedMoveResponse { CurrentMove = session.CurrentMove }, session.Target);
-      }
+      _gameRulesProcessor.SetShape(session, cell, playerShape);
     }
 
     public void Dispose()

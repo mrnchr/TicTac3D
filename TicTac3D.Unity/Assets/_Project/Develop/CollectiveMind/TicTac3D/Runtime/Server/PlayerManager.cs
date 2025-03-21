@@ -1,13 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using CollectiveMind.TicTac3D.Runtime.Server.Session;
 using CollectiveMind.TicTac3D.Runtime.Shared.Network;
 using Unity.Netcode;
-using UnityEngine;
 
 namespace CollectiveMind.TicTac3D.Runtime.Server
 {
-  public class PlayerManager : IDisposable
+  public class PlayerManager : IPlayerManager, IDisposable
   {
     private readonly NetworkManager _networkManager;
     private readonly SessionRegistry _sessionRegistry;
@@ -22,6 +22,14 @@ namespace CollectiveMind.TicTac3D.Runtime.Server
 
       if (NetworkRole.IsServer)
         _networkManager.OnConnectionEvent += OnClientConnected;
+    }
+
+    public void CompleteSession(GameSession session)
+    {
+      session.Status = SessionState.Completed;
+      var players = new List<PlayerInfo>(session.Players);
+      foreach (PlayerInfo player in players)
+        _networkManager.DisconnectClient(player.PlayerId);
     }
 
     private void OnClientConnected(NetworkManager network, ConnectionEventData connectionEvent)

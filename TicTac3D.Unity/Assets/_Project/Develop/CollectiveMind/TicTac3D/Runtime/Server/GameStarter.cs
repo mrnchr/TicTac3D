@@ -19,17 +19,22 @@ namespace CollectiveMind.TicTac3D.Runtime.Server
     private readonly NetworkManager _networkManager;
     private readonly IRpcProvider _rpcProvider;
     private readonly IPrefabLoader _prefabLoader;
+    private readonly IConfigLoader _configLoader;
     private readonly ICellCreator _cellCreator;
+    private readonly GameConfig _config;
 
     public GameStarter(NetworkManager networkManager,
       IRpcProvider rpcProvider,
       IPrefabLoader prefabLoader,
+      IConfigLoader configLoader,
       ICellCreator cellCreator)
     {
       _networkManager = networkManager;
       _rpcProvider = rpcProvider;
       _prefabLoader = prefabLoader;
+      _configLoader = configLoader;
       _cellCreator = cellCreator;
+      _config = configLoader.LoadConfig<GameConfig>();
       
       _networkManager.OnServerStarted += OnServerStarted;
     }
@@ -48,6 +53,8 @@ namespace CollectiveMind.TicTac3D.Runtime.Server
 
       _rpcProvider.SendRequest<StartedGameResponse>(session.Target);
       _cellCreator.CreateCells(session.Cells);
+
+      session.Rules = _config.Rules.Clone();
       var shapes = new List<ShapeType> { ShapeType.X, ShapeType.O };
       foreach (PlayerInfo player in session.Players)
       {
@@ -67,6 +74,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Server
 
     public void Dispose()
     {
+      _configLoader.UnloadConfig<GameConfig>();
       _networkManager.OnServerStarted -= OnServerStarted;
     }
   }

@@ -1,5 +1,7 @@
 ﻿using CollectiveMind.TicTac3D.Runtime.Client.WindowManagement;
 using CollectiveMind.TicTac3D.Runtime.Shared.AssetManagement;
+using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay;
+using CollectiveMind.TicTac3D.Runtime.Shared.Network;
 using CollectiveMind.TicTac3D.Runtime.Shared.Utils;
 using R3;
 using UnityEngine;
@@ -28,16 +30,19 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.UI.Settings
     private IWindowManager _windowManager;
     private IConfigLoader _configLoader;
     private SettingsDataProvider _settingsDataProvider;
+    private IRpcProvider _rpcProvider;
     private SettingsConfig _config;
 
     [Inject]
     public void Construct(IWindowManager windowManager,
       IConfigLoader configLoader,
-      SettingsDataProvider settingsDataProvider)
+      SettingsDataProvider settingsDataProvider,
+      IRpcProvider rpcProvider)
     {
       _windowManager = windowManager;
       _configLoader = configLoader;
       _settingsDataProvider = settingsDataProvider;
+      _rpcProvider = rpcProvider;
       _config = configLoader.LoadConfig<SettingsConfig>();
 
       _settingsDataProvider.Data.SoundVolume.Subscribe(ChangeSoundVolumeSlider);
@@ -102,7 +107,10 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.UI.Settings
 
     private void Back()
     {
-      CloseWindow();
+      if (false)
+        _rpcProvider.SendRequest<LeaveGameRequest>();
+      else
+        CloseWindow();
     }
 
     private void OnDestroy()

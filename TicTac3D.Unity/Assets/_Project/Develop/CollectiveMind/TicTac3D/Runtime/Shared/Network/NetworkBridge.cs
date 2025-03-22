@@ -82,5 +82,12 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Network
     {
       _networkBus.HandleRpc(request, rpcParams);
     }
+    
+    [Rpc(SendTo.SpecifiedInParams)]
+    [UsedImplicitly]
+    public void SendRequestServerRpc(LeaveGameRequest request, RpcParams rpcParams)
+    {
+      _networkBus.HandleRpc(request, rpcParams);
+    }
   }
 }

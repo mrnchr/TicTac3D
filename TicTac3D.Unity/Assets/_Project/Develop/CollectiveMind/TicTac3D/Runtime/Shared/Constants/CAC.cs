@@ -24,6 +24,9 @@
       
       public const string GAME_CONFIG_MENU = CONFIG_MENU + "Game";
       public const string GAME_CONFIG_FILE = "GameConfig";
+      
+      public const string SETTINGS_CONFIG_MENU = CONFIG_MENU + "Settings";
+      public const string SETTINGS_CONFIG_FILE = "SettingsConfig";
     }
   }
 }

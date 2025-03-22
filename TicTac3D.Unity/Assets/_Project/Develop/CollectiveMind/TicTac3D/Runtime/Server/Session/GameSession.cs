@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Cell;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Shape;
@@ -17,9 +18,11 @@ namespace CollectiveMind.TicTac3D.Runtime.Server.Session
 
     public GameRules Rules;
     public List<CellModel> Cells = new List<CellModel>();
-    
+
     public ShapeType LastMove;
     public ShapeType CurrentMove;
+
+    public ShapeType Winner;
 
     public PlayerInfo GetPlayerInfo(ulong clientId)
     {
@@ -31,9 +34,22 @@ namespace CollectiveMind.TicTac3D.Runtime.Server.Session
       return Players.Find(x => x.Shape == CurrentMove);
     }
 
-    public void AddPlayer(ulong playerId)
+    public void AddPlayer(ulong playerId, GameRulesData rules)
     {
-      Players.Add(new PlayerInfo { PlayerId = playerId });
+      var playerInfo = new PlayerInfo
+      {
+        PlayerId = playerId,
+        GameRules = new GameRules { Data = rules }
+      };
+      Players.Add(playerInfo);
+    }
+
+    public Dictionary<ShapeType, List<CellModel>> GroupCellsByPlayerShape()
+    {
+      return Cells.Where(x => x.HasShape())
+        .GroupBy(x => x.Shape.Value)
+        .Where(x => x.Key is >= ShapeType.X and <= ShapeType.O)
+        .ToDictionary(x => x.Key, x => x.ToList());
     }
   }
 }

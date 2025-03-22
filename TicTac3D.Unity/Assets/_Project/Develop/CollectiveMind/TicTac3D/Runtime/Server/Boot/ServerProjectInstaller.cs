@@ -1,5 +1,6 @@
 ﻿using CollectiveMind.TicTac3D.Runtime.Server.Session;
 using CollectiveMind.TicTac3D.Runtime.Shared.Boot;
+using CollectiveMind.TicTac3D.Runtime.Shared.Network;
 using UnityEngine;
 using Zenject;
 
@@ -10,15 +11,19 @@ namespace CollectiveMind.TicTac3D.Runtime.Server.Boot
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     public static void Entry()
     {
-      InstallerBridge.Subscribe<ProjectInstaller>(Install);
+      if (NetworkRole.IsServer)
+        InstallerBridge.Subscribe<ProjectInstaller>(Install);
     }
-    
+
     public override void InstallBindings()
     {
       BindClientManager();
       BindGameStarter();
       BindSessionRegistry();
       BindGameRuleProcessor();
+      BindBotBrain();
+
+      BindSessionRegistryMonitor();
     }
 
     private void BindClientManager()
@@ -48,6 +53,24 @@ namespace CollectiveMind.TicTac3D.Runtime.Server.Boot
       Container
         .BindInterfacesTo<GameRulesProcessor>()
         .AsSingle();
+    }
+
+    private void BindBotBrain()
+    {
+      Container
+        .Bind<IBotBrain>()
+        .To<BotBrain>()
+        .AsSingle();
+    }
+
+    private void BindSessionRegistryMonitor()
+    {
+      Container
+        .Bind<SessionRegistryMonitor>()
+        .FromNewComponentOnNewGameObject()
+        .WithGameObjectName(nameof(SessionRegistryMonitor))
+        .AsCached()
+        .NonLazy();
     }
   }
 }

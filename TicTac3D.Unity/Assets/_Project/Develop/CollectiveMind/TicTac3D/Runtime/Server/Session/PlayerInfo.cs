@@ -1,4 +1,5 @@
 ﻿using System;
+using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Shape;
 
 namespace CollectiveMind.TicTac3D.Runtime.Server.Session
@@ -8,5 +9,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Server.Session
   {
     public ulong PlayerId;
     public ShapeType Shape;
+    
+    public GameRules GameRules;
   }
 }

@@ -1,28 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
 using CollectiveMind.TicTac3D.Runtime.Client.Gameplay.Cell;
+using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Cell;
-using Unity.Netcode;
+using CollectiveMind.TicTac3D.Runtime.Shared.Network;
 using Object = UnityEngine.Object;
 
 namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay
 {
   public class FieldCleaner : IDisposable
   {
-    private readonly NetworkManager _networkManager;
     private readonly List<CellModel> _cells;
     private readonly List<CellVisual> _cellVisuals;
+    private readonly INetworkBus _networkBus;
+    private readonly MenuInitializer _menuInitializer;
 
-    public FieldCleaner(NetworkManager networkManager, List<CellModel> cells, List<CellVisual> cellVisuals)
+    public FieldCleaner(List<CellModel> cells,
+      List<CellVisual> cellVisuals,
+      INetworkBus networkBus,
+      MenuInitializer menuInitializer)
     {
-      _networkManager = networkManager;
       _cells = cells;
       _cellVisuals = cellVisuals;
+      _networkBus = networkBus;
+      _menuInitializer = menuInitializer;
 
-      _networkManager.OnClientStopped += CleanField;
+      _networkBus.SubscribeOnRpcWithParameter<FinishGameResponse>(FinishGame);
     }
 
-    private void CleanField(bool obj)
+    private void FinishGame(FinishGameResponse response)
+    {
+      CleanField();
+      _menuInitializer.OpenMenu();
+    }
+
+    private void CleanField()
     {
       foreach (CellVisual cell in _cellVisuals)
         Object.Destroy(cell.gameObject);
@@ -33,7 +45,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay
 
     public void Dispose()
     {
-      _networkManager.OnClientStopped -= CleanField;
+      _networkBus.UnsubscribeFromRpc<FinishGameResponse>();
     }
   }
 }

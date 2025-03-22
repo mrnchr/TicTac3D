@@ -2,7 +2,7 @@
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Shape;
 using Unity.Netcode;
 
-namespace CollectiveMind.TicTac3D.Runtime.Shared.Gameplay
+namespace CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Rules
 {
   [Serializable]
   public struct GameRulesData : INetworkSerializeByMemcpy

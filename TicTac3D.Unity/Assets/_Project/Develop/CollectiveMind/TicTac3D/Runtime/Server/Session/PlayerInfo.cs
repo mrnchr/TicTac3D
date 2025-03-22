@@ -1,5 +1,5 @@
 ﻿using System;
-using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay;
+using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Rules;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Shape;
 
 namespace CollectiveMind.TicTac3D.Runtime.Server.Session

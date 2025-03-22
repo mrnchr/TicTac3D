@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CollectiveMind.TicTac3D.Runtime.Shared.Gameplay
+namespace CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Rules
 {
   [Flags]
   public enum ShapeFadingType

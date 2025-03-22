@@ -1,6 +1,7 @@
 ﻿using CollectiveMind.TicTac3D.Runtime.Client.Gameplay;
 using CollectiveMind.TicTac3D.Runtime.Client.WindowManagement;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay;
+using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Rules;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Shape;
 using CollectiveMind.TicTac3D.Runtime.Shared.Network;
 using Cysharp.Threading.Tasks;

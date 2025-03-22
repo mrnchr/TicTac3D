@@ -1,4 +1,4 @@
-﻿using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay;
+﻿using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Rules;
 
 namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay
 {

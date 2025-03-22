@@ -1,5 +1,5 @@
 ﻿using CollectiveMind.TicTac3D.Runtime.Client.WindowManagement;
-using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay;
+using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Rules;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;

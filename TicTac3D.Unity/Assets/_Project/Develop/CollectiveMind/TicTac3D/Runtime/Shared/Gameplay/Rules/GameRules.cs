@@ -1,8 +1,9 @@
 ﻿using System;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Shape;
 using TriInspector;
+using UnityEngine;
 
-namespace CollectiveMind.TicTac3D.Runtime.Shared.Gameplay
+namespace CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Rules
 {
   [Serializable]
   public class GameRules
@@ -11,16 +12,36 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Gameplay
     [HideLabel]
     public GameRulesData Data;
 
-    public GameRules Clone()
+    public TRule GetRule<TRule>(GameRuleType type)
     {
-      return MemberwiseClone() as GameRules;
+      return type switch
+      {
+        GameRuleType.DesiredShape when Data.DesiredShape is TRule rule => rule,
+        GameRuleType.BotMoveCount when Data.BotMoveCount is TRule rule => rule,
+        GameRuleType.MoveTime when Data.MoveTime is TRule rule => rule,
+        GameRuleType.ShapeFading when Data.ShapeFading is TRule rule => rule,
+        GameRuleType.FadingMoveCount when Data.FadingMoveCount is TRule rule => rule,
+        _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
+      };
+    }
+
+    public GameRulesData Join(GameRulesData rules)
+    {
+      return new GameRulesData
+      {
+        DesiredShape = ShapeType.XO,
+        BotMoveCount = Mathf.Max(Data.BotMoveCount, rules.BotMoveCount),
+        MoveTime = Mathf.Max(Data.MoveTime, rules.MoveTime),
+        ShapeFading = (ShapeFadingType)Mathf.Max((int)Data.ShapeFading, (int)rules.ShapeFading),
+        FadingMoveCount = Mathf.Max(Data.FadingMoveCount, rules.FadingMoveCount)
+      };
     }
 
     public bool Match(GameRules rules)
     {
       return Match(rules.Data);
     }
-    
+
     public bool Match(GameRulesData rules)
     {
       return MatchDesiredShape(rules.DesiredShape)

@@ -5,6 +5,7 @@ using CollectiveMind.TicTac3D.Runtime.Server.Utils;
 using CollectiveMind.TicTac3D.Runtime.Shared.AssetManagement;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Cell;
+using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Rules;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Shape;
 using CollectiveMind.TicTac3D.Runtime.Shared.Network;
 using UnityEngine;
@@ -61,7 +62,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Server.Session
 
     private ShapeType GetNextMove(GameSession session)
     {
-      int botMoveCount = _config.DefaultRules.Data.BotMoveCount;
+      int botMoveCount = session.Rules.Data.BotMoveCount;
       ShapeType current = session.CurrentMove;
       return botMoveCount switch
       {

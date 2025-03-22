@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Cell;
+using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Rules;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Shape;
 using Unity.Netcode;
 
@@ -16,7 +16,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Server.Session
     public BaseRpcTarget Target;
     public List<PlayerInfo> Players = new List<PlayerInfo>();
 
-    public GameRules Rules;
+    public GameRules Rules = new GameRules();
     public List<CellModel> Cells = new List<CellModel>();
 
     public ShapeType LastMove;
@@ -50,6 +50,11 @@ namespace CollectiveMind.TicTac3D.Runtime.Server.Session
         .GroupBy(x => x.Shape.Value)
         .Where(x => x.Key is >= ShapeType.X and <= ShapeType.O)
         .ToDictionary(x => x.Key, x => x.ToList());
+    }
+
+    public GameRulesData JoinPlayerRules()
+    {
+      return Players[0].GameRules.Join(Players[1].GameRules.Data);
     }
   }
 }

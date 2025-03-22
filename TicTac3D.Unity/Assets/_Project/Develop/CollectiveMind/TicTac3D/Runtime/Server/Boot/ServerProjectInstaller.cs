@@ -21,6 +21,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Server.Boot
       BindGameStarter();
       BindSessionRegistry();
       BindGameRuleProcessor();
+      BindBotBrain();
 
       BindSessionRegistryMonitor();
     }
@@ -51,6 +52,14 @@ namespace CollectiveMind.TicTac3D.Runtime.Server.Boot
     {
       Container
         .BindInterfacesTo<GameRulesProcessor>()
+        .AsSingle();
+    }
+
+    private void BindBotBrain()
+    {
+      Container
+        .Bind<IBotBrain>()
+        .To<BotBrain>()
         .AsSingle();
     }
 

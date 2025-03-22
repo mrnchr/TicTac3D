@@ -20,6 +20,8 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay.Cell
       _model = model;
       _shapeFactory = shapeFactory;
       _renderer = GetComponent<MeshRenderer>();
+      
+      gameObject.name = $"Cell {model.Index}";
     }
 
     private void Start()

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Cell;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Shape;
@@ -41,6 +42,14 @@ namespace CollectiveMind.TicTac3D.Runtime.Server.Session
         GameRules = new GameRules { Data = rules }
       };
       Players.Add(playerInfo);
+    }
+
+    public Dictionary<ShapeType, List<CellModel>> GroupCellsByPlayerShape()
+    {
+      return Cells.Where(x => x.HasShape())
+        .GroupBy(x => x.Shape.Value)
+        .Where(x => x.Key is >= ShapeType.X and <= ShapeType.O)
+        .ToDictionary(x => x.Key, x => x.ToList());
     }
   }
 }

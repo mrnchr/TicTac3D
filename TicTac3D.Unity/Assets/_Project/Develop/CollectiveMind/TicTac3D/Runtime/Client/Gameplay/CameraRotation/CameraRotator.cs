@@ -6,7 +6,7 @@ using Zenject;
 
 namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay.CameraRotation
 {
-  public class CameraRotator : MonoBehaviour
+  public class CameraRotator : MonoBehaviour, IGameplayTickable
   {
     private InputProvider _inputProvider;
 
@@ -14,17 +14,24 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay.CameraRotation
     private IConfigLoader _configLoader;
     private RotationConfig _rotationConfig;
     private SettingsDataProvider _settingsDataProvider;
+    private IGameplayTickableManager _gameplayTickableManager;
 
     [Inject]
-    public void Construct(InputProvider inputProvider, IConfigLoader configLoader, SettingsDataProvider settingsDataProvider)
+    public void Construct(InputProvider inputProvider,
+      IConfigLoader configLoader,
+      SettingsDataProvider settingsDataProvider,
+      IGameplayTickableManager gameplayTickableManager)
     {
       _inputProvider = inputProvider;
       _configLoader = configLoader;
       _settingsDataProvider = settingsDataProvider;
+      _gameplayTickableManager = gameplayTickableManager;
       _rotationConfig = configLoader.LoadConfig<RotationConfig>();
+
+      _gameplayTickableManager.Add(this);
     }
 
-    private void Update()
+    public void Tick()
     {
       if (_inputProvider.Rotate)
       {
@@ -36,13 +43,25 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay.CameraRotation
         _angles += frameVelocity;
         _angles.x = Mathf.Clamp(_angles.x, -90, 90);
 
-        transform.rotation = Quaternion.Euler(_angles);
+        ApplyRotation();
       }
+    }
+
+    public void ResetRotation()
+    {
+      _angles = Vector2.zero;
+      ApplyRotation();
+    }
+
+    private void ApplyRotation()
+    {
+      transform.rotation = Quaternion.Euler(_angles);
     }
 
     private void OnDestroy()
     {
       _configLoader.UnloadConfig<RotationConfig>();
+      _gameplayTickableManager.Remove(this);
     }
   }
 }

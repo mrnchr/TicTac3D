@@ -2,34 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using CollectiveMind.TicTac3D.Runtime.Server.Utils;
-using CollectiveMind.TicTac3D.Runtime.Shared.AssetManagement;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Cell;
-using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Rules;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Shape;
 using CollectiveMind.TicTac3D.Runtime.Shared.Network;
 using UnityEngine;
 
 namespace CollectiveMind.TicTac3D.Runtime.Server.Session
 {
-  public class GameRulesProcessor : IGameRulesProcessor, IDisposable
+  public class GameRulesProcessor : IGameRulesProcessor
   {
-    private readonly IConfigLoader _configLoader;
     private readonly IRpcProvider _rpcProvider;
     private readonly SessionRegistry _sessionRegistry;
     private readonly IBotBrain _botBrain;
-    private readonly GameConfig _config;
 
-    public GameRulesProcessor(IConfigLoader configLoader,
-      IRpcProvider rpcProvider,
-      SessionRegistry sessionRegistry,
-      IBotBrain botBrain)
+    public GameRulesProcessor(IRpcProvider rpcProvider, SessionRegistry sessionRegistry, IBotBrain botBrain)
     {
-      _configLoader = configLoader;
       _rpcProvider = rpcProvider;
       _sessionRegistry = sessionRegistry;
       _botBrain = botBrain;
-      _config = _configLoader.LoadConfig<GameConfig>();
     }
 
     public void SetShape(GameSession session, CellModel cell, ShapeType shape)
@@ -121,11 +112,6 @@ namespace CollectiveMind.TicTac3D.Runtime.Server.Session
     private ShapeType GetNext(ShapeType current, int count)
     {
       return (ShapeType)((int)current % count + 1);
-    }
-
-    public void Dispose()
-    {
-      _configLoader.UnloadConfig<GameConfig>();
     }
   }
 }

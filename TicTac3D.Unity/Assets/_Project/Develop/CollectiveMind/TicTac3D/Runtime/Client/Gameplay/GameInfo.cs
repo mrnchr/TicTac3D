@@ -6,6 +6,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay
   {
     public ShapeType Shape;
     public ShapeType CurrentMove;
+    public ShapeType Winner;
 
     public bool IsMoving => Shape == CurrentMove;
   }

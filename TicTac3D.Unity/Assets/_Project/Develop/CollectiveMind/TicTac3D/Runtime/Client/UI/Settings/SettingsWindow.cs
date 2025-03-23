@@ -1,8 +1,11 @@
-﻿using CollectiveMind.TicTac3D.Runtime.Client.WindowManagement;
+﻿using CollectiveMind.TicTac3D.Runtime.Client.Gameplay;
+using CollectiveMind.TicTac3D.Runtime.Client.GameStateComponents;
+using CollectiveMind.TicTac3D.Runtime.Client.WindowManagement;
 using CollectiveMind.TicTac3D.Runtime.Shared.AssetManagement;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay;
 using CollectiveMind.TicTac3D.Runtime.Shared.Network;
 using CollectiveMind.TicTac3D.Runtime.Shared.Utils;
+using Cysharp.Threading.Tasks;
 using R3;
 using UnityEngine;
 using UnityEngine.UI;
@@ -31,18 +34,24 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.UI.Settings
     private IConfigLoader _configLoader;
     private SettingsDataProvider _settingsDataProvider;
     private IRpcProvider _rpcProvider;
+    private IGameplayTickableManager _gameplayTickableManager;
+    private IGameStateMachine _gameStateMachine;
     private SettingsConfig _config;
 
     [Inject]
     public void Construct(IWindowManager windowManager,
       IConfigLoader configLoader,
       SettingsDataProvider settingsDataProvider,
-      IRpcProvider rpcProvider)
+      IRpcProvider rpcProvider, 
+      IGameplayTickableManager gameplayTickableManager,
+      IGameStateMachine gameStateMachine)
     {
       _windowManager = windowManager;
       _configLoader = configLoader;
       _settingsDataProvider = settingsDataProvider;
       _rpcProvider = rpcProvider;
+      _gameplayTickableManager = gameplayTickableManager;
+      _gameStateMachine = gameStateMachine;
       _config = configLoader.LoadConfig<SettingsConfig>();
 
       _settingsDataProvider.Data.SoundVolume.Subscribe(ChangeSoundVolumeSlider);
@@ -53,7 +62,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.UI.Settings
       _musicVolumeSlider.AddListener(ChangeMusicVolume);
       _mouseSensitivitySlider.AddListener(ChangeMouseSensitivity);
 
-      _continueButton.AddListener(CloseWindow);
+      _continueButton.AddListener(ContinueGame);
       _backButton.AddListener(Back);
     }
 
@@ -67,6 +76,12 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.UI.Settings
         _mouseSensitivitySlider.maxValue = _config.MouseSensitivityLimit.y;
         ChangeMouseSensitivitySlider(_settingsDataProvider.Data.MouseSensitivity.Value);
       }
+    }
+
+    protected override UniTask OnShowed()
+    {
+      _continueButton.ObjOrNull()?.gameObject.SetActive(_gameStateMachine.CurrentState is GameplayGameState);
+      return UniTask.CompletedTask;
     }
 
     private void ChangeSoundVolumeSlider(float value)
@@ -99,6 +114,11 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.UI.Settings
       _settingsDataProvider.Data.MouseSensitivity.Value = value;
     }
 
+    private void ContinueGame()
+    {
+      _gameplayTickableManager.IsPaused = false;
+      CloseWindow();
+    }
 
     private void CloseWindow()
     {
@@ -107,10 +127,15 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.UI.Settings
 
     private void Back()
     {
-      if (false)
+      if (_gameStateMachine.CurrentState is GameplayGameState)
+      {
         _rpcProvider.SendRequest<LeaveGameRequest>();
+        _gameStateMachine.SwitchState<EndGameState>();
+      }
       else
+      {
         CloseWindow();
+      }
     }
 
     private void OnDestroy()
@@ -119,8 +144,8 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.UI.Settings
       _musicVolumeSlider.RemoveListener(ChangeMusicVolume);
       _mouseSensitivitySlider.RemoveListener(ChangeMouseSensitivity);
 
-      _continueButton.RemoveListener(Back);
-      _backButton.RemoveListener(CloseWindow);
+      _continueButton.RemoveListener(ContinueGame);
+      _backButton.RemoveListener(Back);
       _configLoader.UnloadConfig<SettingsConfig>();
     }
   }

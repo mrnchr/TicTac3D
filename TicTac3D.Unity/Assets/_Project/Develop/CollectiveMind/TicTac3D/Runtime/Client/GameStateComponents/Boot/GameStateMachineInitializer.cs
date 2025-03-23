@@ -1,5 +1,4 @@
-﻿using Cysharp.Threading.Tasks;
-using Zenject;
+﻿using Zenject;
 
 namespace CollectiveMind.TicTac3D.Runtime.Client.GameStateComponents
 {
@@ -19,8 +18,6 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.GameStateComponents
       _gameStateMachine.RegisterState(_gameStateFactory.Create<MenuGameState>());
       _gameStateMachine.RegisterState(_gameStateFactory.Create<GameplayGameState>());
       _gameStateMachine.RegisterState(_gameStateFactory.Create<EndGameState>());
-
-      _gameStateMachine.SwitchState<MenuGameState>().Forget();
     }
   }
 }

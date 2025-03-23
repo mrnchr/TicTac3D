@@ -1,4 +1,5 @@
-﻿using CollectiveMind.TicTac3D.Runtime.Client.UI.Settings;
+﻿using CollectiveMind.TicTac3D.Runtime.Client.Gameplay;
+using CollectiveMind.TicTac3D.Runtime.Client.UI.Settings;
 using CollectiveMind.TicTac3D.Runtime.Client.WindowManagement;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,16 +13,19 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.UI
     private Button _settingsButton;
 
     private IWindowManager _windowManager;
+    private IGameplayTickableManager _gameplayTickableManager;
 
     [Inject]
-    public void Construct(IWindowManager windowManager)
+    public void Construct(IWindowManager windowManager, IGameplayTickableManager gameplayTickableManager)
     {
       _windowManager = windowManager;
+      _gameplayTickableManager = gameplayTickableManager;
       _settingsButton.AddListener(OpenPauseWindow);
     }
 
     private void OpenPauseWindow()
     {
+      _gameplayTickableManager.IsPaused = true;
       _windowManager.OpenWindow<SettingsWindow>();
     }
 

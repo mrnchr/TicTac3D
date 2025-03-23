@@ -27,7 +27,9 @@ namespace CollectiveMind.TicTac3D.Runtime.Server
 
     private void SetShape(SetShapeRequest evt, RpcParams rpcParams)
     {
-      GameSession session = _sessionRegistry.GetSessionByPlayerId(rpcParams.Receive.SenderClientId);
+      GameSession session =
+        _sessionRegistry.GetSessionByStatusAndPlayerId(SessionState.Playing, rpcParams.Receive.SenderClientId);
+      
       ShapeType playerShape = session.GetPlayerInfo(rpcParams.Receive.SenderClientId).Shape;
       CellModel cell = session.Cells.Find(c => c.Index == evt.CellIndex);
       _gameRulesProcessor.SetShape(session, cell, playerShape);

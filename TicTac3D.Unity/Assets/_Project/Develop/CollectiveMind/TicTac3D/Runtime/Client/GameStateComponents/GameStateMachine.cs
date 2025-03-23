@@ -8,6 +8,8 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.GameStateComponents
   {
     private readonly Dictionary<Type, IExitableState> _registeredStates = new Dictionary<Type, IExitableState>();
     private IExitableState _currentState;
+    
+    public IExitableState CurrentState => _currentState;
 
     public void RegisterState<TState>(TState state) where TState : IExitableState
     {

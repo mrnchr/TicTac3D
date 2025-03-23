@@ -22,6 +22,8 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay
 
     public override void InstallBindings()
     {
+      BindGameplayTickableManager();
+
       InstallWindow();
       InstallGameStateComponents();
 
@@ -40,6 +42,15 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay
       BindCellVisualList();
 
       BindFieldCleaner();
+
+      BindGameInitializer();
+    }
+
+    private void BindGameplayTickableManager()
+    {
+      Container
+        .BindInterfacesTo<GameplayTickableManager>()
+        .AsSingle();
     }
 
     private void InstallWindow()
@@ -49,8 +60,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay
 
     private void InstallGameStateComponents()
     {
-      if (NetworkRole.IsClient)
-        GameStateComponentsInstaller.Install(Container);
+      GameStateComponentsInstaller.Install(Container);
     }
 
     private void BindCellVisualFactory()
@@ -69,10 +79,9 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay
 
     private void BindFieldCreator()
     {
-      if (NetworkRole.IsClient)
-        Container
-          .BindInterfacesTo<FieldCreator>()
-          .AsSingle();
+      Container
+        .BindInterfacesTo<FieldCreator>()
+        .AsSingle();
     }
 
     private void BindCellRaycaster()
@@ -126,9 +135,16 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay
 
     private void BindFieldCleaner()
     {
+      Container
+        .BindInterfacesTo<FieldCleaner>()
+        .AsSingle();
+    }
+
+    private void BindGameInitializer()
+    {
       if (NetworkRole.IsClient)
         Container
-          .BindInterfacesTo<FieldCleaner>()
+          .BindInterfacesTo<GameInitializer>()
           .AsSingle();
     }
   }

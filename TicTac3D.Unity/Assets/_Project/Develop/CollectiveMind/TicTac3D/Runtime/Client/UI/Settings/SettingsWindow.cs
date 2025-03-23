@@ -78,7 +78,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.UI.Settings
       }
     }
 
-    protected override UniTask OnShowed()
+    protected override UniTask OnOpened()
     {
       _continueButton.ObjOrNull()?.gameObject.SetActive(_gameStateMachine.CurrentState is GameplayGameState);
       return UniTask.CompletedTask;

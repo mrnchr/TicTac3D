@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Localization String Table_en
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: 0ceff273c76045e459c6e8364b380d36, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 889375916032
+    m_Localized: Play
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1308797927424
+    m_Localized: Settings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2044818587648
+    m_Localized: Back to menu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2608029728768
+    m_Localized: Searching...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2797406748672
+    m_Localized: Back
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3335586283520
+    m_Localized: Continue
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

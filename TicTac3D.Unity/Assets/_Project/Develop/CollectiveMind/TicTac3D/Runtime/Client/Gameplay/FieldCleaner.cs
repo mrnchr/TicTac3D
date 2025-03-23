@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using CollectiveMind.TicTac3D.Runtime.Client.Gameplay.Cell;
+using CollectiveMind.TicTac3D.Runtime.Client.GameStateComponents;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Cell;
 using CollectiveMind.TicTac3D.Runtime.Shared.Network;
+using Cysharp.Threading.Tasks;
 using Object = UnityEngine.Object;
 
 namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay
@@ -13,17 +15,17 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay
     private readonly List<CellModel> _cells;
     private readonly List<CellVisual> _cellVisuals;
     private readonly INetworkBus _networkBus;
-    private readonly MenuInitializer _menuInitializer;
+    private readonly IGameStateMachine _gameStateMachine;
 
     public FieldCleaner(List<CellModel> cells,
       List<CellVisual> cellVisuals,
       INetworkBus networkBus,
-      MenuInitializer menuInitializer)
+      IGameStateMachine gameStateMachine)
     {
       _cells = cells;
       _cellVisuals = cellVisuals;
       _networkBus = networkBus;
-      _menuInitializer = menuInitializer;
+      _gameStateMachine = gameStateMachine;
 
       _networkBus.SubscribeOnRpcWithParameter<FinishGameResponse>(FinishGame);
     }
@@ -31,7 +33,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay
     private void FinishGame(FinishGameResponse response)
     {
       CleanField();
-      _menuInitializer.OpenMenu();
+      _gameStateMachine.SwitchState<MenuGameState>().Forget();
     }
 
     private void CleanField()

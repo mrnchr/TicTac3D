@@ -38,6 +38,9 @@ namespace CollectiveMind.TicTac3D.Runtime.Server
 
     private void OnClientDisconnected(NetworkManager network, ConnectionEventData connectionEvent)
     {
+      if (network.ShutdownInProgress)
+        _sessionRegistry.Sessions.Clear();
+
       if (connectionEvent.EventType == ConnectionEvent.ClientDisconnected)
         CompleteOrRemoveSession(connectionEvent.ClientId);
     }

@@ -39,6 +39,18 @@ MonoBehaviour:
     m_Key: continue
     m_Metadata:
       m_Items: []
+  - m_Id: 32562217975808
+    m_Key: yes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 33218286813184
+    m_Key: placeShape
+    m_Metadata:
+      m_Items: []
+  - m_Id: 33785260244992
+    m_Key: no
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

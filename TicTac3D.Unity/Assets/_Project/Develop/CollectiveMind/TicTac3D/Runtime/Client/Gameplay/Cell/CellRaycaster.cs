@@ -6,11 +6,10 @@ using CollectiveMind.TicTac3D.Runtime.Shared.AssetManagement;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Cell;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Shape;
 using UnityEngine;
-using Zenject;
 
 namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay.Cell
 {
-  public class CellRaycaster : ITickable, IDisposable
+  public class CellRaycaster : IGameplayTickable, IDisposable
   {
     private readonly InputProvider _inputProvider;
     private readonly List<CellModel> _cells;

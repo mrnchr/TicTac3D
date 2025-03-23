@@ -2,6 +2,7 @@
 using CollectiveMind.TicTac3D.Runtime.Client.Gameplay.Cell;
 using CollectiveMind.TicTac3D.Runtime.Client.Gameplay.Shape;
 using CollectiveMind.TicTac3D.Runtime.Client.GameStateComponents;
+using CollectiveMind.TicTac3D.Runtime.Client.UI.SetShape;
 using CollectiveMind.TicTac3D.Runtime.Client.WindowManagement.Boot;
 using CollectiveMind.TicTac3D.Runtime.Shared.Boot;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Boot;
@@ -42,6 +43,8 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay
       BindCellVisualList();
 
       BindFieldCleaner();
+
+      BindSetShapeFacade();
 
       BindGameInitializer();
     }
@@ -137,6 +140,13 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay
     {
       Container
         .BindInterfacesTo<FieldCleaner>()
+        .AsSingle();
+    }
+
+    private void BindSetShapeFacade()
+    {
+      Container
+        .Bind<ConfirmationContext>()
         .AsSingle();
     }
 

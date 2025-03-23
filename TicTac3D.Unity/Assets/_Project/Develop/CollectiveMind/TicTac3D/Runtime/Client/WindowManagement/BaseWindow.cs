@@ -1,12 +1,19 @@
 ﻿using Cysharp.Threading.Tasks;
+using TriInspector;
 using UnityEngine;
 
 namespace CollectiveMind.TicTac3D.Runtime.Client.WindowManagement
 {
   public class BaseWindow : MonoBehaviour
   {
+    [ShowInInspector]
+    [ReadOnly]
+    [PropertyOrder(-1)]
     public bool IsOpen { get; private set; }
 
+    [ShowInInspector]
+    [ReadOnly]
+    [PropertyOrder(-1)]
     public bool IsShown { get; private set; }
 
     public async UniTask Open()
@@ -14,12 +21,14 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.WindowManagement
       IsOpen = true;
       ShowInternal();
       await OnOpened();
+      await OnVisible();
     }
 
     public async UniTask Close()
     {
       IsOpen = false;
       HideInternal();
+      await OnInvisible();
       await OnClosed();
     }
 
@@ -27,11 +36,13 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.WindowManagement
     {
       ShowInternal();
       await OnShowed();
+      await OnVisible();
     }
 
     public async UniTask Hide()
     {
       HideInternal();
+      await OnInvisible();
       await OnHid();
     }
 
@@ -65,6 +76,16 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.WindowManagement
     }
 
     protected virtual async UniTask OnHid()
+    {
+      await UniTask.CompletedTask;
+    }
+
+    protected virtual async UniTask OnVisible()
+    {
+      await UniTask.CompletedTask;
+    }
+
+    protected virtual async UniTask OnInvisible()
     {
       await UniTask.CompletedTask;
     }

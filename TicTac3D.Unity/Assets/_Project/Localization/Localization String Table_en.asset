@@ -42,6 +42,18 @@ MonoBehaviour:
     m_Localized: Continue
     m_Metadata:
       m_Items: []
+  - m_Id: 32562217975808
+    m_Localized: Yes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 33218286813184
+    m_Localized: To place shape?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 33785260244992
+    m_Localized: No
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

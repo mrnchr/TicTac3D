@@ -4,6 +4,8 @@ using CollectiveMind.TicTac3D.Runtime.Client.Gameplay.Cell;
 using CollectiveMind.TicTac3D.Runtime.Client.GameStateComponents;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Cell;
+using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Rules;
+using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Shape;
 using CollectiveMind.TicTac3D.Runtime.Shared.Network;
 using Cysharp.Threading.Tasks;
 using Object = UnityEngine.Object;
@@ -21,7 +23,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay
     public FieldCleaner(List<CellModel> cells,
       List<CellVisual> cellVisuals,
       INetworkBus networkBus,
-      IGameStateMachine gameStateMachine, 
+      IGameStateMachine gameStateMachine,
       GameInfo gameInfo)
     {
       _cells = cells;
@@ -36,6 +38,12 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay
     private void FinishGame(FinishGameResponse response)
     {
       _gameInfo.Winner = response.Winner;
+      _gameInfo.Result = _gameInfo.Winner == ShapeType.XO
+        ? GameResultType.Draw
+        : _gameInfo.Winner == _gameInfo.Shape
+          ? GameResultType.Win
+          : GameResultType.Lose;
+      
       _gameStateMachine.SwitchState<EndGameState>().Forget();
     }
 

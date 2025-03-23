@@ -51,6 +51,34 @@ MonoBehaviour:
     m_Key: no
     m_Metadata:
       m_Items: []
+  - m_Id: 97369285689344
+    m_Key: gameResult.lose.title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 97468363538432
+    m_Key: gameResult.win.title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 97562110427136
+    m_Key: gameResult.draw.title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 98049568243712
+    m_Key: gameResult.draw.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 104675666788352
+    m_Key: gameResult.win.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 105256561115136
+    m_Key: shape.x.many
+    m_Metadata:
+      m_Items: []
+  - m_Id: 105362626674688
+    m_Key: shape.o.many
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

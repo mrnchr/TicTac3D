@@ -16,7 +16,8 @@ MonoBehaviour:
     m_Code: en
   m_SharedData: {fileID: 11400000, guid: 0ceff273c76045e459c6e8364b380d36, type: 2}
   m_Metadata:
-    m_Items: []
+    m_Items:
+    - rid: 4080226617323946123
   m_TableData:
   - m_Id: 889375916032
     m_Localized: Play
@@ -54,6 +55,41 @@ MonoBehaviour:
     m_Localized: No
     m_Metadata:
       m_Items: []
+  - m_Id: 97369285689344
+    m_Localized: Lose
+    m_Metadata:
+      m_Items: []
+  - m_Id: 97468363538432
+    m_Localized: Victory!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 97562110427136
+    m_Localized: Draw
+    m_Metadata:
+      m_Items: []
+  - m_Id: 98049568243712
+    m_Localized: Friendship has won!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 104675666788352
+    m_Localized: '{shape-many} has won{exclamation}'
+    m_Metadata:
+      m_Items:
+      - rid: 4080226617323946123
+  - m_Id: 105256561115136
+    m_Localized: Crosses
+    m_Metadata:
+      m_Items: []
+  - m_Id: 105362626674688
+    m_Localized: Noughts
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 4080226617323946123
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 
+        m_SharedEntries:
+        - id: 104675666788352

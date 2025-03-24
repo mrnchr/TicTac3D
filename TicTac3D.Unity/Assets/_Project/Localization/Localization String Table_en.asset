@@ -116,6 +116,85 @@ MonoBehaviour:
     m_Localized: Your turn
     m_Metadata:
       m_Items: []
+  - m_Id: 408828142125056
+    m_Localized: Game settings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 419421725097984
+    m_Localized: Random
+    m_Metadata:
+      m_Items: []
+  - m_Id: 462905819496448
+    m_Localized: Random
+    m_Metadata:
+      m_Items: []
+  - m_Id: 463094525427712
+    m_Localized: Random
+    m_Metadata:
+      m_Items: []
+  - m_Id: 463286490333184
+    m_Localized: Random
+    m_Metadata:
+      m_Items: []
+  - m_Id: 463556804837376
+    m_Localized: Off
+    m_Metadata:
+      m_Items: []
+  - m_Id: 464027267334144
+    m_Localized: Unlimited
+    m_Metadata:
+      m_Items: []
+  - m_Id: 465291061460992
+    m_Localized: After all
+    m_Metadata:
+      m_Items: []
+  - m_Id: 465368668667904
+    m_Localized: After each
+    m_Metadata:
+      m_Items: []
+  - m_Id: 465999332605952
+    m_Localized: '{time} sec'
+    m_Metadata:
+      m_Items:
+      - rid: 4080226617323946123
+  - m_Id: 466340254023680
+    m_Localized: '{time} min'
+    m_Metadata:
+      m_Items:
+      - rid: 4080226617323946123
+  - m_Id: 468235848744960
+    m_Localized: Bot
+    m_Metadata:
+      m_Items: []
+  - m_Id: 468481823703040
+    m_Localized: Players
+    m_Metadata:
+      m_Items: []
+  - m_Id: 468547854630912
+    m_Localized: All
+    m_Metadata:
+      m_Items: []
+  - m_Id: 468929775370240
+    m_Localized: After {number} turn
+    m_Metadata:
+      m_Items:
+      - rid: 4080226617323946123
+  - m_Id: 483325272621056
+    m_Localized: Select shape
+    m_Metadata:
+      m_Items: []
+  - m_Id: 483402930159616
+    m_Localized: Time to turn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 483555573465088
+    m_Localized: Shape fading
+    m_Metadata:
+      m_Items: []
+  - m_Id: 483691842207744
+    m_Localized: Rate of fading
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:
@@ -125,3 +204,6 @@ MonoBehaviour:
         m_Entries: 
         m_SharedEntries:
         - id: 104675666788352
+        - id: 465999332605952
+        - id: 468929775370240
+        - id: 466340254023680

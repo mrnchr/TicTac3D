@@ -1,9 +1,17 @@
-﻿using CollectiveMind.TicTac3D.Runtime.Client.Gameplay;
+﻿using System;
+using System.Collections.Generic;
+using CollectiveMind.TicTac3D.Runtime.Client.Gameplay;
 using CollectiveMind.TicTac3D.Runtime.Client.UI.SetShape;
 using CollectiveMind.TicTac3D.Runtime.Client.UI.Settings;
 using CollectiveMind.TicTac3D.Runtime.Client.WindowManagement;
+using CollectiveMind.TicTac3D.Runtime.Shared.AssetManagement;
+using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Shape;
 using Cysharp.Threading.Tasks;
+using R3;
+using TMPro;
 using UnityEngine;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Components;
 using UnityEngine.UI;
 using Zenject;
 
@@ -14,18 +22,39 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.UI
     [SerializeField]
     private Button _settingsButton;
 
+    [SerializeField]
+    private LocalizeStringEvent _currentMoveLabel;
+
+    [SerializeField]
+    private LocalizedString _yourMoveString;
+    
+    [SerializeField]
+    private List<ShapeLocalizationTuple> _localizedShapeMoves;
+
     private IWindowManager _windowManager;
     private IGameplayTickableManager _gameplayTickableManager;
+    private GameInfo _gameInfo;
+    private IConfigLoader _configLoader;
+    private ShapeConfig _config;
     private ConfirmationPopup _confirmationPopup;
+    private TMP_Text _currentMoveText;
 
     [Inject]
-    public void Construct(IWindowManager windowManager, IGameplayTickableManager gameplayTickableManager)
+    public void Construct(IWindowManager windowManager,
+      IGameplayTickableManager gameplayTickableManager,
+      GameInfo gameInfo,
+      IConfigLoader configLoader)
     {
       _windowManager = windowManager;
       _gameplayTickableManager = gameplayTickableManager;
-      _settingsButton.AddListener(OpenPauseWindow);
-
+      _gameInfo = gameInfo;
+      _configLoader = configLoader;
+      _config = configLoader.LoadConfig<ShapeConfig>();
       _confirmationPopup = GetComponentInChildren<ConfirmationPopup>(true);
+      _currentMoveText = _currentMoveLabel.GetComponent<TMP_Text>();
+      
+      _settingsButton.AddListener(OpenPauseWindow);
+      _gameInfo.CurrentMove.Subscribe(ChangeCurrentMoveText);
     }
 
     protected override UniTask OnInvisible()
@@ -42,9 +71,24 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.UI
       _windowManager.OpenWindow<SettingsWindow>();
     }
 
+    private void ChangeCurrentMoveText(ShapeType shape)
+    {
+      _currentMoveLabel.StringReference =
+        _gameInfo.IsMoving ? _yourMoveString : _localizedShapeMoves.Find(x => x.Shape == shape).String;
+      _currentMoveText.color = _config.GetColorForShape(shape);
+    }
+
     private void OnDestroy()
     {
       _settingsButton.RemoveListener(OpenPauseWindow);
+      _configLoader.UnloadConfig<ShapeConfig>();
     }
+  }
+
+  [Serializable]
+  public struct ShapeLocalizationTuple
+  {
+    public ShapeType Shape;
+    public LocalizedString String;
   }
 }

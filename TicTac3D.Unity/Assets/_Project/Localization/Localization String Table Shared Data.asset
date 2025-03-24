@@ -95,6 +95,22 @@ MonoBehaviour:
     m_Key: settings.mouseSensitivity
     m_Metadata:
       m_Items: []
+  - m_Id: 336603896578048
+    m_Key: currentMove.x
+    m_Metadata:
+      m_Items: []
+  - m_Id: 336712340307968
+    m_Key: currentMove.o
+    m_Metadata:
+      m_Items: []
+  - m_Id: 336963306487808
+    m_Key: currentMove.xo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 337314688499712
+    m_Key: currentMove.your
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

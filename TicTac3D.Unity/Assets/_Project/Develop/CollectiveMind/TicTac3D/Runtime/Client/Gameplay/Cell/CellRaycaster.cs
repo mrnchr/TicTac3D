@@ -35,7 +35,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay.Cell
     {
       ClearHovering();
       
-      if (!_gameInfo.IsMoving || _gameInfo.CurrentMove == ShapeType.None)
+      if (!_gameInfo.IsMoving || _gameInfo.CurrentMove.Value == ShapeType.None)
         return;
       
       Ray ray = _camera.ScreenPointToRay(_inputProvider.MousePosition);

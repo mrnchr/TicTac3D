@@ -19,7 +19,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay
 
     private void ChangeCurrentMove(ChangedMoveResponse response)
     {
-      _gameInfo.CurrentMove = response.CurrentMove;
+      _gameInfo.CurrentMove.Value = response.CurrentMove;
     }
 
     public void Dispose()

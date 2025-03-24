@@ -100,6 +100,22 @@ MonoBehaviour:
     m_Localized: Mouse sensitivity
     m_Metadata:
       m_Items: []
+  - m_Id: 336603896578048
+    m_Localized: Crosses turn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 336712340307968
+    m_Localized: Noughts turn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 336963306487808
+    m_Localized: Bot turn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 337314688499712
+    m_Localized: Your turn
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

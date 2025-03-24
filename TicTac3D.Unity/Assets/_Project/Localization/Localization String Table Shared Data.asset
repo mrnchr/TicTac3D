@@ -79,6 +79,22 @@ MonoBehaviour:
     m_Key: shape.o.many
     m_Metadata:
       m_Items: []
+  - m_Id: 298415505244160
+    m_Key: gameName
+    m_Metadata:
+      m_Items: []
+  - m_Id: 309069171621888
+    m_Key: settings.sound
+    m_Metadata:
+      m_Items: []
+  - m_Id: 309250088730624
+    m_Key: settings.music
+    m_Metadata:
+      m_Items: []
+  - m_Id: 309305352880128
+    m_Key: settings.mouseSensitivity
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

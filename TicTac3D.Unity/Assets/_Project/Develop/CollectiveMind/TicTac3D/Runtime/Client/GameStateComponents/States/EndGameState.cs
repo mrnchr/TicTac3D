@@ -45,6 +45,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.GameStateComponents
     {
       _isLeaveGamePayloadReceived = true;
       _gameplayTickableManager.IsPaused = true;
+      _rpcProvider.SendRequest<LeaveGameRequest>();
       await _gameStateMachine.SwitchState<MenuGameState>();
     }
 

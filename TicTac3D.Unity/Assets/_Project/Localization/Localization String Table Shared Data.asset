@@ -187,6 +187,14 @@ MonoBehaviour:
     m_Key: lobby.settings.count.text
     m_Metadata:
       m_Items: []
+  - m_Id: 491192306335744
+    m_Key: leaveWindow.exit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 491347055181824
+    m_Key: leaveWindow.gameLose
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

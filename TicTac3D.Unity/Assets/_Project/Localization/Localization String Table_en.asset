@@ -117,7 +117,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 408828142125056
-    m_Localized: Game settings
+    m_Localized: Lobby settings
     m_Metadata:
       m_Items: []
   - m_Id: 419421725097984
@@ -193,6 +193,14 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 483691842207744
     m_Localized: Rate of fading
+    m_Metadata:
+      m_Items: []
+  - m_Id: 491192306335744
+    m_Localized: Leave?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 491347055181824
+    m_Localized: Game will be lost
     m_Metadata:
       m_Items: []
   references:

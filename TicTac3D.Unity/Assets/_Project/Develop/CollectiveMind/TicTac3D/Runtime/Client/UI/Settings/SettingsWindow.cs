@@ -33,7 +33,6 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.UI.Settings
     private IWindowManager _windowManager;
     private IConfigLoader _configLoader;
     private SettingsDataProvider _settingsDataProvider;
-    private IRpcProvider _rpcProvider;
     private IGameplayTickableManager _gameplayTickableManager;
     private IGameStateMachine _gameStateMachine;
     private SettingsConfig _config;
@@ -42,14 +41,12 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.UI.Settings
     public void Construct(IWindowManager windowManager,
       IConfigLoader configLoader,
       SettingsDataProvider settingsDataProvider,
-      IRpcProvider rpcProvider, 
       IGameplayTickableManager gameplayTickableManager,
       IGameStateMachine gameStateMachine)
     {
       _windowManager = windowManager;
       _configLoader = configLoader;
       _settingsDataProvider = settingsDataProvider;
-      _rpcProvider = rpcProvider;
       _gameplayTickableManager = gameplayTickableManager;
       _gameStateMachine = gameStateMachine;
       _config = configLoader.LoadConfig<SettingsConfig>();
@@ -128,14 +125,9 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.UI.Settings
     private void Back()
     {
       if (_gameStateMachine.CurrentState is GameplayGameState)
-      {
-        _rpcProvider.SendRequest<LeaveGameRequest>();
-        _gameStateMachine.SwitchState<EndGameState, LeaveGamePayload>(new LeaveGamePayload());
-      }
+        _windowManager.OpenWindow<LeaveGameWindow>();
       else
-      {
         CloseWindow();
-      }
     }
 
     private void OnDestroy()

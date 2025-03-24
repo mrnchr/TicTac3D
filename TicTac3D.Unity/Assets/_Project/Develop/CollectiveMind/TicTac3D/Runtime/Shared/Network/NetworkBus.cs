@@ -41,9 +41,9 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Network
 
     public void HandleRpc<T>(T rpcData, RpcParams rpcParams)
     {
+      Debug.Log($"HandleRpc<{typeof(T).Name}>");
       if (_rpcs.TryGetValue(typeof(T), out Delegate handler))
       {
-        Debug.Log($"Calling RPC handler for {typeof(T).Name}");
         switch (handler.Method.GetParameters().Length)
         {
           case > 1:
@@ -54,6 +54,26 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Network
             break;
           case > 0:
             handler.DynamicInvoke(rpcData);
+            break;
+          default:
+            handler.DynamicInvoke();
+            break;
+        }
+      }
+    }
+
+    public void OnVariableChanged<TVariable>(TVariable previousValue, TVariable currentValue) where TVariable : struct
+    {
+      Debug.Log($"OnValueChanged<{typeof(TVariable).Name}>");
+      if (_rpcs.TryGetValue(typeof(TVariable), out Delegate handler))
+      {
+        switch (handler.Method.GetParameters().Length)
+        {
+          case > 1:
+            handler.DynamicInvoke(previousValue, currentValue);
+            break;
+          case > 0:
+            handler.DynamicInvoke(currentValue);
             break;
           default:
             handler.DynamicInvoke();

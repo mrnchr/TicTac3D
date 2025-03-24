@@ -1,6 +1,7 @@
 ﻿using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay;
 using JetBrains.Annotations;
 using Unity.Netcode;
+using UnityEngine;
 using Zenject;
 
 namespace CollectiveMind.TicTac3D.Runtime.Shared.Network
@@ -10,11 +11,21 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Network
     private INetworkBus _networkBus;
     private IRpcProvider _rpcProvider;
 
+    [SerializeField]
+    [UsedImplicitly]
+    private NetworkVariable<MoveTimeVariable> _moveTimeVariable = new NetworkVariable<MoveTimeVariable>();
+
     [Inject]
     public void Construct(INetworkBus networkBus, IRpcProvider rpcProvider)
     {
       _rpcProvider = rpcProvider;
       _networkBus = networkBus;
+    }
+
+    [UsedImplicitly]
+    public void OnVariableChanged<TVariable>(TVariable previousValue, TVariable currentValue) where TVariable : struct
+    {
+      _networkBus.OnVariableChanged(previousValue, currentValue);
     }
 
     public override void OnNetworkSpawn()
@@ -26,7 +37,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Network
     {
       _rpcProvider.SetBridge(null);
     }
-    
+
     [Rpc(SendTo.SpecifiedInParams)]
     [UsedImplicitly]
     public void SendRequestClientRpc(StartedGameResponse response, RpcParams rpcParams)
@@ -68,21 +79,21 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Network
     {
       _networkBus.HandleRpc(request, rpcParams);
     }
-    
+
     [Rpc(SendTo.SpecifiedInParams)]
     [UsedImplicitly]
     public void SendResponseClientRpc(FinishGameResponse response, RpcParams rpcParams)
     {
       _networkBus.HandleRpc(response, rpcParams);
     }
-    
+
     [Rpc(SendTo.SpecifiedInParams)]
     [UsedImplicitly]
     public void SendRequestServerRpc(StopSearchGameRequest request, RpcParams rpcParams)
     {
       _networkBus.HandleRpc(request, rpcParams);
     }
-    
+
     [Rpc(SendTo.SpecifiedInParams)]
     [UsedImplicitly]
     public void SendRequestServerRpc(LeaveGameRequest request, RpcParams rpcParams)

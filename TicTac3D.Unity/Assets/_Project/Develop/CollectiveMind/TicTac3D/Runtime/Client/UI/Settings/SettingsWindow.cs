@@ -130,7 +130,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.UI.Settings
       if (_gameStateMachine.CurrentState is GameplayGameState)
       {
         _rpcProvider.SendRequest<LeaveGameRequest>();
-        _gameStateMachine.SwitchState<EndGameState>();
+        _gameStateMachine.SwitchState<EndGameState, LeaveGamePayload>(new LeaveGamePayload());
       }
       else
       {

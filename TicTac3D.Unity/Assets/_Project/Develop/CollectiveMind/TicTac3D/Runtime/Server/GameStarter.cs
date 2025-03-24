@@ -25,6 +25,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Server
     private readonly IPrefabLoader _prefabLoader;
     private readonly IConfigLoader _configLoader;
     private readonly ICellCreator _cellCreator;
+    private readonly IGameRulesProcessor _gameRulesProcessor;
     private readonly GameConfig _gameConfig;
     private readonly BackgroundConfig _backgroundConfig;
 
@@ -32,13 +33,15 @@ namespace CollectiveMind.TicTac3D.Runtime.Server
       IRpcProvider rpcProvider,
       IPrefabLoader prefabLoader,
       IConfigLoader configLoader,
-      ICellCreator cellCreator)
+      ICellCreator cellCreator,
+      IGameRulesProcessor gameRulesProcessor)
     {
       _networkManager = networkManager;
       _rpcProvider = rpcProvider;
       _prefabLoader = prefabLoader;
       _configLoader = configLoader;
       _cellCreator = cellCreator;
+      _gameRulesProcessor = gameRulesProcessor;
       _gameConfig = configLoader.LoadConfig<GameConfig>();
       _backgroundConfig = configLoader.LoadConfig<BackgroundConfig>();
 
@@ -56,17 +59,18 @@ namespace CollectiveMind.TicTac3D.Runtime.Server
     {
       await UniTask.WaitUntil(() => Object.FindAnyObjectByType<NetworkBridge>().IsSpawned);
 
-      _rpcProvider.SendRequest<StartedGameResponse>(session.Target);
       _cellCreator.CreateCells(session.Cells);
 
       session.Rules.Data = RandomizeRules(session.JoinPlayerRules());
       DefineShapes(session);
 
-      _rpcProvider.SendRequest(new ChangeBackgroundResponse
-        { Index = Random.Range(0, _backgroundConfig.Backgrounds.Count) });
+      _rpcProvider.SendRequest(new StartGameResponse
+      {
+        GameRules = session.Rules.Data,
+        BackgroundIndex = Random.Range(0, _backgroundConfig.Backgrounds.Count)
+      }, session.Target);
 
-      session.CurrentMove = ShapeType.X;
-      _rpcProvider.SendRequest(new ChangedMoveResponse { CurrentMove = ShapeType.X }, session.Target);
+      _gameRulesProcessor.ChangeMove(session);
     }
 
     private void DefineShapes(GameSession session)

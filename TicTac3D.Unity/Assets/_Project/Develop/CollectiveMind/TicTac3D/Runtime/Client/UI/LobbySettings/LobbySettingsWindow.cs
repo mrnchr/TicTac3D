@@ -23,7 +23,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.UI.LobbySettings
     private IWindowManager _windowManager;
     private IRpcProvider _rpcProvider;
 
-    public GameRules Rules => _rulesProvider.Rules;
+    private GameRules Rules => _rulesProvider.Rules;
 
     [Inject]
     public void Construct(GameRulesProvider gameRulesProvider, IWindowManager windowManager, IRpcProvider rpcProvider)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TriInspector;
 using UnityEngine;
 
 namespace CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Shape
@@ -8,18 +9,20 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Shape
   public class ShapeConfig : ScriptableObject
   {
     [SerializeField]
-    private List<ShapeColorTuple> _shapeColors;
+    [ListDrawerSettings(ShowElementLabels = true)]
+    private List<ShapeTuple> _shapeColors;
 
-    public Color GetColorForShape(ShapeType shape)
+    public ShapeTuple GetDataForShape(ShapeType shape)
     {
-      return _shapeColors.Find(x => x.Shape == shape).Color;
+      return _shapeColors.Find(x => x.Shape == shape);
     }
   }
 
   [Serializable]
-  public struct ShapeColorTuple
+  public struct ShapeTuple
   {
     public ShapeType Shape;
     public Color Color;
+    public Sprite TimerSprite;
   }
 }

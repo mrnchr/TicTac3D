@@ -23,6 +23,12 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.GameStateComponents
       var nextState = await GetNextStateWithSetCurrentState<TState>();
       await nextState.Enter();
     }
+    
+    public async UniTask SwitchState<TState, TPayload>(TPayload payload) where TState : class, IPaylodedState<TPayload>
+    {
+      var nextState = await GetNextStateWithSetCurrentState<TState>();
+      await nextState.Enter(payload);
+    }
 
     private async UniTask<TState> GetNextStateWithSetCurrentState<TState>() where TState : class, IExitableState
     {

@@ -27,9 +27,15 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.UI
 
     [SerializeField]
     private LocalizedString _yourMoveString;
-    
+
     [SerializeField]
     private List<ShapeLocalizationTuple> _localizedShapeMoves;
+
+    [SerializeField]
+    private Image _timerImage;
+
+    [SerializeField]
+    private TMP_Text _timerLabel;
 
     private IWindowManager _windowManager;
     private IGameplayTickableManager _gameplayTickableManager;
@@ -52,16 +58,17 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.UI
       _config = configLoader.LoadConfig<ShapeConfig>();
       _confirmationPopup = GetComponentInChildren<ConfirmationPopup>(true);
       _currentMoveText = _currentMoveLabel.GetComponent<TMP_Text>();
-      
+
       _settingsButton.AddListener(OpenPauseWindow);
       _gameInfo.CurrentMove.Subscribe(ChangeCurrentMoveText);
+      _gameInfo.MoveTime.Subscribe(UpdateTime);
     }
 
     protected override UniTask OnInvisible()
     {
-      if(_confirmationPopup.gameObject.activeSelf)
+      if (_confirmationPopup.gameObject.activeSelf)
         _confirmationPopup.Deny(false);
-      
+
       return base.OnInvisible();
     }
 
@@ -75,7 +82,28 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.UI
     {
       _currentMoveLabel.StringReference =
         _gameInfo.IsMoving ? _yourMoveString : _localizedShapeMoves.Find(x => x.Shape == shape).String;
-      _currentMoveText.color = _config.GetColorForShape(shape);
+      _currentMoveText.color = _config.GetDataForShape(shape).Color;
+
+      SetTimer(shape);
+    }
+
+    private void SetTimer(ShapeType shape)
+    {
+      bool isActive = _gameInfo.Rules.Data.MoveTime > 0 && shape != ShapeType.XO;
+      _timerImage.gameObject.SetActive(isActive);
+      _timerLabel.gameObject.SetActive(isActive);
+
+      if (shape != ShapeType.XO)
+      {
+        ShapeTuple shapeData = _config.GetDataForShape(shape);
+        _timerImage.sprite = shapeData.TimerSprite;
+        _timerLabel.color = shapeData.Color;
+      }
+    }
+
+    private void UpdateTime(float time)
+    {
+      _timerLabel.text = $"{time / 60:0}:{time % 60:00}";
     }
 
     private void OnDestroy()

@@ -83,7 +83,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.UI
       _resultDescription.StringReference = localization.ResultDescription;
       
       _resultDescriptionText.color = _gameInfo.Result != GameResultType.Draw
-        ? _config.GetColorForShape(_gameInfo.Winner)
+        ? _config.GetDataForShape(_gameInfo.Winner).Color
         : Color.white;
       
       return base.OnOpened();

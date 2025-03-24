@@ -34,14 +34,16 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay
       _cellVisuals = cellVisuals;
       _gameStateMachine = gameStateMachine;
 
-      _networkBus.SubscribeOnRpcWithParameter<StartedGameResponse>(CreateField);
+      _networkBus.SubscribeOnRpcWithParameter<StartGameResponse>(CreateField);
       _networkBus.SubscribeOnRpcWithParameter<DefinedShapeResponse>(DefineShape);
     }
 
-    private async void CreateField(StartedGameResponse response)
+    private async void CreateField(StartGameResponse response)
     {
+      _gameInfo.Rules.Data = response.GameRules;
+      _gameInfo.BackgroundIndex.Value = response.BackgroundIndex;
       await _gameStateMachine.SwitchState<GameplayGameState>();
-      
+
       _cellCreator.CreateCells(_cells);
 
       foreach (CellModel cell in _cells)
@@ -55,7 +57,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay
 
     public void Dispose()
     {
-      _networkBus.UnsubscribeFromRpc<StartedGameResponse>();
+      _networkBus.UnsubscribeFromRpc<StartGameResponse>();
       _networkBus.UnsubscribeFromRpc<DefinedShapeResponse>();
     }
   }

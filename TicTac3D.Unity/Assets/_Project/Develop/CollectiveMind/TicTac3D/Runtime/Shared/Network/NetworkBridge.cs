@@ -40,7 +40,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Network
 
     [Rpc(SendTo.SpecifiedInParams)]
     [UsedImplicitly]
-    public void SendRequestClientRpc(StartedGameResponse response, RpcParams rpcParams)
+    public void SendRequestClientRpc(StartGameResponse response, RpcParams rpcParams)
     {
       _networkBus.HandleRpc(response, rpcParams);
     }
@@ -103,7 +103,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Network
     
     [Rpc(SendTo.SpecifiedInParams)]
     [UsedImplicitly]
-    public void SendResponseClientRpc(ChangeBackgroundResponse response, RpcParams rpcParams)
+    public void SendResponseClientRpc(UpdateMoveTimeResponse response, RpcParams rpcParams)
     {
       _networkBus.HandleRpc(response, rpcParams);
     }

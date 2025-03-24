@@ -46,6 +46,8 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay
 
       BindSetShapeFacade();
 
+      BindMoveTimeFollower();
+
       BindGameInitializer();
     }
 
@@ -147,6 +149,13 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay
     {
       Container
         .Bind<ConfirmationContext>()
+        .AsSingle();
+    }
+
+    private void BindMoveTimeFollower()
+    {
+      Container
+        .BindInterfacesTo<MoveTimeFollower>()
         .AsSingle();
     }
 

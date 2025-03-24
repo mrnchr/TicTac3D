@@ -100,5 +100,12 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Network
     {
       _networkBus.HandleRpc(request, rpcParams);
     }
+    
+    [Rpc(SendTo.SpecifiedInParams)]
+    [UsedImplicitly]
+    public void SendResponseClientRpc(ChangeBackgroundResponse response, RpcParams rpcParams)
+    {
+      _networkBus.HandleRpc(response, rpcParams);
+    }
   }
 }

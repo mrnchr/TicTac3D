@@ -10,7 +10,8 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.GameStateComponents
     private readonly IWindowManager _windowManager;
     private readonly IGameplayTickableManager _gameplayTickableManager;
 
-    public GameplayGameState(IWindowManager windowManager, IGameplayTickableManager gameplayTickableManager)
+    public GameplayGameState(IWindowManager windowManager,
+      IGameplayTickableManager gameplayTickableManager)
     {
       _windowManager = windowManager;
       _gameplayTickableManager = gameplayTickableManager;

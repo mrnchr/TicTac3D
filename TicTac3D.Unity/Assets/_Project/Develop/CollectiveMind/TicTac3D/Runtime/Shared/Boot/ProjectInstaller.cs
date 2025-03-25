@@ -17,7 +17,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Boot
     {
       BindEventSystem();
 
-      BindNetworkInitializer();
+      // BindNetworkInitializer();
 
       BindConfigLoader();
       BindPrefabLoader();

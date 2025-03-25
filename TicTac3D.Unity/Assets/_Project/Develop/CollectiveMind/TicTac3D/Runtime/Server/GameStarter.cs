@@ -8,6 +8,7 @@ using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Cell;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Rules;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Shape;
 using CollectiveMind.TicTac3D.Runtime.Shared.Network;
+using CollectiveMind.TicTac3D.Runtime.Shared.UI;
 using Cysharp.Threading.Tasks;
 using Unity.Netcode;
 using Object = UnityEngine.Object;
@@ -24,20 +25,25 @@ namespace CollectiveMind.TicTac3D.Runtime.Server
     private readonly IPrefabLoader _prefabLoader;
     private readonly IConfigLoader _configLoader;
     private readonly ICellCreator _cellCreator;
-    private readonly GameConfig _config;
+    private readonly IGameRulesProcessor _gameRulesProcessor;
+    private readonly GameConfig _gameConfig;
+    private readonly BackgroundConfig _backgroundConfig;
 
     public GameStarter(NetworkManager networkManager,
       IRpcProvider rpcProvider,
       IPrefabLoader prefabLoader,
       IConfigLoader configLoader,
-      ICellCreator cellCreator)
+      ICellCreator cellCreator,
+      IGameRulesProcessor gameRulesProcessor)
     {
       _networkManager = networkManager;
       _rpcProvider = rpcProvider;
       _prefabLoader = prefabLoader;
       _configLoader = configLoader;
       _cellCreator = cellCreator;
-      _config = configLoader.LoadConfig<GameConfig>();
+      _gameRulesProcessor = gameRulesProcessor;
+      _gameConfig = configLoader.LoadConfig<GameConfig>();
+      _backgroundConfig = configLoader.LoadConfig<BackgroundConfig>();
 
       _networkManager.OnServerStarted += OnServerStarted;
     }
@@ -53,14 +59,18 @@ namespace CollectiveMind.TicTac3D.Runtime.Server
     {
       await UniTask.WaitUntil(() => Object.FindAnyObjectByType<NetworkBridge>().IsSpawned);
 
-      _rpcProvider.SendRequest<StartedGameResponse>(session.Target);
       _cellCreator.CreateCells(session.Cells);
 
       session.Rules.Data = RandomizeRules(session.JoinPlayerRules());
       DefineShapes(session);
 
-      session.CurrentMove = ShapeType.X;
-      _rpcProvider.SendRequest(new ChangedMoveResponse { CurrentMove = ShapeType.X }, session.Target);
+      _rpcProvider.SendRequest(new StartGameResponse
+      {
+        GameRules = session.Rules.Data,
+        BackgroundIndex = Random.Range(0, _backgroundConfig.Backgrounds.Count)
+      }, session.Target);
+
+      _gameRulesProcessor.ChangeMove(session);
     }
 
     private void DefineShapes(GameSession session)
@@ -89,8 +99,10 @@ namespace CollectiveMind.TicTac3D.Runtime.Server
     {
       data.BotMoveCount = RandomizeRule(GameRuleType.BotMoveCount, data.BotMoveCount, data.BotMoveCount < 0);
       data.MoveTime = RandomizeRule(GameRuleType.MoveTime, data.MoveTime, data.MoveTime < 0);
-      data.ShapeFading = RandomizeRule(GameRuleType.ShapeFading, data.ShapeFading, data.ShapeFading == ShapeFadingType.None);
-      data.FadingMoveCount = RandomizeRule(GameRuleType.FadingMoveCount, data.FadingMoveCount, data.FadingMoveCount < 0);
+      data.ShapeFading = RandomizeRule(GameRuleType.ShapeFading, data.ShapeFading,
+        data.ShapeFading == ShapeFadingType.None);
+      data.FadingMoveCount =
+        RandomizeRule(GameRuleType.FadingMoveCount, data.FadingMoveCount, data.FadingMoveCount < 0);
       return data;
     }
 
@@ -98,7 +110,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Server
     {
       if (randomize)
       {
-        List<TRule> rules = _config.GetAvailableRule<TRule>(type);
+        List<TRule> rules = _gameConfig.GetAvailableRule<TRule>(type);
         return rules[Random.Range(0, rules.Count)];
       }
 
@@ -108,6 +120,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Server
     public void Dispose()
     {
       _configLoader.UnloadConfig<GameConfig>();
+      _configLoader.UnloadConfig<BackgroundConfig>();
       _networkManager.OnServerStarted -= OnServerStarted;
     }
   }

@@ -28,7 +28,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2044818587648
-    m_Localized: Back to menu
+    m_Localized: To menu
     m_Metadata:
       m_Items: []
   - m_Id: 2608029728768
@@ -84,6 +84,150 @@ MonoBehaviour:
     m_Localized: Noughts
     m_Metadata:
       m_Items: []
+  - m_Id: 298415505244160
+    m_Localized: Tic-Tac 3D
+    m_Metadata:
+      m_Items: []
+  - m_Id: 309069171621888
+    m_Localized: Sounds
+    m_Metadata:
+      m_Items: []
+  - m_Id: 309250088730624
+    m_Localized: Music
+    m_Metadata:
+      m_Items: []
+  - m_Id: 309305352880128
+    m_Localized: Mouse sensitivity
+    m_Metadata:
+      m_Items: []
+  - m_Id: 336603896578048
+    m_Localized: Crosses turn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 336712340307968
+    m_Localized: Noughts turn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 336963306487808
+    m_Localized: Bot turn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 337314688499712
+    m_Localized: Your turn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 408828142125056
+    m_Localized: Lobby settings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 419421725097984
+    m_Localized: Random
+    m_Metadata:
+      m_Items: []
+  - m_Id: 462905819496448
+    m_Localized: Random
+    m_Metadata:
+      m_Items: []
+  - m_Id: 463094525427712
+    m_Localized: Random
+    m_Metadata:
+      m_Items: []
+  - m_Id: 463286490333184
+    m_Localized: Random
+    m_Metadata:
+      m_Items: []
+  - m_Id: 463556804837376
+    m_Localized: Off
+    m_Metadata:
+      m_Items: []
+  - m_Id: 464027267334144
+    m_Localized: Unlimited
+    m_Metadata:
+      m_Items: []
+  - m_Id: 465291061460992
+    m_Localized: After all
+    m_Metadata:
+      m_Items: []
+  - m_Id: 465368668667904
+    m_Localized: After each
+    m_Metadata:
+      m_Items: []
+  - m_Id: 465999332605952
+    m_Localized: '{time} sec'
+    m_Metadata:
+      m_Items:
+      - rid: 4080226617323946123
+  - m_Id: 466340254023680
+    m_Localized: '{time} min'
+    m_Metadata:
+      m_Items:
+      - rid: 4080226617323946123
+  - m_Id: 468235848744960
+    m_Localized: Bot
+    m_Metadata:
+      m_Items: []
+  - m_Id: 468481823703040
+    m_Localized: Players
+    m_Metadata:
+      m_Items: []
+  - m_Id: 468547854630912
+    m_Localized: All
+    m_Metadata:
+      m_Items: []
+  - m_Id: 468929775370240
+    m_Localized: After {number} turn
+    m_Metadata:
+      m_Items:
+      - rid: 4080226617323946123
+  - m_Id: 483325272621056
+    m_Localized: Select shape
+    m_Metadata:
+      m_Items: []
+  - m_Id: 483402930159616
+    m_Localized: Time to turn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 483555573465088
+    m_Localized: Shape fading
+    m_Metadata:
+      m_Items: []
+  - m_Id: 483691842207744
+    m_Localized: Rate of fading
+    m_Metadata:
+      m_Items: []
+  - m_Id: 491192306335744
+    m_Localized: Leave?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 491347055181824
+    m_Localized: Game will be lost
+    m_Metadata:
+      m_Items: []
+  - m_Id: 758559229837312
+    m_Localized: Stop
+    m_Metadata:
+      m_Items: []
+  - m_Id: 758600875081728
+    m_Localized: Start
+    m_Metadata:
+      m_Items: []
+  - m_Id: 758762116710400
+    m_Localized: Server
+    m_Metadata:
+      m_Items: []
+  - m_Id: 758808182751232
+    m_Localized: Host
+    m_Metadata:
+      m_Items: []
+  - m_Id: 758847646957568
+    m_Localized: Client
+    m_Metadata:
+      m_Items: []
+  - m_Id: 759173494046720
+    m_Localized: '{status} {role}'
+    m_Metadata:
+      m_Items:
+      - rid: 4080226617323946123
   references:
     version: 2
     RefIds:
@@ -93,3 +237,7 @@ MonoBehaviour:
         m_Entries: 
         m_SharedEntries:
         - id: 104675666788352
+        - id: 465999332605952
+        - id: 468929775370240
+        - id: 466340254023680
+        - id: 759173494046720

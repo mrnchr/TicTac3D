@@ -8,6 +8,8 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Rules
   [CreateAssetMenu(menuName = CAC.Names.GAME_CONFIG_MENU, fileName = CAC.Names.GAME_CONFIG_FILE)]
   public class GameConfig : ScriptableObject
   {
+    public GameRulesData DefaultRules;
+    
     public List<ShapeType> AvailableShapes = new List<ShapeType>();
     public List<int> AvailableBotMoveCounts = new List<int>();
     public List<float> AvailableMoveTimes = new List<float>();

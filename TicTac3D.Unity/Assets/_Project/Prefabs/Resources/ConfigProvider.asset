@@ -25,3 +25,7 @@ MonoBehaviour:
     Path: GameConfig
   - TypeName: SettingsConfig
     Path: SettingsConfig
+  - TypeName: ShapeConfig
+    Path: ShapeConfig
+  - TypeName: BackgroundConfig
+    Path: BackgroundConfig

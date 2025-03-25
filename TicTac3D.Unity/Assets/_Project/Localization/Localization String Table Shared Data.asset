@@ -79,6 +79,146 @@ MonoBehaviour:
     m_Key: shape.o.many
     m_Metadata:
       m_Items: []
+  - m_Id: 298415505244160
+    m_Key: gameName
+    m_Metadata:
+      m_Items: []
+  - m_Id: 309069171621888
+    m_Key: settings.sound
+    m_Metadata:
+      m_Items: []
+  - m_Id: 309250088730624
+    m_Key: settings.music
+    m_Metadata:
+      m_Items: []
+  - m_Id: 309305352880128
+    m_Key: settings.mouseSensitivity
+    m_Metadata:
+      m_Items: []
+  - m_Id: 336603896578048
+    m_Key: currentMove.x
+    m_Metadata:
+      m_Items: []
+  - m_Id: 336712340307968
+    m_Key: currentMove.o
+    m_Metadata:
+      m_Items: []
+  - m_Id: 336963306487808
+    m_Key: currentMove.xo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 337314688499712
+    m_Key: currentMove.your
+    m_Metadata:
+      m_Items: []
+  - m_Id: 408828142125056
+    m_Key: lobbySettings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 419421725097984
+    m_Key: lobby.settings.random.many
+    m_Metadata:
+      m_Items: []
+  - m_Id: 462905819496448
+    m_Key: lobby.settings.random.adverb
+    m_Metadata:
+      m_Items: []
+  - m_Id: 463094525427712
+    m_Key: lobby.settings.random.middle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 463286490333184
+    m_Key: lobby.settings.random.feminine
+    m_Metadata:
+      m_Items: []
+  - m_Id: 463556804837376
+    m_Key: lobby.settings.off
+    m_Metadata:
+      m_Items: []
+  - m_Id: 464027267334144
+    m_Key: lobby.settings.unlimited
+    m_Metadata:
+      m_Items: []
+  - m_Id: 465291061460992
+    m_Key: lobby.settings.bot.afterAll
+    m_Metadata:
+      m_Items: []
+  - m_Id: 465368668667904
+    m_Key: lobby.settings.bot.afterEach
+    m_Metadata:
+      m_Items: []
+  - m_Id: 465999332605952
+    m_Key: lobby.settings.time.sec
+    m_Metadata:
+      m_Items: []
+  - m_Id: 466340254023680
+    m_Key: lobby.settings.time.min
+    m_Metadata:
+      m_Items: []
+  - m_Id: 468235848744960
+    m_Key: bot
+    m_Metadata:
+      m_Items: []
+  - m_Id: 468481823703040
+    m_Key: players
+    m_Metadata:
+      m_Items: []
+  - m_Id: 468547854630912
+    m_Key: all
+    m_Metadata:
+      m_Items: []
+  - m_Id: 468929775370240
+    m_Key: lobby.settings.count
+    m_Metadata:
+      m_Items: []
+  - m_Id: 483325272621056
+    m_Key: lobby.settings.shape.text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 483402930159616
+    m_Key: lobby.settings.time.text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 483555573465088
+    m_Key: lobby.settings.fade.text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 483691842207744
+    m_Key: lobby.settings.count.text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 491192306335744
+    m_Key: leaveWindow.exit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 491347055181824
+    m_Key: leaveWindow.gameLose
+    m_Metadata:
+      m_Items: []
+  - m_Id: 758559229837312
+    m_Key: stop
+    m_Metadata:
+      m_Items: []
+  - m_Id: 758600875081728
+    m_Key: start
+    m_Metadata:
+      m_Items: []
+  - m_Id: 758762116710400
+    m_Key: server
+    m_Metadata:
+      m_Items: []
+  - m_Id: 758808182751232
+    m_Key: host
+    m_Metadata:
+      m_Items: []
+  - m_Id: 758847646957568
+    m_Key: client
+    m_Metadata:
+      m_Items: []
+  - m_Id: 759173494046720
+    m_Key: switchConnection
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

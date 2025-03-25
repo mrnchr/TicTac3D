@@ -38,6 +38,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.AssetManagement
       return Resources.LoadAll<ScriptableObject>("")
         .Select(x => x.GetType().Name)
         .Distinct()
+        .OrderBy(x => x)
         .ToArray();
     }
 #endif

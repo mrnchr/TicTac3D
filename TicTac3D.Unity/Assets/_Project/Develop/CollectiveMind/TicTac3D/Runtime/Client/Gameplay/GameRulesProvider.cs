@@ -4,6 +4,6 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay
 {
   public class GameRulesProvider
   {
-    public GameRules Rules = new GameRules();
+    public readonly GameRules Rules = new GameRules();
   }
 }

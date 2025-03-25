@@ -41,32 +41,8 @@ namespace CollectiveMind.TicTac3D.Runtime.Server.Session
           return;
         }
 
-        ShapeType next = GetNextMove(session);
-        session.LastMove = session.CurrentMove;
-        session.CurrentMove = next;
-        _rpcProvider.SendRequest(new ChangedMoveResponse { CurrentMove = session.CurrentMove }, session.Target);
-
-        if (session.CurrentMove == ShapeType.XO)
-          MoveByBot(session);
+        ChangeMove(session);
       }
-    }
-
-    private ShapeType GetNextMove(GameSession session)
-    {
-      int botMoveCount = session.Rules.Data.BotMoveCount;
-      ShapeType current = session.CurrentMove;
-      return botMoveCount switch
-      {
-        <= 0 => GetNext(current, 2),
-        1 => GetNext(current, 3),
-        2 => current == ShapeType.XO ? GetNext(session.LastMove, 2) : ShapeType.XO,
-        _ => throw new ArgumentOutOfRangeException()
-      };
-    }
-
-    private void MoveByBot(GameSession session)
-    {
-      SetShape(session, _botBrain.GetCellToMove(session), ShapeType.XO);
     }
 
     private ShapeType CheckWin(GameSession session)
@@ -107,11 +83,45 @@ namespace CollectiveMind.TicTac3D.Runtime.Server.Session
       return true;
     }
 
-    
+    public void ChangeMove(GameSession session)
+    {
+      ShapeType next = GetNextMove(session);
+      session.LastMove = session.CurrentMove;
+      session.CurrentMove = next;
+      _rpcProvider.SendRequest(new ChangedMoveResponse { CurrentMove = session.CurrentMove }, session.Target);
+      
+      if (session.CurrentMove != ShapeType.XO)
+      {
+        if(session.Rules.Data.MoveTime > 0)
+          session.MoveTime = session.Rules.Data.MoveTime;
+      }
+      else
+      {
+        MoveByBot(session);
+      }
+    }
+
+    private ShapeType GetNextMove(GameSession session)
+    {
+      int botMoveCount = session.Rules.Data.BotMoveCount;
+      ShapeType current = session.CurrentMove;
+      return botMoveCount switch
+      {
+        <= 0 => GetNext(current, 2),
+        1 => GetNext(current, 3),
+        2 => current is ShapeType.None or ShapeType.XO ? GetNext(session.LastMove, 2) : ShapeType.XO,
+        _ => throw new ArgumentOutOfRangeException()
+      };
+    }
 
     private ShapeType GetNext(ShapeType current, int count)
     {
       return (ShapeType)((int)current % count + 1);
+    }
+
+    private void MoveByBot(GameSession session)
+    {
+      SetShape(session, _botBrain.GetCellToMove(session), ShapeType.XO);
     }
   }
 }

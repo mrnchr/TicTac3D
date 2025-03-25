@@ -24,6 +24,30 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Rules
         _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
       };
     }
+    
+    public void SetRule<TRule>(GameRuleType type, TRule value)
+    {
+      switch (type)
+      {
+        case GameRuleType.DesiredShape when value is ShapeType shapeValue:
+          Data.DesiredShape = shapeValue;
+          break;
+        case GameRuleType.BotMoveCount when value is int intValue:
+          Data.BotMoveCount = intValue;
+          break;
+        case GameRuleType.MoveTime when value is float floatValue:
+          Data.MoveTime = floatValue;
+          break;
+        case GameRuleType.ShapeFading when value is ShapeFadingType fadingType:
+          Data.ShapeFading = fadingType;
+          break;
+        case GameRuleType.FadingMoveCount when value is int intValue:
+          Data.FadingMoveCount = intValue;
+          break;
+        default:
+          throw new ArgumentOutOfRangeException(nameof(type), type, null);
+      }
+    }
 
     public GameRulesData Join(GameRulesData rules)
     {

@@ -27,6 +27,12 @@
       
       public const string SETTINGS_CONFIG_MENU = CONFIG_MENU + "Settings";
       public const string SETTINGS_CONFIG_FILE = "SettingsConfig";
+      
+      public const string SHAPE_CONFIG_MENU = CONFIG_MENU + "Shape";
+      public const string SHAPE_CONFIG_FILE = "ShapeConfig";
+      
+      public const string BACKGROUND_CONFIG_MENU = CONFIG_MENU + "Background";
+      public const string BACKGROUND_CONFIG_FILE = "BackgroundConfig";
     }
   }
 }

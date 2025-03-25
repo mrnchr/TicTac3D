@@ -18,9 +18,10 @@ namespace CollectiveMind.TicTac3D.Runtime.Server.Session
 
     public GameRules Rules = new GameRules();
     public List<CellModel> Cells = new List<CellModel>();
-
+    
     public ShapeType LastMove;
     public ShapeType CurrentMove;
+    public float MoveTime;
 
     public ShapeType Winner;
 

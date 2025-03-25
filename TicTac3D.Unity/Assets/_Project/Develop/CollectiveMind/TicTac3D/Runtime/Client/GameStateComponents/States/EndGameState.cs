@@ -9,39 +9,55 @@ using UnityEngine;
 
 namespace CollectiveMind.TicTac3D.Runtime.Client.GameStateComponents
 {
-  public class EndGameState : IGameState
+  public class EndGameState : IGameState, IPaylodedState<LeaveGamePayload>
   {
     private readonly IGameplayTickableManager _gameplayTickableManager;
     private readonly IFieldCleaner _fieldCleaner;
     private readonly IRpcProvider _rpcProvider;
     private readonly IWindowManager _windowManager;
+    private readonly IGameStateMachine _gameStateMachine;
     private readonly CameraRotator _cameraRotator;
+
+    private bool _isLeaveGamePayloadReceived;
 
     public EndGameState(IGameplayTickableManager gameplayTickableManager,
       IFieldCleaner fieldCleaner,
       IRpcProvider rpcProvider,
-      IWindowManager windowManager)
+      IWindowManager windowManager,
+      IGameStateMachine gameStateMachine)
     {
       _gameplayTickableManager = gameplayTickableManager;
       _fieldCleaner = fieldCleaner;
       _rpcProvider = rpcProvider;
       _windowManager = windowManager;
+      _gameStateMachine = gameStateMachine;
 
       _cameraRotator = Object.FindAnyObjectByType<CameraRotator>();
     }
-    
+
     public async UniTask Enter()
     {
       _gameplayTickableManager.IsPaused = true;
       await _windowManager.OpenWindow<GameResultWindow>();
     }
 
+    public async UniTask Enter(LeaveGamePayload payload)
+    {
+      _isLeaveGamePayloadReceived = true;
+      _gameplayTickableManager.IsPaused = true;
+      _rpcProvider.SendRequest<LeaveGameRequest>();
+      await _gameStateMachine.SwitchState<MenuGameState>();
+    }
+
     public async UniTask Exit()
     {
       _cameraRotator.ResetRotation();
       _fieldCleaner.CleanField();
-      _rpcProvider.SendRequest<LeaveGameRequest>();
+      if (!_isLeaveGamePayloadReceived)
+        _rpcProvider.SendRequest<LeaveGameRequest>();
+      
       await _windowManager.CloseWindow<GameResultWindow>();
+      _isLeaveGamePayloadReceived = false;
     }
   }
 }

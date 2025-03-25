@@ -1,5 +1,12 @@
-﻿using Unity.Netcode;
+﻿using System;
+using System.Collections.Generic;
+using TMPro;
+using Unity.Multiplayer;
+using Unity.Netcode;
+using Unity.Netcode.Transports.UTP;
 using UnityEngine;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Components;
 using UnityEngine.UI;
 using Zenject;
 
@@ -8,62 +15,135 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.UI
   public class ConnectionWindow : MonoBehaviour
   {
     [SerializeField]
-    private Button _serverButton;
+    private TMP_InputField _ipInputField;
+
+    [SerializeField]
+    private LocalizedString _startString;
     
     [SerializeField]
-    private Button _hostButton;
+    private LocalizedString _stopString;
 
     [SerializeField]
-    private Button _clientButton;
+    private List<ConnectionUITuple> _connectionUIElements;
 
     private NetworkManager _networkManager;
+    private UnityTransport _transport;
 
     [Inject]
     public void Construct(NetworkManager networkManager)
     {
       _networkManager = networkManager;
+      _transport = _networkManager.GetComponent<UnityTransport>();
 
-      _serverButton.onClick.AddListener(SwitchServer);
-      _hostButton.onClick.AddListener(SwitchHost);
-      _clientButton.onClick.AddListener(SwitchClient);
+      foreach (ConnectionUITuple tuple in _connectionUIElements)
+      {
+        tuple.Button.onClick.AddListener(tuple.Role switch
+        {
+          MultiplayerRoleFlags.Server => SwitchServer,
+          MultiplayerRoleFlags.ClientAndServer => SwitchHost,
+          MultiplayerRoleFlags.Client => SwitchClient,
+          _ => throw new ArgumentOutOfRangeException(nameof(tuple.Role), tuple.Role, null)
+        });
+      }
     }
 
     private void SwitchServer()
     {
-      if(_networkManager.IsListening)
-        _networkManager.Shutdown();
-      else
-        _networkManager.StartServer();
+      SwitchConnection(MultiplayerRoleFlags.Server);
     }
 
     private void SwitchHost()
     {
-      if (_networkManager.IsListening)
-        _networkManager.Shutdown();
-      else
-        _networkManager.StartHost();
+      SwitchConnection(MultiplayerRoleFlags.ClientAndServer);
     }
 
     private void SwitchClient()
     {
+      SwitchConnection(MultiplayerRoleFlags.Client);
+    }
+
+    private void SwitchConnection(MultiplayerRoleFlags role)
+    {
+      ChangeIp();
+      
+      ConnectionUITuple tuple = _connectionUIElements.Find(x => x.Role == role);
       if (_networkManager.IsListening)
+      {
         _networkManager.Shutdown();
+        tuple.Connected = false;
+      }
       else
-        _networkManager.StartClient();
+      {
+        StartListening(role);
+        tuple.Connected = true;
+      }
+
+      ChangeButtonText(role);
+    }
+
+    private void ChangeIp()
+    {
+      string ip = _ipInputField.text;
+      string port = _transport.ConnectionData.Port.ToString();
+      string[] strings = _ipInputField.text.Split(':');
+      if (strings.Length == 2)
+      {
+        ip = strings[0];
+        if (strings[1].Length == 4)
+          port = strings[1];
+      }
+
+      _transport.SetConnectionData(ip, ushort.Parse(port));
+    }
+
+    private void StartListening(MultiplayerRoleFlags role)
+    {
+      switch (role)
+      {
+        case MultiplayerRoleFlags.Client:
+          _networkManager.StartClient();
+          break;
+        case MultiplayerRoleFlags.Server:
+          _networkManager.StartServer();
+          break;
+        case MultiplayerRoleFlags.ClientAndServer:
+          _networkManager.StartHost();
+          break;
+        default:
+          throw new ArgumentOutOfRangeException(nameof(role), role, null);
+      }
+    }
+
+    private void ChangeButtonText(MultiplayerRoleFlags role)
+    {
+      ConnectionUITuple tuple = _connectionUIElements.Find(x => x.Role == role);
+      tuple.Label.StringReference.Clear();
+      tuple.Label.StringReference.Add("status", tuple.Connected ? _stopString : _startString);
+      tuple.Label.StringReference.Add("role", tuple.String);
     }
 
     private void Update()
     {
-      _serverButton.interactable = !_networkManager.IsClient || !_networkManager.IsListening;
-      _hostButton.interactable = _networkManager.IsHost || !_networkManager.IsListening;
-      _clientButton.interactable = !_networkManager.IsServer || !_networkManager.IsListening;
+      foreach (ConnectionUITuple tuple in _connectionUIElements) 
+        tuple.Button.gameObject.SetActive(tuple.Connected || !_networkManager.IsListening);
     }
 
     private void OnDestroy()
     {
-      _serverButton.onClick.RemoveListener(SwitchServer);
-      _hostButton.onClick.RemoveListener(SwitchHost);
-      _clientButton.onClick.RemoveListener(SwitchClient);
+      foreach (ConnectionUITuple tuple in _connectionUIElements)
+      {
+        tuple.Button.onClick.RemoveAllListeners();
+      }
+    }
+
+    [Serializable]
+    private class ConnectionUITuple
+    {
+      public MultiplayerRoleFlags Role;
+      public Button Button;
+      public LocalizeStringEvent Label;
+      public LocalizedString String;
+      public bool Connected;
     }
   }
 }

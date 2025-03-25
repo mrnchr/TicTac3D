@@ -1,5 +1,6 @@
 ﻿using CollectiveMind.TicTac3D.Runtime.Client.Gameplay;
 using CollectiveMind.TicTac3D.Runtime.Client.WindowManagement;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -29,8 +30,9 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.UI.SetShape
       _noButton.AddListener(DenyAndContinue);
     }
 
-    private void ShowPopup()
+    private async void ShowPopup()
     {
+      await UniTask.NextFrame();
       _gameplayTickableManager.IsPaused = true;
       gameObject.SetActive(true);
     }

@@ -13,23 +13,17 @@ MonoBehaviour:
   m_Name: GameConfig
   m_EditorClassIdentifier: 
   DefaultRules:
-    DesiredShape: 0
-    BotMoveCount: 0
+    DesiredShape: 3
+    BotMoveCount: 2
     MoveTime: 0
-    ShapeFading: 0
-    FadingMoveCount: 0
+    ShapeFading: 1
+    FadingMoveCount: 3
   AvailableShapes: 010000000200000003000000
-  AvailableBotMoveCounts:
-  - 0
-  - 1
-  - 2
+  AvailableBotMoveCounts: 000000000100000002000000
   AvailableMoveTimes:
   - 0
   - 10
   - 30
   - 60
   AvailableShapeFadings: 01000000020000000400000006000000
-  AvailableFadingMoveCounts:
-  - 1
-  - 2
-  - 3
+  AvailableFadingMoveCounts: 010000000200000003000000

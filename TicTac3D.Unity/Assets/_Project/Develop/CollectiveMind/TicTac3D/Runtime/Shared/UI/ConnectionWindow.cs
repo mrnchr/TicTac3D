@@ -19,7 +19,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.UI
 
     [SerializeField]
     private LocalizedString _startString;
-    
+
     [SerializeField]
     private LocalizedString _stopString;
 
@@ -64,8 +64,6 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.UI
 
     private void SwitchConnection(MultiplayerRoleFlags role)
     {
-      ChangeIp();
-      
       ConnectionUITuple tuple = _connectionUIElements.Find(x => x.Role == role);
       if (_networkManager.IsListening)
       {
@@ -74,6 +72,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.UI
       }
       else
       {
+        ChangeIp();
         StartListening(role);
         tuple.Connected = true;
       }
@@ -83,17 +82,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.UI
 
     private void ChangeIp()
     {
-      string ip = _ipInputField.text;
-      string port = _transport.ConnectionData.Port.ToString();
-      string[] strings = _ipInputField.text.Split(':');
-      if (strings.Length == 2)
-      {
-        ip = strings[0];
-        if (strings[1].Length == 4)
-          port = strings[1];
-      }
-
-      _transport.SetConnectionData(ip, ushort.Parse(port));
+      _transport.SetConnectionData(_ipInputField.text, _transport.ConnectionData.Port);
     }
 
     private void StartListening(MultiplayerRoleFlags role)
@@ -125,7 +114,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.UI
 
     private void Update()
     {
-      foreach (ConnectionUITuple tuple in _connectionUIElements) 
+      foreach (ConnectionUITuple tuple in _connectionUIElements)
         tuple.Button.gameObject.SetActive(tuple.Connected || !_networkManager.IsListening);
     }
 

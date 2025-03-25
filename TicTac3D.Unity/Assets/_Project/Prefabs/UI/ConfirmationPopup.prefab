@@ -93,6 +93,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _yesButton: {fileID: 5282081724253665944}
   _noButton: {fileID: 7410287078337569623}
+  _mouseTarget: {fileID: 4599852684668583121}
 --- !u!1001 &1207039674784834579
 PrefabInstance:
   m_ObjectHideFlags: 0

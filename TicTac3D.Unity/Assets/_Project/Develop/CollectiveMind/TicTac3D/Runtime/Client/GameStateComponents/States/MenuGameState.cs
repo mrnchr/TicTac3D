@@ -19,7 +19,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.GameStateComponents
     public async UniTask Enter()
     {
       _mainMenu.gameObject.SetActive(true);
-      await _windowManager.OpenWindow<MenuWindow>();
+      await _windowManager.OpenWindowAsRoot<MenuWindow>();
     }
 
     public async UniTask Exit()

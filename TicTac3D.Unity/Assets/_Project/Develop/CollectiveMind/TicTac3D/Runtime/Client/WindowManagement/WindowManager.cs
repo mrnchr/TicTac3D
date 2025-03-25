@@ -24,6 +24,21 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.WindowManagement
       _windows.Remove(window);
     }
 
+    public async UniTask<TWindow> OpenWindowAsRoot<TWindow>() where TWindow : BaseWindow
+    {
+      while (_history.Count > 0)
+        CloseLastWindow().Forget();
+      
+      var window = GetWindow<TWindow>();
+      if (window)
+      {
+        _history.Push(window);
+        await window.Open();
+      }
+
+      return window;
+    }
+
     public async UniTask<TWindow> OpenWindow<TWindow>() where TWindow : BaseWindow
     {
       if(_history.TryPeek(out BaseWindow lastWindow))

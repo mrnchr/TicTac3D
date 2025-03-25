@@ -38,7 +38,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.GameStateComponents
     public async UniTask Enter()
     {
       _gameplayTickableManager.IsPaused = true;
-      await _windowManager.OpenWindow<GameResultWindow>();
+      await _windowManager.OpenWindowAsRoot<GameResultWindow>();
     }
 
     public async UniTask Enter(LeaveGamePayload payload)

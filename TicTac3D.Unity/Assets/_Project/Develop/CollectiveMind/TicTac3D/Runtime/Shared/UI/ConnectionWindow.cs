@@ -120,6 +120,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.UI
       tuple.Label.StringReference.Clear();
       tuple.Label.StringReference.Add("status", tuple.Connected ? _stopString : _startString);
       tuple.Label.StringReference.Add("role", tuple.String);
+      tuple.Label.StringReference.RefreshString();
     }
 
     private void Update()

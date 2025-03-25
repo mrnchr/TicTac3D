@@ -195,6 +195,30 @@ MonoBehaviour:
     m_Key: leaveWindow.gameLose
     m_Metadata:
       m_Items: []
+  - m_Id: 758559229837312
+    m_Key: stop
+    m_Metadata:
+      m_Items: []
+  - m_Id: 758600875081728
+    m_Key: start
+    m_Metadata:
+      m_Items: []
+  - m_Id: 758762116710400
+    m_Key: server
+    m_Metadata:
+      m_Items: []
+  - m_Id: 758808182751232
+    m_Key: host
+    m_Metadata:
+      m_Items: []
+  - m_Id: 758847646957568
+    m_Key: client
+    m_Metadata:
+      m_Items: []
+  - m_Id: 759173494046720
+    m_Key: switchConnection
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

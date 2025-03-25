@@ -109,7 +109,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Server.Session
       {
         <= 0 => GetNext(current, 2),
         1 => GetNext(current, 3),
-        2 => current == ShapeType.XO ? GetNext(session.LastMove, 2) : ShapeType.XO,
+        2 => current is ShapeType.None or ShapeType.XO ? GetNext(session.LastMove, 2) : ShapeType.XO,
         _ => throw new ArgumentOutOfRangeException()
       };
     }

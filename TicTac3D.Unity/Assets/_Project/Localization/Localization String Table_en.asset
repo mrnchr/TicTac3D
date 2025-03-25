@@ -203,6 +203,31 @@ MonoBehaviour:
     m_Localized: Game will be lost
     m_Metadata:
       m_Items: []
+  - m_Id: 758559229837312
+    m_Localized: Stop
+    m_Metadata:
+      m_Items: []
+  - m_Id: 758600875081728
+    m_Localized: Start
+    m_Metadata:
+      m_Items: []
+  - m_Id: 758762116710400
+    m_Localized: Server
+    m_Metadata:
+      m_Items: []
+  - m_Id: 758808182751232
+    m_Localized: Host
+    m_Metadata:
+      m_Items: []
+  - m_Id: 758847646957568
+    m_Localized: Client
+    m_Metadata:
+      m_Items: []
+  - m_Id: 759173494046720
+    m_Localized: '{status} {role}'
+    m_Metadata:
+      m_Items:
+      - rid: 4080226617323946123
   references:
     version: 2
     RefIds:
@@ -215,3 +240,4 @@ MonoBehaviour:
         - id: 465999332605952
         - id: 468929775370240
         - id: 466340254023680
+        - id: 759173494046720

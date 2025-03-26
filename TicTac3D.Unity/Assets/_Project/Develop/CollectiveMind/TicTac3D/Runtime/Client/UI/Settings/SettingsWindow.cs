@@ -75,7 +75,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.UI.Settings
 
     protected override UniTask OnOpened()
     {
-      _continueButton.ObjOrNull()?.gameObject.SetActive(_gameStateMachine.CurrentState is GameplayGameState);
+      _continueButton.ObjOrNull()?.gameObject.SetActive(_gameStateMachine.CurrentState.CurrentValue is GameplayGameState);
       return UniTask.CompletedTask;
     }
 
@@ -124,7 +124,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.UI.Settings
 
     private void Back()
     {
-      if (_gameStateMachine.CurrentState is GameplayGameState)
+      if (_gameStateMachine.CurrentState.CurrentValue is GameplayGameState)
         _windowManager.OpenWindow<LeaveGameWindow>();
       else
         CloseWindow();

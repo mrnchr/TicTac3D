@@ -2,6 +2,7 @@
 using CollectiveMind.TicTac3D.Runtime.Client.Gameplay.Cell;
 using CollectiveMind.TicTac3D.Runtime.Client.Gameplay.Shape;
 using CollectiveMind.TicTac3D.Runtime.Client.GameStateComponents;
+using CollectiveMind.TicTac3D.Runtime.Client.UI.LobbySettings;
 using CollectiveMind.TicTac3D.Runtime.Client.UI.SetShape;
 using CollectiveMind.TicTac3D.Runtime.Client.WindowManagement.Boot;
 using CollectiveMind.TicTac3D.Runtime.Shared.Boot;
@@ -47,6 +48,8 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay
       BindSetShapeFacade();
 
       BindMoveTimeFollower();
+
+      BindFadingCountController();
 
       BindGameInitializer();
     }
@@ -157,6 +160,13 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay
       Container
         .BindInterfacesTo<MoveTimeFollower>()
         .AsSingle();
+    }
+
+    private void BindFadingCountController()
+    {
+      Container
+        .Bind<FadingCountController>()
+        .AsTransient();
     }
 
     private void BindGameInitializer()

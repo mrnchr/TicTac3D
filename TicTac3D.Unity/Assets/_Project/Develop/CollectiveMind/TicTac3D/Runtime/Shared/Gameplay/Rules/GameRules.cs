@@ -51,13 +51,15 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Rules
 
     public GameRulesData Join(GameRulesData rules)
     {
+      int thisCount = Data.ShapeFading == ShapeFadingType.None ? -1 : Data.FadingMoveCount;
+      int otherCount = rules.ShapeFading == ShapeFadingType.None ? -1 : rules.FadingMoveCount;
       return new GameRulesData
       {
         DesiredShape = ShapeType.XO,
         BotMoveCount = Mathf.Max(Data.BotMoveCount, rules.BotMoveCount),
         MoveTime = Mathf.Max(Data.MoveTime, rules.MoveTime),
         ShapeFading = (ShapeFadingType)Mathf.Max((int)Data.ShapeFading, (int)rules.ShapeFading),
-        FadingMoveCount = Mathf.Max(Data.FadingMoveCount, rules.FadingMoveCount)
+        FadingMoveCount = Mathf.Max(thisCount, otherCount)
       };
     }
 
@@ -72,7 +74,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Rules
         && MatchMoveCount(rules.BotMoveCount)
         && MatchMoveTime(rules.MoveTime)
         && MatchShapeFading(rules.ShapeFading)
-        && MatchFadingMoveCount(rules.FadingMoveCount);
+        && MatchFadingMoveCount(Data.FadingMoveCount, rules.FadingMoveCount, Data.ShapeFading, rules.ShapeFading);
     }
 
     private bool MatchDesiredShape(ShapeType shape)
@@ -102,9 +104,11 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Rules
       return Data.ShapeFading == ShapeFadingType.None || fading == ShapeFadingType.None || fading == Data.ShapeFading;
     }
 
-    private bool MatchFadingMoveCount(int count)
+    private bool MatchFadingMoveCount(int left, int right, ShapeFadingType leftFading, ShapeFadingType rightFading)
     {
-      return Data.FadingMoveCount < 0 || count < 0 || count == Data.FadingMoveCount;
+      int l = leftFading == ShapeFadingType.None ? -1 : left;
+      int r = rightFading == ShapeFadingType.None ? -1 : right;
+      return l < 0 || r < 0 || l == r;
     }
   }
 }

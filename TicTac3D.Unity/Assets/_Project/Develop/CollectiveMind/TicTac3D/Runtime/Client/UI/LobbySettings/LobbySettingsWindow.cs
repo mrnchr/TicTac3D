@@ -34,7 +34,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.UI.LobbySettings
     private GameConfig _config;
     private List<RuleButton> _ruleButtons;
 
-    private GameRules Rules => _rulesProvider.Rules;
+    public GameRules Rules => _rulesProvider.Rules;
 
     [Inject]
     public void Construct(GameRulesProvider gameRulesProvider,

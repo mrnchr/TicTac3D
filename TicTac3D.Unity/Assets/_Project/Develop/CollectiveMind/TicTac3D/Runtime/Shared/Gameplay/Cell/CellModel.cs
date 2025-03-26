@@ -13,7 +13,9 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Cell
 
     public SerializableReactiveProperty<bool> IsHovered = new SerializableReactiveProperty<bool>();
     public SerializableReactiveProperty<ShapeType> Shape = new SerializableReactiveProperty<ShapeType>();
-
+    public ShapeType FadingContext;
+    public SerializableReactiveProperty<int> LifeTime = new SerializableReactiveProperty<int>();
+    
     public bool HasShape()
     {
       return Shape.Value != ShapeType.None;

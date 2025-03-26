@@ -2,34 +2,48 @@
 using System.Collections.Generic;
 using System.Linq;
 using CollectiveMind.TicTac3D.Runtime.Server.Utils;
+using CollectiveMind.TicTac3D.Runtime.Shared.AssetManagement;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Cell;
+using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Rules;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Shape;
 using CollectiveMind.TicTac3D.Runtime.Shared.Network;
 using UnityEngine;
 
 namespace CollectiveMind.TicTac3D.Runtime.Server.Session
 {
-  public class GameRulesProcessor : IGameRulesProcessor
+  public class GameRulesProcessor : IGameRulesProcessor, IDisposable
   {
     private readonly IRpcProvider _rpcProvider;
     private readonly SessionRegistry _sessionRegistry;
     private readonly IBotBrain _botBrain;
+    private readonly IConfigLoader _configLoader;
+    private readonly GameConfig _config;
 
-    public GameRulesProcessor(IRpcProvider rpcProvider, SessionRegistry sessionRegistry, IBotBrain botBrain)
+    public GameRulesProcessor(IRpcProvider rpcProvider,
+      SessionRegistry sessionRegistry,
+      IBotBrain botBrain,
+      IConfigLoader configLoader)
     {
       _rpcProvider = rpcProvider;
       _sessionRegistry = sessionRegistry;
       _botBrain = botBrain;
+      _configLoader = configLoader;
+      _config = configLoader.LoadConfig<GameConfig>();
     }
 
     public void SetShape(GameSession session, CellModel cell, ShapeType shape)
     {
       if (shape == session.CurrentMove && !cell.HasShape())
       {
-        cell.Shape.Value = shape;
-        _rpcProvider.SendRequest(new UpdatedShapeResponse { CellIndex = cell.Index, Shape = shape },
-          session.Target);
+        SetShapeImplicit(session, cell, shape);
+
+        if (session.Rules.Data.ShapeFading > ShapeFadingType.Off)
+        {
+          SetLifeTime(session,
+            session.CurrentMove == ShapeType.XO ? session.Rules.Data.FadingMoveCount : _config.PlayerShapesLifeTime,
+            cell, session.LastMove);
+        }
 
         ShapeType winner = CheckWin(session);
         if (winner != ShapeType.None)
@@ -89,6 +103,8 @@ namespace CollectiveMind.TicTac3D.Runtime.Server.Session
       session.LastMove = session.CurrentMove;
       session.CurrentMove = next;
       _rpcProvider.SendRequest(new ChangedMoveResponse { CurrentMove = session.CurrentMove }, session.Target);
+
+      ProcessFading(session);
       
       if (session.CurrentMove != ShapeType.XO)
       {
@@ -99,6 +115,53 @@ namespace CollectiveMind.TicTac3D.Runtime.Server.Session
       {
         MoveByBot(session);
       }
+    }
+
+    private void ProcessFading(GameSession session)
+    {
+      if (session.Rules.Data.ShapeFading > ShapeFadingType.Off)
+      {
+        foreach (CellModel cell in GetFadingCells(session))
+        {
+          SetLifeTime(session, Mathf.Max(cell.LifeTime.Value - 1, 0), cell, cell.FadingContext);
+
+          if (cell.LifeTime.Value == 0)
+            SetShapeImplicit(session, cell, ShapeType.None);
+        }
+      }
+    }
+
+    private IEnumerable<CellModel> GetFadingCells(GameSession session)
+    {
+      bool isMoveEnd = session.CurrentMove == ShapeType.X && session.LastMove != ShapeType.None;
+      ShapeFadingType unifiedFading = session.Rules.Data.ShapeFading & _config.UnifiedFading;
+      ShapeFadingType separateFading = session.Rules.Data.ShapeFading & _config.OverridenSeparateFading;
+      foreach (CellModel cell in session.Cells)
+      {
+        if ((isMoveEnd && ((cell.Shape.Value.IsPlayer() && unifiedFading.IsPlayers())
+          || (cell.Shape.Value == ShapeType.XO && unifiedFading.IsBot()))) 
+          || (cell.Shape.Value == session.CurrentMove && ((separateFading.IsPlayers() && cell.Shape.Value.IsPlayer()) 
+            || (separateFading.IsBot() && cell.Shape.Value == ShapeType.XO && cell.FadingContext == session.LastMove))))
+        {
+          yield return cell;
+        }
+      }
+    }
+
+    private void SetLifeTime(GameSession session, int lifeTime, CellModel cell, ShapeType context = ShapeType.None)
+    {
+      cell.LifeTime.Value = lifeTime;
+      cell.FadingContext = context;
+      
+      _rpcProvider.SendRequest(new UpdateLifeTimeResponse { CellIndex = cell.Index, LifeTime = lifeTime },
+        session.Target);
+    }
+
+    private void SetShapeImplicit(GameSession session, CellModel cell, ShapeType shape)
+    {
+      cell.Shape.Value = shape;
+      _rpcProvider.SendRequest(new UpdateShapeResponse { CellIndex = cell.Index, Shape = shape },
+        session.Target);
     }
 
     private ShapeType GetNextMove(GameSession session)
@@ -122,6 +185,11 @@ namespace CollectiveMind.TicTac3D.Runtime.Server.Session
     private void MoveByBot(GameSession session)
     {
       SetShape(session, _botBrain.GetCellToMove(session), ShapeType.XO);
+    }
+
+    public void Dispose()
+    {
+      _configLoader.UnloadConfig<GameConfig>();
     }
   }
 }

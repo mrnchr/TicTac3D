@@ -1,5 +1,6 @@
 ﻿using CollectiveMind.TicTac3D.Runtime.Client.Gameplay;
 using CollectiveMind.TicTac3D.Runtime.Client.Input;
+using CollectiveMind.TicTac3D.Runtime.Client.SFX;
 using CollectiveMind.TicTac3D.Runtime.Client.UI.Settings;
 using CollectiveMind.TicTac3D.Runtime.Shared.Boot;
 using UnityEngine;
@@ -21,6 +22,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Boot
       InstallSettings();
 
       BindGameRulesProvider();
+      BindSoundAudioPlayer();
     }
 
     private void InstallInput()
@@ -37,6 +39,13 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Boot
     {
       Container
         .Bind<GameRulesProvider>()
+        .AsSingle();
+    }
+
+    private void BindSoundAudioPlayer()
+    {
+      Container
+        .BindInterfacesTo<SoundAudioPlayer>()
         .AsSingle();
     }
   }

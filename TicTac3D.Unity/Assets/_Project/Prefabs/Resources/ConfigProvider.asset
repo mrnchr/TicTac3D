@@ -29,3 +29,5 @@ MonoBehaviour:
     Path: ShapeConfig
   - TypeName: BackgroundConfig
     Path: BackgroundConfig
+  - TypeName: SoundConfig
+    Path: SoundConfig

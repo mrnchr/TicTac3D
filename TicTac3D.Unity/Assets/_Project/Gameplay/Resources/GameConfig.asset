@@ -18,6 +18,9 @@ MonoBehaviour:
     MoveTime: 0
     ShapeFading: 1
     FadingMoveCount: 3
+  PlayerShapesLifeTime: 3
+  UnifiedFading: 4
+  SeparateFading: 2
   AvailableShapes: 010000000200000003000000
   AvailableBotMoveCounts: 000000000100000002000000
   AvailableMoveTimes:

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CollectiveMind.TicTac3D.Runtime.Shared.AssetManagement;
+using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Cell;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Shape;
 using UnityEngine;
 using Zenject;
@@ -24,10 +25,10 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay.Shape
       }
     }
 
-    public ShapeVisual Create(ShapeType id, Vector3 position, Transform parent)
+    public ShapeVisual Create(ShapeType id, Vector3 position, Transform parent, CellModel model)
     {
       return _instantiator.InstantiatePrefabForComponent<ShapeVisual>(_shapePrefabs[id], position, Quaternion.identity,
-        parent);
+        parent, new[] { model });
     }
 
     public void Dispose()

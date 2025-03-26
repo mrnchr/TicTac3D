@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Shape;
+using JetBrains.Annotations;
+using TriInspector;
 using UnityEngine;
 
 namespace CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Rules
@@ -9,7 +11,16 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Rules
   public class GameConfig : ScriptableObject
   {
     public GameRulesData DefaultRules;
-    
+
+    public int PlayerShapesLifeTime;
+
+    public ShapeFadingType UnifiedFading;
+
+    [ValidateInput("ValidateSeparateFading")]
+    public ShapeFadingType SeparateFading;
+
+    public ShapeFadingType OverridenSeparateFading => SeparateFading & ~UnifiedFading & ~ShapeFadingType.Off;
+
     public List<ShapeType> AvailableShapes = new List<ShapeType>();
     public List<int> AvailableBotMoveCounts = new List<int>();
     public List<float> AvailableMoveTimes = new List<float>();
@@ -28,5 +39,19 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Rules
         _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
       };
     }
+
+#if UNITY_EDITOR
+    [UsedImplicitly]
+    private TriValidationResult ValidateSeparateFading()
+    {
+      if (OverridenSeparateFading != SeparateFading)
+        return TriValidationResult.Error(
+          $"{UnityEditor.ObjectNames.NicifyVariableName(nameof(UnifiedFading))} overrides some values of "
+          + $"{UnityEditor.ObjectNames.NicifyVariableName(nameof(SeparateFading))}. "
+          + $"The values of {UnityEditor.ObjectNames.NicifyVariableName(nameof(UnifiedFading))} will be applied.");
+      
+      return TriValidationResult.Valid;
+    }
+#endif
   }
 }

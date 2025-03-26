@@ -41,7 +41,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay.Cell
         Destroy(_shape.gameObject);
 
       if (id != ShapeType.None)
-        _shape = _shapeFactory.Create(id, transform.position, transform);
+        _shape = _shapeFactory.Create(id, transform.position, transform, _model);
     }
   }
 }

@@ -16,18 +16,25 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay.Cell
       _networkBus = networkBus;
       _cells = cells;
       
-      _networkBus.SubscribeOnRpcWithParameter<UpdatedShapeResponse>(UpdateCell);
+      _networkBus.SubscribeOnRpcWithParameter<UpdateLifeTimeResponse>(UpdateLifeTime);
+      _networkBus.SubscribeOnRpcWithParameter<UpdateShapeResponse>(UpdateCell);
     }
 
-    private void UpdateCell(UpdatedShapeResponse response)
+    private void UpdateCell(UpdateShapeResponse response)
     {
       CellModel cell = _cells.Find(x => x.Index == response.CellIndex);
       cell.Shape.Value = response.Shape;
     }
 
+    private void UpdateLifeTime(UpdateLifeTimeResponse response)
+    {
+      CellModel cell = _cells.Find(x => x.Index == response.CellIndex);
+      cell.LifeTime.Value = response.LifeTime;
+    }
+
     public void Dispose()
     {
-      _networkBus.UnsubscribeFromRpc<UpdatedShapeResponse>();
+      _networkBus.UnsubscribeFromRpc<UpdateShapeResponse>();
     }
   }
 }

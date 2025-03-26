@@ -82,7 +82,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.UI
 
     private void ChangeIp()
     {
-      _transport.SetConnectionData(_ipInputField.text, _transport.ConnectionData.Port);
+      SetIp(_ipInputField.text);
     }
 
     private void StartListening(MultiplayerRoleFlags role)
@@ -93,6 +93,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.UI
           _networkManager.StartClient();
           break;
         case MultiplayerRoleFlags.Server:
+          SetIp("0.0.0.0");
           _networkManager.StartServer();
           break;
         case MultiplayerRoleFlags.ClientAndServer:
@@ -101,6 +102,11 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.UI
         default:
           throw new ArgumentOutOfRangeException(nameof(role), role, null);
       }
+    }
+
+    private void SetIp(string ip)
+    {
+      _transport.SetConnectionData(ip, _transport.ConnectionData.Port);
     }
 
     private void ChangeButtonText(MultiplayerRoleFlags role)

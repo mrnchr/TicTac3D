@@ -13,3 +13,10 @@ MonoBehaviour:
   m_Name: SoundConfig
   m_EditorClassIdentifier: 
   ClickSound: {fileID: 8300000, guid: 6b71c6ad88b08614c85ccc1fb7612311, type: 3}
+  _shapeSounds:
+  - Shape: 1
+    Clip: {fileID: 8300000, guid: 8d01d0fae0187a44baeb481b5fc787bc, type: 3}
+  - Shape: 2
+    Clip: {fileID: 8300000, guid: d3c40a4d1dd615745968554b561f4b33, type: 3}
+  - Shape: 3
+    Clip: {fileID: 8300000, guid: b63f9768e9a5dc74d9db3551a1ac2b9f, type: 3}

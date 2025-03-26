@@ -1,4 +1,7 @@
-﻿using CollectiveMind.TicTac3D.Runtime.Shared;
+﻿using System;
+using System.Collections.Generic;
+using CollectiveMind.TicTac3D.Runtime.Shared;
+using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Shape;
 using UnityEngine;
 
 namespace CollectiveMind.TicTac3D.Runtime.Client.SFX
@@ -7,5 +10,20 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.SFX
   public class SoundConfig : ScriptableObject
   {
     public AudioClip ClickSound;
+    
+    [SerializeField]
+    private List<ShapeAudioTuple> _shapeSounds;
+
+    public AudioClip GetShapeSound(ShapeType shape)
+    {
+      return _shapeSounds.Find(x => x.Shape == shape)?.Clip;
+    }
+    
+    [Serializable]
+    private class ShapeAudioTuple
+    {
+      public ShapeType Shape;
+      public AudioClip Clip;
+    }
   }
 }

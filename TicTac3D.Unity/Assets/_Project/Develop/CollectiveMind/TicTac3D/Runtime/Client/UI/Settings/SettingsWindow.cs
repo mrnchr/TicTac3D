@@ -2,8 +2,6 @@
 using CollectiveMind.TicTac3D.Runtime.Client.GameStateComponents;
 using CollectiveMind.TicTac3D.Runtime.Client.WindowManagement;
 using CollectiveMind.TicTac3D.Runtime.Shared.AssetManagement;
-using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay;
-using CollectiveMind.TicTac3D.Runtime.Shared.Network;
 using CollectiveMind.TicTac3D.Runtime.Shared.Utils;
 using Cysharp.Threading.Tasks;
 using R3;
@@ -98,11 +96,13 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.UI.Settings
 
     private void ChangeSoundVolume(float value)
     {
+      value = Mathf.Clamp(value, 0.0001f, 1);
       _settingsDataProvider.Data.SoundVolume.Value = value;
     }
 
     private void ChangeMusicVolume(float value)
     {
+      value = Mathf.Clamp(value, 0.0001f, 1);
       _settingsDataProvider.Data.MusicVolume.Value = value;
     }
 

@@ -33,6 +33,9 @@
       
       public const string BACKGROUND_CONFIG_MENU = CONFIG_MENU + "Background";
       public const string BACKGROUND_CONFIG_FILE = "BackgroundConfig";
+      
+      public const string SOUND_CONFIG_MENU = CONFIG_MENU + "Sound";
+      public const string SOUND_CONFIG_FILE = "SoundConfig";
     }
   }
 }

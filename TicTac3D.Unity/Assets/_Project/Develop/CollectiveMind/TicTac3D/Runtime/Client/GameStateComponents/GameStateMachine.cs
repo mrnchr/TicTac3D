@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using R3;
 
 namespace CollectiveMind.TicTac3D.Runtime.Client.GameStateComponents
 {
@@ -8,8 +9,13 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.GameStateComponents
   {
     private readonly Dictionary<Type, IExitableState> _registeredStates = new Dictionary<Type, IExitableState>();
     private IExitableState _currentState;
-    
-    public IExitableState CurrentState => _currentState;
+
+    public ReadOnlyReactiveProperty<IExitableState> CurrentState { get; }
+
+    public GameStateMachine()
+    {
+      CurrentState = Observable.EveryValueChanged(this, x => x._currentState).ToReadOnlyReactiveProperty();
+    }
 
     public void RegisterState<TState>(TState state) where TState : IExitableState
     {

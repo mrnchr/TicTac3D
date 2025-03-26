@@ -3,6 +3,7 @@ using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Cell;
 using CollectiveMind.TicTac3D.Runtime.Shared.Network;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.EventSystems;
 using Zenject;
 
@@ -13,9 +14,13 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Boot
     [SerializeField]
     private EventSystem _eventSystem;
 
+    [SerializeField]
+    private AudioMixer _audioMixer;
+
     public override void InstallBindings()
     {
       BindEventSystem();
+      BindAudioMixer();
 
       // BindNetworkInitializer();
 
@@ -39,6 +44,13 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Boot
     {
       Container
         .BindInstance(_eventSystem)
+        .AsSingle();
+    }
+
+    private void BindAudioMixer()
+    {
+      Container
+        .BindInstance(_audioMixer)
         .AsSingle();
     }
 

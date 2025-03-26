@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using CollectiveMind.TicTac3D.Runtime.Client.Gameplay;
 using CollectiveMind.TicTac3D.Runtime.Client.GameStateComponents;
+using CollectiveMind.TicTac3D.Runtime.Client.SFX;
 using CollectiveMind.TicTac3D.Runtime.Client.WindowManagement;
 using CollectiveMind.TicTac3D.Runtime.Shared.AssetManagement;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Rules;
@@ -49,17 +50,24 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.UI
     private IGameStateMachine _gameStateMachine;
     private GameInfo _gameInfo;
     private IConfigLoader _configLoader;
-    private ShapeConfig _config;
+    private ISoundAudioPlayer _soundAudioPlayer;
+    private ShapeConfig _shapeConfig;
+    private SoundConfig _soundConfig;
 
     private TMP_Text _resultDescriptionText;
 
     [Inject]
-    public void Construct(IGameStateMachine gameStateMachine, GameInfo gameInfo, IConfigLoader configLoader)
+    public void Construct(IGameStateMachine gameStateMachine,
+      GameInfo gameInfo,
+      IConfigLoader configLoader,
+      ISoundAudioPlayer soundAudioPlayer)
     {
       _gameStateMachine = gameStateMachine;
       _gameInfo = gameInfo;
       _configLoader = configLoader;
-      _config = _configLoader.LoadConfig<ShapeConfig>();
+      _soundAudioPlayer = soundAudioPlayer;
+      _shapeConfig = _configLoader.LoadConfig<ShapeConfig>();
+      _soundConfig = _configLoader.LoadConfig<SoundConfig>();
 
       _resultDescriptionText = _resultDescription.GetComponent<TMP_Text>();
 
@@ -83,8 +91,10 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.UI
       _resultDescription.StringReference = localization.ResultDescription;
       
       _resultDescriptionText.color = _gameInfo.Result != GameResultType.Draw
-        ? _config.GetDataForShape(_gameInfo.Winner).Color
+        ? _shapeConfig.GetDataForShape(_gameInfo.Winner).Color
         : Color.white;
+      
+      _soundAudioPlayer.PlaySound(_soundConfig.GetResultSound(_gameInfo.Result));
       
       return base.OnOpened();
     }
@@ -97,6 +107,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.UI
     private void OnDestroy()
     {
       _configLoader.UnloadConfig<ShapeConfig>();
+      _configLoader.UnloadConfig<SoundConfig>();
     }
 
     [Serializable]

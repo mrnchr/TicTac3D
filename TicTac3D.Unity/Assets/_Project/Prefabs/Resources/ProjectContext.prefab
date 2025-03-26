@@ -78,6 +78,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _eventSystem: {fileID: 861031442303090253}
+  _audioMixer: {fileID: 24100000, guid: 36cfe9c81cb6d67409febd163c05674c, type: 2}
 --- !u!1 &5105837849408174546
 GameObject:
   m_ObjectHideFlags: 0

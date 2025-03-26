@@ -33,11 +33,14 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay.Shape
 
     private void ChangeTransparency(int lifeTime)
     {
+      if (_gameInfo.Rules.Data.ShapeFading <= ShapeFadingType.Off)
+        return;
+
       Color color = _renderer.material.color;
       color.a = (float)lifeTime / (_cell.Shape.Value == ShapeType.XO
         ? _gameInfo.Rules.Data.FadingMoveCount
         : _config.PlayerShapesLifeTime);
-      
+
       _renderer.material.color = color;
     }
 

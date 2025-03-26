@@ -20,3 +20,10 @@ MonoBehaviour:
     Clip: {fileID: 8300000, guid: d3c40a4d1dd615745968554b561f4b33, type: 3}
   - Shape: 3
     Clip: {fileID: 8300000, guid: b63f9768e9a5dc74d9db3551a1ac2b9f, type: 3}
+  _resultSounds:
+  - Result: 1
+    Clip: {fileID: 8300000, guid: 3e83fdbaf920f844197b7f37438aec94, type: 3}
+  - Result: 2
+    Clip: {fileID: 8300000, guid: 65b1bb31417599e4d801f892c2b1885d, type: 3}
+  - Result: 3
+    Clip: {fileID: 8300000, guid: dfbb648ac6e62c248b33a998688e65da, type: 3}

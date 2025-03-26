@@ -57,6 +57,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Gameplay.Cell
       if (id != ShapeType.None)
       {
         _shape = _shapeFactory.Create(id, transform.position, transform, _model);
+        _shape.transform.localScale /= 4;
         ShapeType soundShape = id switch
         {
           ShapeType.XO => ShapeType.XO,

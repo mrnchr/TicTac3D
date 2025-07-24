@@ -1,4 +1,0 @@
-[merge "unityyamlmerge"]
-	name = Unity SmartMerge (UnityYamlMerge)
-	driver = \"C:/Programs/Unity Hub/Editor/6000.0.42f1/Editor/Data/Tools/UnityYAMLMerge.exe\" merge -h -p --force --fallback none %O %B %A %A
-	recursive = binary

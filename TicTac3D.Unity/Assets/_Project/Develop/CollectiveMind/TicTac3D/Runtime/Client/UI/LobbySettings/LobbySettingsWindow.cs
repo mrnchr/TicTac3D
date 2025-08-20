@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using CollectiveMind.TicTac3D.Runtime.Client.Gameplay;
+using CollectiveMind.TicTac3D.Runtime.Client.LobbyManagement;
 using CollectiveMind.TicTac3D.Runtime.Client.WindowManagement;
 using CollectiveMind.TicTac3D.Runtime.Shared.AssetManagement;
-using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay.Rules;
 using CollectiveMind.TicTac3D.Runtime.Shared.Network;
 using Cysharp.Threading.Tasks;
@@ -29,23 +29,23 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.UI.LobbySettings
 
     private GameRulesProvider _rulesProvider;
     private IWindowManager _windowManager;
-    private IRpcProvider _rpcProvider;
     private IConfigLoader _configLoader;
     private GameConfig _config;
     private List<RuleButton> _ruleButtons;
+    private LobbyManager _lobbyManager;
 
     public GameRules Rules => _rulesProvider.Rules;
 
     [Inject]
     public void Construct(GameRulesProvider gameRulesProvider,
       IWindowManager windowManager,
-      IRpcProvider rpcProvider,
-      IConfigLoader configLoader)
+      IConfigLoader configLoader,
+      LobbyManager lobbyManager)
     {
       _rulesProvider = gameRulesProvider;
       _windowManager = windowManager;
-      _rpcProvider = rpcProvider;
       _configLoader = configLoader;
+      _lobbyManager = lobbyManager;
       _config = configLoader.LoadConfig<GameConfig>();
 
       _ruleButtons = GetComponentsInChildren<RuleButton>(true).ToList();
@@ -77,10 +77,10 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.UI.LobbySettings
       sender.SetSprite(_activeButtonSprite);
     }
 
-    private void SearchGame()
+    private async void SearchGame()
     {
-      _rpcProvider.SendRequest(new SearchGameRequest { Rules = Rules.Data });
-      _windowManager.OpenWindow<SearchGameWindow>();
+      await _windowManager.OpenWindow<SearchGameWindow>();
+      _lobbyManager.InitializeLobby(Rules.Data).Forget();
     }
 
     private void CloseWindow()

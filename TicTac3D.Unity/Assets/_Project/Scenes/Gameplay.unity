@@ -2070,10 +2070,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2566498823608348743, guid: de74120be30e1d14ba7b206346c4a398, type: 3}
-      propertyPath: ConnectionData.ServerListenAddress
-      value: 0.0.0.0
-      objectReference: {fileID: 0}
     - target: {fileID: 4956629367906670357, guid: de74120be30e1d14ba7b206346c4a398, type: 3}
       propertyPath: m_Name
       value: NetworkManager

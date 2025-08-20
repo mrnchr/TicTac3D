@@ -1,5 +1,6 @@
 ﻿using CollectiveMind.TicTac3D.Runtime.Client.Gameplay;
 using CollectiveMind.TicTac3D.Runtime.Client.Input;
+using CollectiveMind.TicTac3D.Runtime.Client.LobbyManagement;
 using CollectiveMind.TicTac3D.Runtime.Client.SFX;
 using CollectiveMind.TicTac3D.Runtime.Client.UI.Settings;
 using CollectiveMind.TicTac3D.Runtime.Shared.Boot;
@@ -18,34 +19,23 @@ namespace CollectiveMind.TicTac3D.Runtime.Client.Boot
 
     public override void InstallBindings()
     {
-      InstallInput();
-      InstallSettings();
-
-      BindGameRulesProvider();
-      BindSoundAudioPlayer();
-    }
-
-    private void InstallInput()
-    {
       InputInstaller.Install(Container);
-    }
-
-    private void InstallSettings()
-    {
       SettingsInstaller.Install(Container);
-    }
 
-    private void BindGameRulesProvider()
-    {
+      Container
+        .Bind<LobbyManager>()
+        .AsSingle();
+
       Container
         .Bind<GameRulesProvider>()
         .AsSingle();
-    }
 
-    private void BindSoundAudioPlayer()
-    {
       Container
         .BindInterfacesTo<SoundAudioPlayer>()
+        .AsSingle();
+
+      Container
+        .BindInterfacesTo<ClientInitializer>()
         .AsSingle();
     }
   }

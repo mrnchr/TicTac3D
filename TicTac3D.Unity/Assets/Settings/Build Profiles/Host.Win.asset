@@ -13,19 +13,6 @@ MonoBehaviour:
   m_Name: Multiplayer Role Data
   m_EditorClassIdentifier: 
   multiplayerRole: 3
---- !u!114 &-934956089753218299
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f0baa167318c409e9c7f132730a3538, type: 3}
-  m_Name: Multiplayer Role Data
-  m_EditorClassIdentifier: 
-  multiplayerRole: 3
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74,55 +61,3 @@ MonoBehaviour:
         m_CopyPDBFiles: 0
         m_WindowsDevicePortalAddress: 
         m_WindowsDevicePortalUsername: 
---- !u!114 &836538844538242701
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f0baa167318c409e9c7f132730a3538, type: 3}
-  m_Name: Multiplayer Role Data
-  m_EditorClassIdentifier: 
-  multiplayerRole: 3
---- !u!114 &2097334901522823075
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f0baa167318c409e9c7f132730a3538, type: 3}
-  m_Name: Multiplayer Role Data
-  m_EditorClassIdentifier: 
-  multiplayerRole: 3
---- !u!114 &2964959212842230363
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f0baa167318c409e9c7f132730a3538, type: 3}
-  m_Name: Multiplayer Role Data
-  m_EditorClassIdentifier: 
-  multiplayerRole: 3
---- !u!114 &8291133311646319320
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f0baa167318c409e9c7f132730a3538, type: 3}
-  m_Name: Multiplayer Role Data
-  m_EditorClassIdentifier: 
-  multiplayerRole: 3

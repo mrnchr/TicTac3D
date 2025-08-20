@@ -22,8 +22,9 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Network
     private readonly MethodInfo _onValueChangedMethod =
       typeof(NetworkBridge).GetMethod("OnVariableChanged", BindingFlags.Public | BindingFlags.Instance);
 
-
     private NetworkBridge _networkBridge;
+    
+    public bool IsReady => _networkBridge != null;
 
     public RpcProvider(NetworkManager networkManager)
     {
@@ -49,7 +50,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Network
         .Where(x => x.Name.EndsWith("Rpc")))
       {
         Type parameterType = method.GetParameters()[0].ParameterType;
-        _rpcMap.Add(new RpcHandlerKey(parameterType, method.Name.EndsWith("ServerRpc")),
+        _rpcMap.Add(new RpcHandlerKey(parameterType, true),
           Delegate.CreateDelegate(typeof(Action<,>).MakeGenericType(parameterType, typeof(RpcParams)), _networkBridge,
             method));
       }
@@ -98,7 +99,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Shared.Network
 
     public void SendRequest<TRequest>(TRequest request, RpcParams rpcParams) where TRequest : struct
     {
-      if (_networkBridge && _rpcMap.TryGetValue(new RpcHandlerKey(typeof(TRequest), !_networkManager.IsServer),
+      if (_networkBridge && _rpcMap.TryGetValue(new RpcHandlerKey(typeof(TRequest), _networkManager.IsClient),
         out Delegate action))
       {
         Debug.Log($"SendRequest<{typeof(TRequest).Name}>");

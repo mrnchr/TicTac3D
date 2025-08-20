@@ -4,6 +4,7 @@ using CollectiveMind.TicTac3D.Runtime.Server.Session;
 using CollectiveMind.TicTac3D.Runtime.Shared.Gameplay;
 using CollectiveMind.TicTac3D.Runtime.Shared.Network;
 using Unity.Netcode;
+using UnityEngine;
 
 namespace CollectiveMind.TicTac3D.Runtime.Server
 {
@@ -30,7 +31,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Server
       if (NetworkRole.IsServer)
       {
         _networkManager.OnConnectionEvent += OnClientDisconnected;
-        _networkBus.SubscribeOnRpcWithParameters<SearchGameRequest>(AddToOrCreateSession);
+        _networkBus.SubscribeOnRpcWithParameters<StartGameRequest>(AddOrCreateSession);
         _networkBus.SubscribeOnRpcWithParameter<StopSearchGameRequest>(LeavePlayerFromSession);
         _networkBus.SubscribeOnRpcWithParameter<LeaveGameRequest>(LeavePlayerFromSession);
       }
@@ -45,7 +46,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Server
         CompleteOrRemoveSession(connectionEvent.ClientId);
     }
 
-    private void AddToOrCreateSession(SearchGameRequest request, RpcParams rpcParams)
+    private void AddOrCreateSession(StartGameRequest request, RpcParams rpcParams)
     {
       GameSession session = _sessionRegistry.Sessions.FirstOrDefault(x =>
         x.Status == SessionState.Waiting && x.Players[0].GameRules.Match(request.Rules));
@@ -98,7 +99,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Server
     public void Dispose()
     {
       _networkManager.OnConnectionEvent -= OnClientDisconnected;
-      _networkBus.UnsubscribeFromRpc<SearchGameRequest>();
+      _networkBus.UnsubscribeFromRpc<StartGameRequest>();
       _networkBus.UnsubscribeFromRpc<StopSearchGameRequest>();
       _networkBus.UnsubscribeFromRpc<LeaveGameRequest>();
     }

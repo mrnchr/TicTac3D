@@ -1,0 +1,6 @@
+# Builds folder
+.artifacts/
+
+# Cake build
+cakeConfig.json
+tools/

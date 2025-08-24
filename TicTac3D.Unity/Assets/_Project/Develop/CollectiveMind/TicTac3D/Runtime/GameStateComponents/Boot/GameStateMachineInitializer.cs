@@ -1,8 +1,6 @@
-﻿using Zenject;
-
-namespace CollectiveMind.TicTac3D.Runtime.GameStateComponents
+﻿namespace CollectiveMind.TicTac3D.Runtime.GameStateComponents
 {
-  public class GameStateMachineInitializer : IInitializable
+  public class GameStateMachineInitializer
   {
     private readonly IGameStateFactory _gameStateFactory;
     private readonly IGameStateMachine _gameStateMachine;

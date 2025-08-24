@@ -3,11 +3,10 @@ using CollectiveMind.TicTac3D.Runtime.AssetManagement;
 using R3;
 using UnityEngine;
 using UnityEngine.Audio;
-using Zenject;
 
 namespace CollectiveMind.TicTac3D.Runtime.UI
 {
-  public class SettingsApplier : IInitializable, IDisposable
+  public class SettingsApplier : IDisposable
   {
     private const string SOUNDS_VOLUME = "SoundsVolume";
     private const string MUSIC_VOLUME = "MusicVolume";

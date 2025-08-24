@@ -1,22 +1,38 @@
 ﻿using CollectiveMind.TicTac3D.Runtime.GameStateComponents;
+using CollectiveMind.TicTac3D.Runtime.WindowManagement;
 using Cysharp.Threading.Tasks;
+using UnityEngine;
 using Zenject;
 
 namespace CollectiveMind.TicTac3D.Runtime.Gameplay
 {
   public class GameInitializer : IInitializable
   {
+    private readonly IWindowManager _windowManager;
+    private readonly GameStateMachineInitializer _gameStateMachineInitializer;
     private readonly IGameplayTickableManager _gameplayTickableManager;
     private readonly IGameStateMachine _gameStateMachine;
 
-    public GameInitializer(IGameplayTickableManager gameplayTickableManager, IGameStateMachine gameStateMachine)
+    public GameInitializer(IWindowManager windowManager,
+      GameStateMachineInitializer gameStateMachineInitializer,
+      IGameplayTickableManager gameplayTickableManager,
+      IGameStateMachine gameStateMachine)
     {
+      _windowManager = windowManager;
+      _gameStateMachineInitializer = gameStateMachineInitializer;
       _gameplayTickableManager = gameplayTickableManager;
       _gameStateMachine = gameStateMachine;
     }
-    
+
     public void Initialize()
     {
+      BaseWindow[] windows =
+        Object.FindObjectsByType<BaseWindow>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+      foreach (BaseWindow window in windows)
+        _windowManager.AddWindow(window);
+
+      _gameStateMachineInitializer.Initialize();
+      
       _gameplayTickableManager.IsPaused = true;
       _gameStateMachine.SwitchState<MenuGameState>().Forget();
     }

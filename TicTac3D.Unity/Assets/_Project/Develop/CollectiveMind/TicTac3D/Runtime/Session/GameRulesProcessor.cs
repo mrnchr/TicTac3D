@@ -4,7 +4,6 @@ using System.Linq;
 using CollectiveMind.TicTac3D.Runtime.AssetManagement;
 using CollectiveMind.TicTac3D.Runtime.Gameplay;
 using CollectiveMind.TicTac3D.Runtime.Network;
-using CollectiveMind.TicTac3D.Runtime.Utils;
 using UnityEngine;
 
 namespace CollectiveMind.TicTac3D.Runtime.Session

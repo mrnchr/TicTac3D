@@ -11,7 +11,7 @@ namespace CollectiveMind.TicTac3D.Runtime.UI
         .AsSingle();
       
       Container
-        .BindInterfacesTo<SettingsApplier>()
+        .BindInterfacesAndSelfTo<SettingsApplier>()
         .AsSingle();
     }
   }

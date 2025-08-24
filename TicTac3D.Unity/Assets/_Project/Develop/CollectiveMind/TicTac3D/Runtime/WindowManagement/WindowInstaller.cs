@@ -10,9 +10,6 @@ namespace CollectiveMind.TicTac3D.Runtime.WindowManagement
         .Bind<IWindowManager>()
         .To<WindowManager>()
         .AsSingle();
-      Container
-        .BindInterfacesTo<WindowInitializer>()
-        .AsSingle();
     }
   }
 }

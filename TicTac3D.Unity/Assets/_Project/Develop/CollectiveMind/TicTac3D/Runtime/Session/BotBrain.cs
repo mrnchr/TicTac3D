@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using CollectiveMind.TicTac3D.Runtime.Gameplay;
-using CollectiveMind.TicTac3D.Runtime.Utils;
 using UnityEngine;
 using Random = UnityEngine.Random;
 

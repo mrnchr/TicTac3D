@@ -17,7 +17,7 @@ namespace CollectiveMind.TicTac3D.Runtime.GameStateComponents
         .AsSingle();
       
       Container
-        .BindInterfacesTo<GameStateMachineInitializer>()
+        .Bind<GameStateMachineInitializer>()
         .AsSingle();
     }
   }

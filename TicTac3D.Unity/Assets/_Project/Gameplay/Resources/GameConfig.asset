@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DefaultRules:
     DesiredShape: 3
-    BotMoveCount: 2
+    BotMoveCount: 1
     MoveTime: 0
     ShapeFading: 1
     FadingMoveCount: 3

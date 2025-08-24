@@ -1,0 +1,10 @@
+﻿namespace CollectiveMind.TicTac3D.Runtime.Gameplay
+{
+  public static class ShapeTypeExtensions
+  {
+    public static bool IsPlayer(this ShapeType shape)
+    {
+      return shape is >= ShapeType.X and <= ShapeType.O;
+    }
+  }
+}

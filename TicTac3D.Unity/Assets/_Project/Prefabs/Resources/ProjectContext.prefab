@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 803557062432905178}
   - component: {fileID: 3845570299791447993}
-  - component: {fileID: 6733721241229038143}
+  - component: {fileID: 1031575023469834237}
   m_Layer: 0
   m_Name: ProjectContext
   m_TagString: Untagged
@@ -48,7 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scriptableObjectInstallers: []
   _monoInstallers:
-  - {fileID: 6733721241229038143}
+  - {fileID: 1031575023469834237}
   _installerPrefabs: []
   _findSiblingMonoInstallers: 0
   _parentNewObjectsUnderContext: 0
@@ -65,7 +65,7 @@ MonoBehaviour:
       _missingHandlerDefaultResponse: 2
       _requireStrictUnsubscribe: 0
       _defaultAsyncTickPriority: 1
---- !u!114 &6733721241229038143
+--- !u!114 &1031575023469834237
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -74,7 +74,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3297451857594056284}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcc71b38531e4733928b09ccfc6a6a0f, type: 3}
+  m_Script: {fileID: 11500000, guid: ab2e9f389f8b44dab5122477e1781340, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _eventSystem: {fileID: 861031442303090253}
@@ -143,17 +143,17 @@ MonoBehaviour:
   m_MoveRepeatDelay: 0.5
   m_MoveRepeatRate: 0.1
   m_XRTrackingOrigin: {fileID: 0}
-  m_ActionsAsset: {fileID: -944628639613478452, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_PointAction: {fileID: -1654692200621890270, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_MoveAction: {fileID: -8784545083839296357, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_SubmitAction: {fileID: 392368643174621059, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_CancelAction: {fileID: 7727032971491509709, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_LeftClickAction: {fileID: 3001919216989983466, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_MiddleClickAction: {fileID: -2185481485913320682, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_RightClickAction: {fileID: -4090225696740746782, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_ScrollWheelAction: {fileID: 6240969308177333660, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_TrackedDevicePositionAction: {fileID: 6564999863303420839, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_TrackedDeviceOrientationAction: {fileID: 7970375526676320489, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_ActionsAsset: {fileID: -944628639613478452, guid: 66aa2c7919496fe41a3451b133b11bbe, type: 3}
+  m_PointAction: {fileID: -2660130508718452925, guid: 66aa2c7919496fe41a3451b133b11bbe, type: 3}
+  m_MoveAction: {fileID: 2066816050529504579, guid: 66aa2c7919496fe41a3451b133b11bbe, type: 3}
+  m_SubmitAction: {fileID: -4545383565767561078, guid: 66aa2c7919496fe41a3451b133b11bbe, type: 3}
+  m_CancelAction: {fileID: 4181022250382090391, guid: 66aa2c7919496fe41a3451b133b11bbe, type: 3}
+  m_LeftClickAction: {fileID: -798348087808676567, guid: 66aa2c7919496fe41a3451b133b11bbe, type: 3}
+  m_MiddleClickAction: {fileID: -8160262816558446459, guid: 66aa2c7919496fe41a3451b133b11bbe, type: 3}
+  m_RightClickAction: {fileID: -5180915597355477886, guid: 66aa2c7919496fe41a3451b133b11bbe, type: 3}
+  m_ScrollWheelAction: {fileID: -4716604892770443451, guid: 66aa2c7919496fe41a3451b133b11bbe, type: 3}
+  m_TrackedDevicePositionAction: {fileID: 7728582061939923866, guid: 66aa2c7919496fe41a3451b133b11bbe, type: 3}
+  m_TrackedDeviceOrientationAction: {fileID: -3610287517115649929, guid: 66aa2c7919496fe41a3451b133b11bbe, type: 3}
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
   m_CursorLockBehavior: 0

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace CollectiveMind.TicTac3D.Runtime.Utils
+namespace CollectiveMind.TicTac3D.Runtime.Session
 {
   public static class Combinatorics
   {

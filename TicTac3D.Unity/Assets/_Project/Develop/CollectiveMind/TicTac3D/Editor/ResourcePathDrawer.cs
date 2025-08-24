@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using CollectiveMind.TicTac3D.Editor;
-using CollectiveMind.TicTac3D.Runtime.Shared.Utils;
+using CollectiveMind.TicTac3D.Runtime.Utils;
 using TriInspector;
 using UnityEditor;
 using UnityEngine;

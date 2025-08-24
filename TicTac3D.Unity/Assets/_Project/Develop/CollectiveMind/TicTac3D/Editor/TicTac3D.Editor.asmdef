@@ -2,7 +2,7 @@
     "name": "TicTac3D.Editor",
     "rootNamespace": "",
     "references": [
-        "GUID:e9b1c72523f96dc48a6de60e82e23d09",
+        "GUID:070c4a1e6598b7147897629383c1b2c2",
         "GUID:324caed91501a9c47a04ebfd87b68794",
         "GUID:e851236b9ac2b9b4eaaa99506366edea"
     ],

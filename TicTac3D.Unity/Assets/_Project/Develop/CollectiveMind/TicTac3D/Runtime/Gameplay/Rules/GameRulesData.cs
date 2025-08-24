@@ -10,7 +10,8 @@ namespace CollectiveMind.TicTac3D.Runtime.Gameplay
     public int BotMoveCount;
     public float MoveTime;
     public ShapeFadingType ShapeFading;
-    public int FadingMoveCount;
+    public int BotFadingMoveCount;
+    public int PlayerFadingMoveCount;
 
     public static bool Match(GameRulesData left, GameRulesData right)
     {
@@ -23,7 +24,8 @@ namespace CollectiveMind.TicTac3D.Runtime.Gameplay
         && MatchMoveCount(rules.BotMoveCount)
         && MatchMoveTime(rules.MoveTime)
         && MatchShapeFading(rules.ShapeFading)
-        && MatchFadingMoveCount(FadingMoveCount, rules.FadingMoveCount, ShapeFading, rules.ShapeFading);
+        && MatchFadingMoveCount(BotFadingMoveCount, rules.BotFadingMoveCount, ShapeFading, rules.ShapeFading)
+        && MatchFadingMoveCount(PlayerFadingMoveCount, rules.PlayerFadingMoveCount, ShapeFading, rules.ShapeFading);
     }
 
     private bool MatchDesiredShape(ShapeType shape)
@@ -53,10 +55,10 @@ namespace CollectiveMind.TicTac3D.Runtime.Gameplay
       return ShapeFading == ShapeFadingType.None || fading == ShapeFadingType.None || fading == ShapeFading;
     }
 
-    private bool MatchFadingMoveCount(int left, int right, ShapeFadingType leftFading, ShapeFadingType rightFading)
+    private bool MatchFadingMoveCount(int botLeft, int botRight, ShapeFadingType leftFading, ShapeFadingType rightFading)
     {
-      int l = leftFading == ShapeFadingType.None ? -1 : left;
-      int r = rightFading == ShapeFadingType.None ? -1 : right;
+      int l = leftFading == ShapeFadingType.None ? -1 : botLeft;
+      int r = rightFading == ShapeFadingType.None ? -1 : botRight;
       return l < 0 || r < 0 || l == r;
     }
   }

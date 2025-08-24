@@ -184,7 +184,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 483691842207744
-    m_Key: lobby.settings.count.text
+    m_Key: lobby.settings.bot.count.text
     m_Metadata:
       m_Items: []
   - m_Id: 491192306335744
@@ -217,6 +217,22 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 759173494046720
     m_Key: switchConnection
+    m_Metadata:
+      m_Items: []
+  - m_Id: 55847938541191168
+    m_Key: lobby.settings.private.switch
+    m_Metadata:
+      m_Items: []
+  - m_Id: 55853193425289216
+    m_Key: lobby.settings.game.search
+    m_Metadata:
+      m_Items: []
+  - m_Id: 55853333510848512
+    m_Key: lobby.settings.game.create
+    m_Metadata:
+      m_Items: []
+  - m_Id: 55853395733348352
+    m_Key: lobby.settings.game.join
     m_Metadata:
       m_Items: []
   m_Metadata:

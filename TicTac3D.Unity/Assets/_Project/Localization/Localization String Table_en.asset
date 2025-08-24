@@ -228,6 +228,22 @@ MonoBehaviour:
     m_Metadata:
       m_Items:
       - rid: 4080226617323946123
+  - m_Id: 55847938541191168
+    m_Localized: Private lobby
+    m_Metadata:
+      m_Items: []
+  - m_Id: 55853193425289216
+    m_Localized: Search game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 55853333510848512
+    m_Localized: Create lobby
+    m_Metadata:
+      m_Items: []
+  - m_Id: 55853395733348352
+    m_Localized: Join lobby
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

@@ -64,10 +64,6 @@ namespace CollectiveMind.TicTac3D.Runtime.Gameplay
         .AsSingle();
 
       Container
-        .Bind<FadingCountController>()
-        .AsTransient();
-
-      Container
         .BindInterfacesTo<ShapeSetter>()
         .AsSingle();
       

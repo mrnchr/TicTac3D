@@ -29,14 +29,19 @@ namespace CollectiveMind.TicTac3D.Runtime.UI
     private ShapeFadingType _shapeFading;
     
     [SerializeField]
-    [ShowIf(nameof(IsFadingMoveCount))]
-    private int _fadingMoveCount;
+    [ShowIf(nameof(IsBotFadingMoveCount))]
+    private int _botFadingMoveCount;
+    
+    [SerializeField]
+    [ShowIf(nameof(IsPlayerFadingMoveCount))]
+    private int _playerFadingMoveCount;
 
     private bool IsDesiredShape => RuleType == GameRuleType.DesiredShape;
     private bool IsBotMoveCount => RuleType == GameRuleType.BotMoveCount;
     private bool IsMoveTime => RuleType == GameRuleType.MoveTime;
     private bool IsShapeFading => RuleType == GameRuleType.ShapeFading;
-    private bool IsFadingMoveCount => RuleType == GameRuleType.FadingMoveCount;
+    private bool IsBotFadingMoveCount => RuleType == GameRuleType.BotFadingMoveCount;
+    private bool IsPlayerFadingMoveCount => RuleType == GameRuleType.PlayerFadingMoveCount;
     
     private LobbySettingsWindow _lobbySettingsWindow;
     private Image _image;
@@ -52,22 +57,28 @@ namespace CollectiveMind.TicTac3D.Runtime.UI
       _button.AddListener(OnButtonClick);
     }
 
-    public void SetSprite(Sprite sprite)
-    {
-      _image.sprite = sprite;
-    }
-
-    public bool IsEqualRule(GameRules rules)
+    public bool IsEqualRule(GameRulesData rules)
     {
       return RuleType switch
       {
-        GameRuleType.DesiredShape => _shape == rules.GetRule<ShapeType>(RuleType),
-        GameRuleType.BotMoveCount => _botMoveCount == rules.GetRule<int>(RuleType),
-        GameRuleType.MoveTime => _time == rules.GetRule<float>(RuleType),
-        GameRuleType.ShapeFading => _shapeFading == rules.GetRule<ShapeFadingType>(RuleType),
-        GameRuleType.FadingMoveCount => _fadingMoveCount == rules.GetRule<int>(RuleType),
+        GameRuleType.DesiredShape => _shape == rules.DesiredShape,
+        GameRuleType.BotMoveCount => _botMoveCount == rules.BotMoveCount,
+        GameRuleType.MoveTime => _time == rules.MoveTime,
+        GameRuleType.ShapeFading => _shapeFading == rules.ShapeFading,
+        GameRuleType.BotFadingMoveCount => _botFadingMoveCount == rules.BotFadingMoveCount,
+        GameRuleType.PlayerFadingMoveCount => _playerFadingMoveCount == rules.PlayerFadingMoveCount,
         _ => false
       };
+    }
+
+    public void OnUpdateRule(GameRulesData rules)
+    {
+      if (!rules.ShapeFading.IsPlayersOrRandom() && RuleType == GameRuleType.BotMoveCount && _botMoveCount is >= 0 and < 2)
+        _button.interactable = false;
+      else if (!_button.interactable)
+        _button.interactable = true;
+      
+      _image.sprite = IsEqualRule(rules) ? _lobbySettingsWindow.ActiveButtonSprite : _lobbySettingsWindow.InactiveButtonSprite;
     }
     
     private void OnButtonClick()
@@ -86,8 +97,11 @@ namespace CollectiveMind.TicTac3D.Runtime.UI
         case GameRuleType.ShapeFading:
           SetRule(_shapeFading);
           break;
-        case GameRuleType.FadingMoveCount:
-          SetRule(_fadingMoveCount);
+        case GameRuleType.BotFadingMoveCount:
+          SetRule(_botFadingMoveCount);
+          break;
+        case GameRuleType.PlayerFadingMoveCount:
+          SetRule(_playerFadingMoveCount);
           break;
         default:
           throw new ArgumentException($"Invalid rule type {RuleType}");

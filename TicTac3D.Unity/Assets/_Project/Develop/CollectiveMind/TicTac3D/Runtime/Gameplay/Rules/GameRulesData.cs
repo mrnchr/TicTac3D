@@ -13,6 +13,19 @@ namespace CollectiveMind.TicTac3D.Runtime.Gameplay
     public int BotFadingMoveCount;
     public int PlayerFadingMoveCount;
 
+    public static GameRulesData CreateRandom()
+    {
+      return new GameRulesData
+      {
+        DesiredShape = ShapeType.XO,
+        BotMoveCount = -1,
+        MoveTime = -1,
+        ShapeFading = ShapeFadingType.None,
+        BotFadingMoveCount = -1,
+        PlayerFadingMoveCount = -1
+      };
+    }
+    
     public static bool Match(GameRulesData left, GameRulesData right)
     {
       return left.Match(right);

@@ -235,6 +235,14 @@ MonoBehaviour:
     m_Key: lobby.settings.game.join
     m_Metadata:
       m_Items: []
+  - m_Id: 55865764270276608
+    m_Key: searching.joinCode
+    m_Metadata:
+      m_Items: []
+  - m_Id: 56279743928958976
+    m_Key: copy
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

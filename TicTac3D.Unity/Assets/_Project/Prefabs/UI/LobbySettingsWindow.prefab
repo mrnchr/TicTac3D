@@ -2355,6 +2355,10 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 9201425817103337677, guid: ffc69aec93871304a8242430ae59e9c1, type: 3}
+      propertyPath: _botFadingMoveCount
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9201425817103337677, guid: ffc69aec93871304a8242430ae59e9c1, type: 3}
       propertyPath: _playerFadingMoveCount
       value: -1
       objectReference: {fileID: 0}

@@ -122,14 +122,13 @@ namespace CollectiveMind.TicTac3D.Runtime.UI
       {
         string lobbyName = _lobbyNameField.text;
         if (!string.IsNullOrWhiteSpace(lobbyName))
-          _lobbyManager.CreateLobby(Rules.Data, lobbyName).Forget();
+          _lobbyManager.CreateLobby(lobbyName).Forget();
         else
-          lobbyName = _joinCodeField.text;
-        _lobbyManager.JoinLobby(Rules.Data, lobbyName).Forget();
+          _lobbyManager.JoinLobby(_joinCodeField.text).Forget();
       }
       else
       {
-        _lobbyManager.CreateOrJoinLobby(Rules.Data).Forget();
+        _lobbyManager.SearchFreeLobby().Forget();
       }
 
       await _windowManager.OpenWindow<SearchGameWindow>();

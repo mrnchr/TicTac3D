@@ -122,7 +122,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6379211031479633134, guid: 0e773d6dd19e448458946a363e4385e1, type: 3}
       propertyPath: m_SizeDelta.x
-      value: -20
+      value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 6379211031479633134, guid: 0e773d6dd19e448458946a363e4385e1, type: 3}
       propertyPath: m_SizeDelta.y
@@ -142,7 +142,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6698068926877988297, guid: 0e773d6dd19e448458946a363e4385e1, type: 3}
       propertyPath: m_Name
-      value: Button_Text_Big Variant
+      value: ButtonTextBig
       objectReference: {fileID: 0}
     - target: {fileID: 8856344573818934449, guid: 0e773d6dd19e448458946a363e4385e1, type: 3}
       propertyPath: m_Type

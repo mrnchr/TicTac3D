@@ -75,23 +75,23 @@ namespace CollectiveMind.TicTac3D.Runtime.UI
 
     protected override UniTask OnOpened()
     {
-      _continueButton.ObjOrNull()?.gameObject.SetActive(_gameStateMachine.CurrentState.CurrentValue is GameplayGameState);
+      _continueButton.OrNull()?.gameObject.SetActive(_gameStateMachine.CurrentState.CurrentValue is GameplayGameState);
       return UniTask.CompletedTask;
     }
 
     private void ChangeSoundVolumeSlider(float value)
     {
-      _soundVolumeSlider.ObjOrNull()?.SetValueWithoutNotify(value);
+      _soundVolumeSlider.OrNull()?.SetValueWithoutNotify(value);
     }
 
     private void ChangeMusicVolumeSlider(float value)
     {
-      _musicVolumeSlider.ObjOrNull()?.SetValueWithoutNotify(value);
+      _musicVolumeSlider.OrNull()?.SetValueWithoutNotify(value);
     }
 
     private void ChangeMouseSensitivitySlider(float value)
     {
-      _mouseSensitivitySlider.ObjOrNull()?.SetValueWithoutNotify(value);
+      _mouseSensitivitySlider.OrNull()?.SetValueWithoutNotify(value);
     }
 
     private void ChangeSoundVolume(float value)

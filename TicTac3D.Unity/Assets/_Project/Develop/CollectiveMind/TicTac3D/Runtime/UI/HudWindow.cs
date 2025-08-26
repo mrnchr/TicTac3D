@@ -100,7 +100,7 @@ namespace CollectiveMind.TicTac3D.Runtime.UI
 
     private void UpdateTime(float time)
     {
-      _timerLabel.text = $"{time / 60:0}:{time % 60:00}";
+      _timerLabel.text = $"{(int)time / 60:0}:{(int)time % 60:00}";
     }
 
     private void OnDestroy()

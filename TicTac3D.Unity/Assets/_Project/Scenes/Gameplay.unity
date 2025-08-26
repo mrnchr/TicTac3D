@@ -1508,10 +1508,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6455012755684499711, guid: 161a4c1f8d192504cb4b5883a07d2c68, type: 3}
-      propertyPath: m_GameObjectRolesMask
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6881322797141340730, guid: 161a4c1f8d192504cb4b5883a07d2c68, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0

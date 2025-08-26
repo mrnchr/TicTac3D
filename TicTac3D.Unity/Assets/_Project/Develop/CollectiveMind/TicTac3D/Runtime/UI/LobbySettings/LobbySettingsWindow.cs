@@ -18,9 +18,6 @@ namespace CollectiveMind.TicTac3D.Runtime.UI
     private Toggle _isPrivateGameToggle;
 
     [SerializeField]
-    private TMP_InputField _lobbyNameField;
-
-    [SerializeField]
     private TMP_InputField _joinCodeField;
 
     [SerializeField]
@@ -36,12 +33,11 @@ namespace CollectiveMind.TicTac3D.Runtime.UI
     private IWindowManager _windowManager;
     private IConfigLoader _configLoader;
     private GameConfig _gameConfig;
-    private LobbySettingsConfig _config;
-    private List<RuleButton> _ruleButtons;
+    private List<RuleDropdown> _ruleButtons;
     private LobbyManager _lobbyManager;
     private List<FadingCountHolder> _holders;
 
-    public GameRules Rules => _rulesProvider.Rules;
+    private GameRules Rules => _rulesProvider.Rules;
 
     [Inject]
     public void Construct(GameRulesProvider gameRulesProvider,
@@ -54,14 +50,12 @@ namespace CollectiveMind.TicTac3D.Runtime.UI
       _configLoader = configLoader;
       _lobbyManager = lobbyManager;
       _gameConfig = configLoader.LoadConfig<GameConfig>();
-      _config = configLoader.LoadConfig<LobbySettingsConfig>();
 
-      _ruleButtons = GetComponentsInChildren<RuleButton>(true).ToList();
+      _ruleButtons = GetComponentsInChildren<RuleDropdown>(true).ToList();
       _holders = GetComponentsInChildren<FadingCountHolder>(true).ToList();
 
       _isPrivateGameToggle.onValueChanged.AddListener(SwitchPrivateGame);
       _isPrivateGameToggle.onValueChanged.AddListener(ChangeSearchButtonText);
-      _lobbyNameField.onValueChanged.AddListener(ChangeSearchButtonText);
       _joinCodeField.onValueChanged.AddListener(ChangeSearchButtonText);
       _searchGameButton.AddListener(SearchGame);
       _backButton.AddListener(CloseWindow);
@@ -71,7 +65,7 @@ namespace CollectiveMind.TicTac3D.Runtime.UI
     {
       Rules.Data = _gameConfig.DefaultRules;
 
-      foreach (RuleButton button in _ruleButtons)
+      foreach (RuleDropdown button in _ruleButtons)
         button.OnUpdateRule(Rules.Data);
 
       foreach (FadingCountHolder holder in _holders)
@@ -83,7 +77,6 @@ namespace CollectiveMind.TicTac3D.Runtime.UI
 
     private void SwitchPrivateGame(bool value)
     {
-      _lobbyNameField.gameObject.SetActive(value);
       _joinCodeField.gameObject.SetActive(value);
     }
 
@@ -105,11 +98,11 @@ namespace CollectiveMind.TicTac3D.Runtime.UI
       //     : _config.SearchText;
     }
 
-    public void SetRule<T>(RuleButton sender, T value)
+    public void SetRule<T>(RuleDropdown sender, T value)
     {
       Rules.SetRule(sender.RuleType, value);
 
-      foreach (RuleButton button in _ruleButtons)
+      foreach (RuleDropdown button in _ruleButtons)
         button.OnUpdateRule(Rules.Data);
 
       foreach (FadingCountHolder holder in _holders)
@@ -120,11 +113,11 @@ namespace CollectiveMind.TicTac3D.Runtime.UI
     {
       if (_isPrivateGameToggle.isOn)
       {
-        string lobbyName = _lobbyNameField.text;
-        if (!string.IsNullOrWhiteSpace(lobbyName))
-          _lobbyManager.CreateLobby(lobbyName).Forget();
+        string joinCode = _joinCodeField.text;
+        if (string.IsNullOrWhiteSpace(joinCode))
+          _lobbyManager.CreateLobby().Forget();
         else
-          _lobbyManager.JoinLobby(_joinCodeField.text).Forget();
+          _lobbyManager.JoinLobby(joinCode).Forget();
       }
       else
       {
@@ -143,11 +136,9 @@ namespace CollectiveMind.TicTac3D.Runtime.UI
     {
       _isPrivateGameToggle.onValueChanged.RemoveListener(SwitchPrivateGame);
       _isPrivateGameToggle.onValueChanged.RemoveListener(ChangeSearchButtonText);
-      _lobbyNameField.onValueChanged.RemoveListener(ChangeSearchButtonText);
       _joinCodeField.onValueChanged.RemoveListener(ChangeSearchButtonText);
       _searchGameButton.RemoveListener(SearchGame);
       _backButton.RemoveListener(CloseWindow);
-      _configLoader.UnloadConfig<LobbySettingsConfig>();
       _configLoader.UnloadConfig<GameConfig>();
     }
   }

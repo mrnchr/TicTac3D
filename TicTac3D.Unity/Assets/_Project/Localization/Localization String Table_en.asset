@@ -253,6 +253,18 @@ MonoBehaviour:
     m_Localized: Copy
     m_Metadata:
       m_Items: []
+  - m_Id: 56571739541307392
+    m_Localized: Rate of fading of player shapes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 56618354134188032
+    m_Localized: Join code
+    m_Metadata:
+      m_Items: []
+  - m_Id: 56619658621452288
+    m_Localized: Enter code...
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

@@ -118,7 +118,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Boot
 #endif
 
       Container
-        .BindInterfacesTo<ProjectInitializer>()
+        .BindInterfacesAndSelfTo<ProjectInitializer>()
         .AsSingle();
     }
   }

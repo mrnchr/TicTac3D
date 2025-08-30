@@ -48,7 +48,7 @@ namespace CollectiveMind.TicTac3D.Runtime.UI
     {
       _joinCodeText.gameObject.SetActive(false);
       _copyCodeButton.gameObject.SetActive(false);
-      
+
       _cts = new CancellationTokenSource();
       WaitForJoinCode(_cts.Token).Forget();
       return UniTask.CompletedTask;
@@ -58,18 +58,15 @@ namespace CollectiveMind.TicTac3D.Runtime.UI
     {
       if (_lobbyManager.IsLobbyCreating)
       {
-        await UniTask.WaitUntil(() => _lobbyManager.IsHost, cancellationToken: token);
-        if(token.IsCancellationRequested) 
+        await UniTask.WaitUntil(() => _lobbyManager.IsLobbyCreated, cancellationToken: token);
+        if (token.IsCancellationRequested)
           return;
-        
-        if (_lobbyManager.IsHost && _lobbyManager.IsPrivateLobby)
-        {
-          _joinCodeText.gameObject.SetActive(true);
-          _copyCodeButton.gameObject.SetActive(true);
-          
-          _joinCodeText.StringReference[NC.JOIN_CODE_NAME] = new StringVariable { Value = _lobbyManager.JoinCode };
-          _joinCodeText.RefreshString();
-        }
+
+        _joinCodeText.gameObject.SetActive(true);
+        _copyCodeButton.gameObject.SetActive(true);
+
+        _joinCodeText.StringReference[NC.JOIN_CODE_NAME] = new StringVariable { Value = _lobbyManager.JoinCode };
+        _joinCodeText.RefreshString();
       }
     }
 

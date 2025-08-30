@@ -73,7 +73,8 @@ namespace CollectiveMind.TicTac3D.Runtime.Boot
 
       InputInstaller.Install(Container);
       SettingsInstaller.Install(Container);
-
+      ConnectionInstaller.Install(Container);
+      
       Container
         .BindInterfacesAndSelfTo<LobbyManager>()
         .AsSingle();

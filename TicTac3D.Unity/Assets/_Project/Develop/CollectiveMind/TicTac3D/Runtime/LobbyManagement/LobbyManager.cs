@@ -1,59 +1,41 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
-using CollectiveMind.TicTac3D.Runtime.Gameplay;
-using CollectiveMind.TicTac3D.Runtime.Network;
 using CollectiveMind.TicTac3D.Runtime.UI;
 using Cysharp.Threading.Tasks;
-using Newtonsoft.Json;
-using Unity.Netcode;
-using Unity.Netcode.Transports.UTP;
-using Unity.Services.Authentication;
 using Unity.Services.Core;
-using Unity.Services.Lobbies;
-using Unity.Services.Lobbies.Models;
-using Unity.Services.Relay;
-using Unity.Services.Relay.Models;
-using UnityEngine;
 using Zenject;
 
 namespace CollectiveMind.TicTac3D.Runtime.LobbyManagement
 {
   public class LobbyManager : IDisposable
   {
-    private readonly NetworkManager _networkManager;
-    private readonly IRpcProvider _rpcProvider;
-    private readonly GameRulesProvider _rulesProvider;
     private readonly IInstantiator _instantiator;
+    private readonly ConnectionInfo _connectionInfo;
+    private readonly LobbyHelper _lobbyHelper;
     private readonly AuthorizationService _authorizationService;
-    private readonly RandomLobbySearching _randomLobbySearching;
+    private readonly FreeLobbySearching _freeLobbySearching;
+    private readonly LobbyCreating _lobbyCreating;
 
-    private string _lobbyId;
-    private bool _isJoinedLobby;
-    private Lobby _lobby;
     private CancellationTokenSource _pingCts;
     private CancellationTokenSource _searchCts;
+    private readonly LobbyJoining _lobbyJoining;
 
-    public string JoinCode => _lobby?.LobbyCode;
-    public bool IsPrivateLobby => _lobby?.IsPrivate ?? false;
-    public bool IsHost => _networkManager.IsHost;
-    public bool IsLobbyCreating { get; private set; }
+    public string JoinCode => _connectionInfo.Lobby?.LobbyCode;
+    public bool IsLobbyCreating => _lobbyCreating.IsLobbyCreating;
+    public bool IsLobbyCreated => _connectionInfo.CreatedLobby;
 
-    public CancellationToken SearchingCancellationToken => _searchCts?.Token ?? CancellationToken.None;
-
-    private GameRulesData GameRulesData => _rulesProvider.Rules.Data;
-
-    public LobbyManager(NetworkManager networkManager,
-      IRpcProvider rpcProvider,
-      GameRulesProvider rulesProvider,
-      IInstantiator instantiator)
+    public LobbyManager(IInstantiator instantiator,
+      ConnectionInfo connectionInfo,
+      LobbyHelper lobbyHelper)
     {
-      _networkManager = networkManager;
-      _rpcProvider = rpcProvider;
-      _rulesProvider = rulesProvider;
       _instantiator = instantiator;
+      _connectionInfo = connectionInfo;
+      _lobbyHelper = lobbyHelper;
       _authorizationService = new AuthorizationService();
-      _randomLobbySearching = _instantiator.Instantiate<RandomLobbySearching>(new[] { this });
+
+      _freeLobbySearching = _instantiator.Instantiate<FreeLobbySearching>(new[] { this });
+      _lobbyCreating = _instantiator.Instantiate<LobbyCreating>(new[] { this });
+      _lobbyJoining = _instantiator.Instantiate<LobbyJoining>(new[] { this });
     }
 
     public async UniTask Initialize()
@@ -64,192 +46,66 @@ namespace CollectiveMind.TicTac3D.Runtime.LobbyManagement
       Ping(_pingCts.Token).Forget();
     }
 
-    public async UniTask<CancelableResult> SignIn(CancellationToken token = default(CancellationToken))
+    public async UniTask<AsyncResult> SignIn(CancellationToken token = default(CancellationToken))
     {
       return await _authorizationService.SignIn(token);
     }
 
     public async UniTask CreateLobby()
     {
-      _searchCts = new CancellationTokenSource();
-      IsLobbyCreating = true;
-      await CreateLobbyInternal(SearchingCancellationToken);
-      IsLobbyCreating = false;
-      _searchCts?.Dispose();
-      _searchCts = null;
-    }
-
-    private async UniTask CreateLobbyInternal(CancellationToken token = default(CancellationToken))
-    {
-      if (!await SignIn(token))
-        return;
-
-      Allocation allocation = await RelayService.Instance.CreateAllocationAsync(2);
-      string relayCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
-
-      Lobby lobby = await LobbyService.Instance.CreateLobbyAsync("LobbyName", 2, new CreateLobbyOptions
-      {
-        Data = new Dictionary<string, DataObject>
-        {
-          {
-            NC.RULES_NAME,
-            new DataObject(DataObject.VisibilityOptions.Public, JsonConvert.SerializeObject(GameRulesData),
-              DataObject.IndexOptions.S1)
-          },
-          {
-            NC.RELAY_CODE_NAME,
-            new DataObject(DataObject.VisibilityOptions.Member, relayCode)
-          }
-        },
-        IsPrivate = true
-      });
-
-      if (token.IsCancellationRequested)
-      {
-        await LobbyService.Instance.DeleteLobbyAsync(lobby.Id);
-        return;
-      }
-
-      _lobbyId = lobby.Id;
-      _lobby = lobby;
-
-      _networkManager.GetComponent<UnityTransport>().SetRelayServerData(allocation.ToRelayServerData("wss"));
-      _networkManager.StartHost();
-
-      if (token.IsCancellationRequested)
-      {
-        await LeaveLobby();
-        return;
-      }
-
-      if (!await StartGame(GameRulesData, token))
-      {
-        await LeaveLobby();
-        return;
-      }
-
-      _isJoinedLobby = true;
+      await ConnectToLobby(_lobbyCreating.CreateLobby);
     }
 
     public async UniTask JoinLobby(string lobbyCode)
     {
-      _searchCts = new CancellationTokenSource();
-      await JoinLobbyInternal(lobbyCode, SearchingCancellationToken);
-      _searchCts?.Dispose();
-      _searchCts = null;
-    }
-
-    private async UniTask JoinLobbyInternal(string lobbyCode, CancellationToken token = default(CancellationToken))
-    {
-      if (!await SignIn(token))
-        return;
-
-      if (!string.IsNullOrWhiteSpace(lobbyCode))
-      {
-        Lobby lobby = await LobbyService.Instance.JoinLobbyByCodeAsync(lobbyCode);
-        if (token.IsCancellationRequested)
-        {
-          await LobbyService.Instance.RemovePlayerAsync(_lobbyId, AuthenticationService.Instance.PlayerId);
-          return;
-        }
-
-        _lobbyId = lobby.Id;
-        _lobby = lobby;
-        string relayCode = lobby.Data[NC.RELAY_CODE_NAME].Value;
-        JoinAllocation allocation = await RelayService.Instance.JoinAllocationAsync(relayCode);
-        _networkManager.GetComponent<UnityTransport>().SetRelayServerData(allocation.ToRelayServerData("wss"));
-        _networkManager.StartClient();
-
-        if (token.IsCancellationRequested)
-        {
-          await LeaveLobby();
-          return;
-        }
-
-        if (!await StartGame(GameRulesData.CreateRandom(), token))
-        {
-          await LeaveLobby();
-          return;
-        }
-
-        _isJoinedLobby = true;
-      }
+      await ConnectToLobby(async token => await _lobbyJoining.JoinLobby(lobbyCode, token));
     }
 
     public async UniTask SearchFreeLobby()
     {
-      _searchCts = new CancellationTokenSource();
-      CancelableResult<Lobby> result = await _randomLobbySearching.SearchFreeLobby(_searchCts.Token);
-      if (result)
-      {
-        _lobby = result.Value;
-        Debug.Log($"Found lobby {_lobby.Id}");
-        _lobbyId = _lobby.Id;
-        _isJoinedLobby = true;
-      }
+      await ConnectToLobby(_freeLobbySearching.SearchFreeLobby);
+    }
 
-      _searchCts = _searchCts?.DisposeAndForget();
+    private async UniTask ConnectToLobby(Func<CancellationToken, UniTask<AsyncResult>> connector)
+    {
+      _searchCts = new CancellationTokenSource();
+
+      if (!await connector.Invoke(_searchCts.Token))
+        _connectionInfo.ClearAll();
+
+      _searchCts = _searchCts?.CancelDisposeAndForget();
     }
 
     public void CancelSearch()
     {
-      Debug.Log("Cancel search");
       _searchCts = _searchCts?.CancelDisposeAndForget();
-    }
-
-    private async UniTask<bool> StartGame(GameRulesData rules, CancellationToken token = default(CancellationToken))
-    {
-      await UniTask.WaitUntil(() => _rpcProvider.IsReady, cancellationToken: token);
-      if (token.IsCancellationRequested)
-        return false;
-
-      _rpcProvider.SendRequest(new StartGameRequest { Rules = rules });
-      return true;
     }
 
     private async UniTask Ping(CancellationToken token = default(CancellationToken))
     {
       while (!token.IsCancellationRequested)
       {
-        if (_networkManager.IsHost && _isJoinedLobby)
-          await LobbyService.Instance.SendHeartbeatPingAsync(_lobbyId);
+        await UniTask.WaitUntil(() => _connectionInfo.CreatedLobby, cancellationToken: token);
+        AsyncResult result = await LobbyWrapper.TrySendHeartbeatPingAsync(_connectionInfo.LobbyId, token);
 
-        await UniTask.WaitForSeconds(5f, cancellationToken: token);
+        if (result.IsValid)
+          await UniTask.WaitForSeconds(5f, cancellationToken: token);
       }
     }
 
     public async UniTask LeaveLobby()
     {
-      if (_networkManager.IsHost)
-      {
-        await LobbyService.Instance.DeleteLobbyAsync(_lobbyId);
-      }
-      else
-      {
-        try
-        {
-          await LobbyService.Instance.RemovePlayerAsync(_lobbyId, AuthenticationService.Instance.PlayerId);
-        }
-        catch (LobbyServiceException)
-        {
-        }
-      }
-
-      _networkManager.Shutdown();
-
-      _isJoinedLobby = false;
-      _lobbyId = "";
-      _lobby = null;
+      await _lobbyHelper.LeaveLobby();
     }
 
     public void Dispose()
     {
-      if (_isJoinedLobby)
-        LobbyService.Instance.DeleteLobbyAsync(_lobbyId);
+      if (_searchCts != null)
+        CancelSearch();
+      else
+        _lobbyHelper.LeaveLobby(true).Forget();
 
       _pingCts?.CancelDisposeAndForget();
-
-      CancelSearch();
     }
   }
 }

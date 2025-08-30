@@ -8,12 +8,12 @@ namespace CollectiveMind.TicTac3D.Runtime.LobbyManagement
 {
   public class AuthorizationService
   {
-    public async UniTask<CancelableResult> SignIn(CancellationToken token = default(CancellationToken))
+    public async UniTask<AsyncResult> SignIn(CancellationToken token = default(CancellationToken))
     {
       while (!AuthenticationService.Instance.IsSignedIn)
       {
         if (token.IsCancellationRequested)
-          return true;
+          return AsyncReturn.Cancel();
 
         try
         {
@@ -21,7 +21,7 @@ namespace CollectiveMind.TicTac3D.Runtime.LobbyManagement
           if (token.IsCancellationRequested)
           {
             AuthenticationService.Instance.SignOut();
-            return true;
+            return AsyncReturn.Cancel();
           }
           
           Debug.Log("Signed in.");
@@ -33,7 +33,7 @@ namespace CollectiveMind.TicTac3D.Runtime.LobbyManagement
         }
       }
 
-      return false;
+      return AsyncReturn.Ok();
     }
   }
 }

@@ -29,7 +29,7 @@ namespace CollectiveMind.TicTac3D.Runtime.LobbyManagement
         catch (RequestFailedException)
         {
           Debug.Log("Can not sign in. Retrying...");
-          await UniTask.WaitForSeconds(0.5f, cancellationToken: token);
+          await UniTask.WaitForSeconds(0.5f, cancellationToken: token).SuppressCancellationThrow();
         }
       }
 

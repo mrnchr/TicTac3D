@@ -37,8 +37,8 @@ namespace CollectiveMind.TicTac3D.Runtime.LobbyManagement
     {
       var actionResult = new AsyncResult<bool>(); 
       while (!token.IsCancellationRequested && !(actionResult = await action.Invoke()).Value)
-        await UniTask.WaitForSeconds(delay, cancellationToken: token);
-      
+        await UniTask.WaitForSeconds(delay, cancellationToken: token).SuppressCancellationThrow();
+
       actionResult.Cancelled = token.IsCancellationRequested;
       return actionResult;
     }

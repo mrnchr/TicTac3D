@@ -1,5 +1,6 @@
 ﻿using CollectiveMind.TicTac3D.Runtime.LobbyManagement;
 using CollectiveMind.TicTac3D.Runtime.UI;
+using Cysharp.Threading.Tasks;
 using Zenject;
 
 namespace CollectiveMind.TicTac3D.Runtime.Boot
@@ -17,6 +18,8 @@ namespace CollectiveMind.TicTac3D.Runtime.Boot
     
     public async void Initialize()
     {
+      UniTaskScheduler.PropagateOperationCanceledException = true;
+      
       _settingsApplier.Initialize();
       await _lobbyManager.Initialize();
     }

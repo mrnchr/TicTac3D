@@ -85,11 +85,17 @@ namespace CollectiveMind.TicTac3D.Runtime.LobbyManagement
     {
       while (!token.IsCancellationRequested)
       {
-        await UniTask.WaitUntil(() => _connectionInfo.CreatedLobby, cancellationToken: token);
+        await UniTask.WaitUntil(() => _connectionInfo.CreatedLobby, cancellationToken: token)
+          .SuppressCancellationThrow();
+        if (token.IsCancellationRequested)
+          return;
+        
         AsyncResult result = await LobbyWrapper.TrySendHeartbeatPingAsync(_connectionInfo.LobbyId, token);
-
+        if (token.IsCancellationRequested)
+          return;
+        
         if (result.IsValid)
-          await UniTask.WaitForSeconds(5f, cancellationToken: token);
+          await UniTask.WaitForSeconds(5f, cancellationToken: token).SuppressCancellationThrow();
       }
     }
 

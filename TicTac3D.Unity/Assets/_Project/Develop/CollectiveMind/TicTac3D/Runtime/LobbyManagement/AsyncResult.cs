@@ -44,6 +44,8 @@ namespace CollectiveMind.TicTac3D.Runtime.LobbyManagement
     public int ReturnCode;
     public Exception Exception;
 
+    public bool IsValid => !Cancelled && Exception == null;
+
     public AsyncResult(TValue value)
     {
       Value = value;
@@ -67,7 +69,7 @@ namespace CollectiveMind.TicTac3D.Runtime.LobbyManagement
       ReturnCode = returnCode;
       Exception = exception;
     }
-    
+
     public AsyncResult<TNewValue> Convert<TNewValue>()
     {
       return new AsyncResult<TNewValue>
@@ -77,9 +79,7 @@ namespace CollectiveMind.TicTac3D.Runtime.LobbyManagement
         Exception = Exception
       };
     }
-    
-    public bool IsValid => !Cancelled && Exception == null;
-    
+
     public AsyncResult<TNewValue> Convert<TNewValue>(TNewValue value)
     {
       return new AsyncResult<TNewValue>(value, Cancelled, ReturnCode, Exception);

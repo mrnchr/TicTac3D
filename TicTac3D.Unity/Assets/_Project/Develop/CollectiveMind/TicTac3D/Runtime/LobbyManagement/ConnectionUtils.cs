@@ -3,7 +3,6 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using Unity.Services.Lobbies;
 using Unity.Services.Relay;
-using UnityEngine;
 
 namespace CollectiveMind.TicTac3D.Runtime.LobbyManagement
 {

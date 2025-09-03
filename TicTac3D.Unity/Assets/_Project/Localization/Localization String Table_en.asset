@@ -245,7 +245,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 55865764270276608
-    m_Localized: 'Join code: {joinCode}'
+    m_Localized: 'Join code: <b><color="yellow>{joinCode}</color></b>'
     m_Metadata:
       m_Items:
       - rid: 4080226617323946123

@@ -58,7 +58,8 @@ namespace CollectiveMind.TicTac3D.Runtime.UI
     {
       if (_lobbyManager.IsLobbyCreating)
       {
-        await UniTask.WaitUntil(() => _lobbyManager.IsLobbyCreated, cancellationToken: token);
+        await UniTask.WaitUntil(() => _lobbyManager.IsLobbyCreated, cancellationToken: token)
+          .SuppressCancellationThrow();
         if (token.IsCancellationRequested)
           return;
 

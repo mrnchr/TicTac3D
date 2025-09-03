@@ -64,16 +64,16 @@ namespace CollectiveMind.TicTac3D.Runtime.LobbyManagement
         CreateAllocation(token),
         GetRelayCode(token),
         CreateRelayConnection(token),
-        StartGame(token));
+        _lobbyHelper.StartGameOnHost(GameRulesData, token)).SuppressCancellationThrow();
 
-      await UniTask.WaitUntil(() => _connectionInfo.GameStarted, cancellationToken: token);
+      await UniTask.WaitUntil(() => _connectionInfo.GameStarted, cancellationToken: token).SuppressCancellationThrow();
       if (token.IsCancellationRequested)
       {
         await task;
         _lobbyHelper.LeaveLobby(true).Forget();
         return AsyncReturn.Cancel();
       }
-      
+
       return AsyncReturn.Ok();
     }
 
@@ -98,13 +98,11 @@ namespace CollectiveMind.TicTac3D.Runtime.LobbyManagement
       {
         AsyncResult<Lobby> result =
           await LobbyWrapper.TryGetLobbyUntilExitAsync(_connectionInfo.LobbyId, token);
-        if (token.IsCancellationRequested)
-          return;
 
         if (result && result.Value != null)
           _isPlayerJoined = result.Value.Players.Count > 1;
 
-        await UniTask.WaitForSeconds(3, cancellationToken: token);
+        await UniTask.WaitForSeconds(3, cancellationToken: token).SuppressCancellationThrow();
       }
     }
 
@@ -112,7 +110,10 @@ namespace CollectiveMind.TicTac3D.Runtime.LobbyManagement
     {
       while (!token.IsCancellationRequested)
       {
-        await UniTask.WaitUntil(() => _isPlayerJoined && _connectionInfo.Allocation == null, cancellationToken: token);
+        await UniTask.WaitUntil(() => _isPlayerJoined && _connectionInfo.Allocation == null, cancellationToken: token)
+          .SuppressCancellationThrow();
+        if (token.IsCancellationRequested)
+          return;
 
         AsyncResult<Allocation> allocation =
           await RelayWrapper.TryCreateAllocationUntilExitAsync(2, token: token);
@@ -120,8 +121,6 @@ namespace CollectiveMind.TicTac3D.Runtime.LobbyManagement
           return;
 
         _connectionInfo.Allocation = allocation.Value;
-
-        return;
       }
     }
 
@@ -129,7 +128,8 @@ namespace CollectiveMind.TicTac3D.Runtime.LobbyManagement
     {
       while (!token.IsCancellationRequested)
       {
-        await UniTask.WaitUntil(() => _connectionInfo.Allocation != null, cancellationToken: token);
+        await UniTask.WaitUntil(() => _connectionInfo.Allocation != null, cancellationToken: token)
+          .SuppressCancellationThrow();
         if (token.IsCancellationRequested)
           return;
 
@@ -156,71 +156,38 @@ namespace CollectiveMind.TicTac3D.Runtime.LobbyManagement
     {
       while (!token.IsCancellationRequested)
       {
-        await UniTask.WaitUntil(() => _connectionInfo.RelayCodeCreated, cancellationToken: token);
+        await UniTask.WaitUntil(() => _connectionInfo.RelayCodeCreated, cancellationToken: token)
+          .SuppressCancellationThrow();
         if (token.IsCancellationRequested)
           return;
 
-        await UniTask.WhenAll(UpdateRelayCode(token), ConnectHost(token));
         _connectionInfo.RelayCodeCreated = false;
+        await UniTask.WhenAll(UpdateRelayCode(token), ConnectHost(token)).SuppressCancellationThrow();
       }
     }
 
     private async UniTask UpdateRelayCode(CancellationToken token = default(CancellationToken))
     {
-      while (!token.IsCancellationRequested)
-      {
-        await UniTask.WaitUntil(() => _connectionInfo.RelayCodeCreated, cancellationToken: token);
-        if (token.IsCancellationRequested)
-          return;
-
-        Dictionary<string, DataObject> data = _connectionInfo.Lobby.Data;
-        data[NC.RELAY_CODE_NAME] = new DataObject(DataObject.VisibilityOptions.Member, _connectionInfo.RelayCode);
-        await LobbyWrapper.TryUpdateLobbyUntilExitAsync(_connectionInfo.LobbyId,
-          new UpdateLobbyOptions { Data = data }, token);
-
-        if (token.IsCancellationRequested)
-          return;
-      }
+      Dictionary<string, DataObject> data = _connectionInfo.Lobby.Data;
+      data[NC.RELAY_CODE_NAME] = new DataObject(DataObject.VisibilityOptions.Member, _connectionInfo.RelayCode);
+      await LobbyWrapper.TryUpdateLobbyUntilExitAsync(_connectionInfo.LobbyId,
+        new UpdateLobbyOptions { Data = data }, token);
     }
 
     private async UniTask ConnectHost(CancellationToken token = default(CancellationToken))
     {
-      while (!token.IsCancellationRequested)
+      if (_networkManager.IsHost)
       {
-        await UniTask.WaitUntil(() => _connectionInfo.RelayCodeCreated, cancellationToken: token);
+        _networkManager.Shutdown();
+        await UniTask.WaitWhile(() => _networkManager.ShutdownInProgress, cancellationToken: token)
+          .SuppressCancellationThrow();
         if (token.IsCancellationRequested)
           return;
-
-        if (_networkManager.IsHost)
-        {
-          _networkManager.Shutdown();
-          await UniTask.WaitWhile(() => _networkManager.ShutdownInProgress, cancellationToken: token);
-          if (token.IsCancellationRequested)
-            return;
-        }
-
-        _networkManager.GetComponent<UnityTransport>()
-          .SetRelayServerData(_connectionInfo.Allocation.ToRelayServerData("wss"));
-        _networkManager.StartHost();
       }
-    }
-    
-    
-    private async UniTask StartGame(CancellationToken token = default(CancellationToken))
-    {
-      while (!token.IsCancellationRequested)
-      {
-        await UniTask.WaitUntil(() => _connectionInfo.IsConnected && _isPlayerJoined,
-          cancellationToken: token);
-        if (token.IsCancellationRequested)
-          return;
 
-        await _lobbyHelper.StartGame(GameRulesData, token);
-        if (token.IsCancellationRequested)
-          return;
-
-        _connectionInfo.GameStarted = true;
-      }
+      _networkManager.GetComponent<UnityTransport>()
+        .SetRelayServerData(_connectionInfo.Allocation.ToRelayServerData("wss"));
+      _networkManager.StartHost();
     }
   }
 }

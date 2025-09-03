@@ -52,7 +52,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Gameplay
         .AsSingle();
 
       Container
-        .BindInterfacesTo<FieldCleaner>()
+        .BindInterfacesTo<GameFinish>()
         .AsSingle();
 
       Container

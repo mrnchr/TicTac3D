@@ -68,10 +68,10 @@ namespace CollectiveMind.TicTac3D.Runtime.LobbyManagement
 
     private async UniTask ConnectToLobby(Func<CancellationToken, UniTask<AsyncResult>> connector)
     {
+      _connectionInfo.ClearAll();
       _searchCts = new CancellationTokenSource();
 
-      if (!await connector.Invoke(_searchCts.Token))
-        _connectionInfo.ClearAll();
+      await connector.Invoke(_searchCts.Token);
 
       _searchCts = _searchCts?.CancelDisposeAndForget();
     }
@@ -89,11 +89,11 @@ namespace CollectiveMind.TicTac3D.Runtime.LobbyManagement
           .SuppressCancellationThrow();
         if (token.IsCancellationRequested)
           return;
-        
+
         AsyncResult result = await LobbyWrapper.TrySendHeartbeatPingAsync(_connectionInfo.LobbyId, token);
         if (token.IsCancellationRequested)
           return;
-        
+
         if (result.IsValid)
           await UniTask.WaitForSeconds(5f, cancellationToken: token).SuppressCancellationThrow();
       }

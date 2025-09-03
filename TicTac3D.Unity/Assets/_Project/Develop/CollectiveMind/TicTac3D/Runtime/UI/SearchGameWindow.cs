@@ -24,15 +24,13 @@ namespace CollectiveMind.TicTac3D.Runtime.UI
     private Button _backButton;
 
     private IWindowManager _windowManager;
-    private IRpcProvider _rpcProvider;
     private LobbyManager _lobbyManager;
     private CancellationTokenSource _cts;
 
     [Inject]
-    public void Construct(IWindowManager windowManager, IRpcProvider rpcProvider, LobbyManager lobbyManager)
+    public void Construct(IWindowManager windowManager, LobbyManager lobbyManager)
     {
       _windowManager = windowManager;
-      _rpcProvider = rpcProvider;
       _lobbyManager = lobbyManager;
 
       _copyCodeButton.AddListener(CopyJoinCode);
@@ -74,7 +72,6 @@ namespace CollectiveMind.TicTac3D.Runtime.UI
     private void CloseWindow()
     {
       _lobbyManager.CancelSearch();
-      _rpcProvider.SendRequest<StopSearchGameRequest>();
       _cts = _cts?.CancelDisposeAndForget();
       _windowManager.CloseWindow<SearchGameWindow>().Forget();
     }

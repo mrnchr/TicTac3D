@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using CollectiveMind.TicTac3D.Runtime.GameStateComponents;
 using CollectiveMind.TicTac3D.Runtime.Network;
+using Object = UnityEngine.Object;
 
 namespace CollectiveMind.TicTac3D.Runtime.Gameplay
 {
@@ -33,6 +34,15 @@ namespace CollectiveMind.TicTac3D.Runtime.Gameplay
 
       _networkBus.SubscribeOnRpcWithParameter<StartGameResponse>(CreateField);
       _networkBus.SubscribeOnRpcWithParameter<DefinedShapeResponse>(DefineShape);
+    }
+
+    public void CleanField()
+    {
+      foreach (CellVisual cell in _cellVisuals)
+        Object.Destroy(cell.gameObject);
+
+      _cellVisuals.Clear();
+      _cells.Clear();
     }
 
     private async void CreateField(StartGameResponse response)

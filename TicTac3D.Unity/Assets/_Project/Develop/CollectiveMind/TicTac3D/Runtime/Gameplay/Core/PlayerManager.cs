@@ -28,7 +28,6 @@ namespace CollectiveMind.TicTac3D.Runtime.Gameplay
 
       _networkManager.OnConnectionEvent += OnClientDisconnected;
       _networkBus.SubscribeOnRpcWithParameters<StartGameRequest>(AddOrCreateSession);
-      _networkBus.SubscribeOnRpcWithParameter<StopSearchGameRequest>(LeavePlayerFromSession);
       _networkBus.SubscribeOnRpcWithParameter<LeaveGameRequest>(LeavePlayerFromSession);
     }
 
@@ -94,7 +93,6 @@ namespace CollectiveMind.TicTac3D.Runtime.Gameplay
     {
       _networkManager.OnConnectionEvent -= OnClientDisconnected;
       _networkBus.UnsubscribeFromRpc<StartGameRequest>();
-      _networkBus.UnsubscribeFromRpc<StopSearchGameRequest>();
       _networkBus.UnsubscribeFromRpc<LeaveGameRequest>();
     }
   }

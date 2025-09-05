@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using CollectiveMind.TicTac3D.Editor.Windows;
 using CollectiveMind.TicTac3D.Runtime;
+using CollectiveMind.TicTac3D.Runtime.LobbyManagement;
 using Cysharp.Threading.Tasks;
 using TriInspector;
 using UnityEditor;
@@ -79,6 +80,22 @@ namespace CollectiveMind.TicTac3D.Editor
     public void RemoveRule()
     {
       RemoveRuleForBlockNetwork();
+    }
+
+    [InitializeOnEnterPlayMode]
+    private static void OnPlayModeChanged()
+    {
+      NetworkBlockerBridge.BlockNetwork += async () =>
+      {
+        instance.Block();
+        await UniTask.WaitUntil(() => instance._isBlocked);
+      };
+
+      NetworkBlockerBridge.UnblockNetwork += async () =>
+      {
+        instance.Unblock();
+        await UniTask.WaitUntil(() => !instance._isBlocked);
+      };
     }
 
     private static void AddRuleForBlockNetwork(string programPath, Action onExecuted = null)

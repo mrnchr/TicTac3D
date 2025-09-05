@@ -1,8 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Threading;
 using CollectiveMind.TicTac3D.Runtime.UI;
 using Cysharp.Threading.Tasks;
+using Unity.Services.Authentication;
 using Unity.Services.Core;
+using Unity.Services.Lobbies;
+using Unity.Services.Lobbies.Models;
 using Zenject;
 
 namespace CollectiveMind.TicTac3D.Runtime.LobbyManagement
@@ -20,9 +25,9 @@ namespace CollectiveMind.TicTac3D.Runtime.LobbyManagement
     private CancellationTokenSource _searchCts;
     private readonly LobbyJoining _lobbyJoining;
 
-    public string JoinCode => _connectionInfo.Lobby?.LobbyCode;
+    public string JoinCode => _connectionInfo.CreatedLobby.Lobby?.LobbyCode;
     public bool IsLobbyCreating => _lobbyCreating.IsLobbyCreating;
-    public bool IsLobbyCreated => _connectionInfo.CreatedLobby;
+    public bool IsLobbyCreated => _connectionInfo.CreatedLobby.Lobby != null;
 
     public LobbyManager(IInstantiator instantiator,
       ConnectionInfo connectionInfo,
@@ -43,7 +48,9 @@ namespace CollectiveMind.TicTac3D.Runtime.LobbyManagement
       await UnityServices.InitializeAsync();
 
       _pingCts = new CancellationTokenSource();
-      Ping(_pingCts.Token).Forget();
+      PingHost(_pingCts.Token).Forget();
+      PingPlayer(() => _connectionInfo.CreatedLobby.Lobby, _pingCts.Token).Forget();
+      PingPlayer(() => _connectionInfo.JoinedLobby.Lobby, _pingCts.Token).Forget();
     }
 
     public async UniTask<AsyncResult> SignIn(CancellationToken token = default(CancellationToken))
@@ -81,22 +88,55 @@ namespace CollectiveMind.TicTac3D.Runtime.LobbyManagement
       _searchCts = _searchCts?.CancelDisposeAndForget();
     }
 
-    private async UniTask Ping(CancellationToken token = default(CancellationToken))
+    private async UniTask PingHost(CancellationToken token = default(CancellationToken))
     {
       while (!token.IsCancellationRequested)
       {
-        await UniTask.WaitUntil(() => _connectionInfo.CreatedLobby, cancellationToken: token)
+        await UniTask.WaitUntil(() => _connectionInfo.CreatedLobby.Lobby != null, cancellationToken: token)
           .SuppressCancellationThrow();
         if (token.IsCancellationRequested)
           return;
 
-        AsyncResult result = await LobbyWrapper.TrySendHeartbeatPingAsync(_connectionInfo.LobbyId, token);
+        AsyncResult result = await LobbyWrapper.TrySendHeartbeatPingAsync(_connectionInfo.CreatedLobby.LobbyId, token);
         if (token.IsCancellationRequested)
           return;
 
         if (result.IsValid)
           await UniTask.WaitForSeconds(5f, cancellationToken: token).SuppressCancellationThrow();
       }
+    }
+
+    private async UniTask PingPlayer(Func<Lobby> when, CancellationToken token = default(CancellationToken))
+    {
+      while (!token.IsCancellationRequested)
+      {
+        await UniTask.WaitUntil(() => when.Invoke() != null, cancellationToken: token).SuppressCancellationThrow();
+        if (token.IsCancellationRequested)
+          return;
+
+        AsyncResult result = await LobbyWrapper.TryUpdatePlayerAsync(when.Invoke().Id,
+          AuthenticationService.Instance.PlayerId, CreateUpdatePlayerOptions(), token: token);
+        if (token.IsCancellationRequested)
+          return;
+
+        if (result.IsValid)
+          await UniTask.WaitForSeconds(5f, cancellationToken: token).SuppressCancellationThrow();
+      }
+    }
+
+    private static UpdatePlayerOptions CreateUpdatePlayerOptions()
+    {
+      return new UpdatePlayerOptions
+      {
+        Data = new Dictionary<string, PlayerDataObject>
+        {
+          {
+            "LastUpdateTime",
+            new PlayerDataObject(PlayerDataObject.VisibilityOptions.Private,
+              DateTime.UtcNow.ToString(CultureInfo.InvariantCulture))
+          }
+        }
+      };
     }
 
     public async UniTask LeaveLobby()

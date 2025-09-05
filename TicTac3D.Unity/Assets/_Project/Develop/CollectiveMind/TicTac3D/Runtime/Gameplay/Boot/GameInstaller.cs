@@ -24,7 +24,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Gameplay
         .Bind<List<CellModel>>()
         .AsSingle();
       Container
-        .BindInterfacesTo<FieldCreator>()
+        .BindInterfacesAndSelfTo<FieldCreator>()
         .AsSingle();
 
       Container

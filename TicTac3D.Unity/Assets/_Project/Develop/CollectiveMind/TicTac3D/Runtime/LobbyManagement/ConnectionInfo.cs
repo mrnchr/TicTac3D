@@ -1,54 +1,96 @@
-﻿using Unity.Services.Lobbies.Models;
+﻿using System;
+using Unity.Networking.Transport.Relay;
+using Unity.Services.Lobbies.Models;
 using Unity.Services.Relay.Models;
 
 namespace CollectiveMind.TicTac3D.Runtime.LobbyManagement
 {
+  [Serializable]
   public class ConnectionInfo
   {
-    public Lobby Lobby;
-    public string LobbyId;
+    public LobbyInfo ActiveLobby => CreatedLobby.IsActive ? CreatedLobby : JoinedLobby.IsActive ? JoinedLobby : null;
 
-    public bool CreatedLobby;
-    public bool JoinedLobby;
-
-    public bool RelayCodeCreated;
-    public Allocation Allocation;
-    public string RelayCode;
-    public bool IsRelayCodeUpdated;
-    
-    public bool NeedReconnect;
-    public JoinAllocation JoinAllocation;
-
-    public bool IsConnected;
+    public LobbyInfo CreatedLobby = new LobbyInfo();
+    public LobbyInfo JoinedLobby = new LobbyInfo();
 
     public bool GameStarted;
 
+    public bool IsActive => ActiveLobby != null;
+
     public void ClearAllocation()
     {
-      RelayCodeCreated = false;
-      Allocation = null;
-      RelayCode = null;
-      
-      NeedReconnect = false;
-      JoinAllocation = null;
-      IsRelayCodeUpdated = false;
+      CreatedLobby.ClearAllocation();
+      JoinedLobby.ClearAllocation();
     }
 
     public void ClearLobby()
     {
-      Lobby = null;
-      LobbyId = null;
-      CreatedLobby = false;
-      JoinedLobby = false;
+      CreatedLobby.ClearLobby();
+      JoinedLobby.ClearLobby();
     }
 
     public void ClearAll()
     {
-      IsConnected = false;
       GameStarted = false;
-      
+
       ClearLobby();
       ClearAllocation();
+    }
+
+    [Serializable]
+    public class LobbyInfo
+    {
+      public bool IsActive;
+      public string LobbyId;
+      public Lobby Lobby;
+
+      public Guid AllocationId;
+      public RelayServerData RelayServerData;
+        
+      public string RelayCode;
+      public bool IsRelayCodeUpdated;
+
+      public bool NeedReconnect;
+
+      public void SetLobby(Lobby lobby)
+      {
+        Lobby = lobby;
+        LobbyId = lobby.Id;
+      }
+
+      public void SetAllocation(Allocation allocation)
+      {
+        AllocationId = allocation.AllocationId;
+        RelayServerData = allocation.ToRelayServerData("wss");
+      }
+
+      public void SetAllocation(JoinAllocation allocation)
+      {
+        AllocationId = allocation.AllocationId;
+        RelayServerData = allocation.ToRelayServerData("wss");
+      }
+
+      public void ClearLobby()
+      {
+        IsActive = false;
+        Lobby = null;
+        LobbyId = null;
+      }
+
+      public void ClearAllocation()
+      {
+        AllocationId = new Guid();
+        RelayCode = null;
+        IsRelayCodeUpdated = false;
+        NeedReconnect = false;
+        RelayServerData = new RelayServerData();
+      }
+
+      public void ClearAll()
+      {
+        ClearLobby();
+        ClearAllocation();
+      }
     }
   }
 }

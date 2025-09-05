@@ -139,5 +139,14 @@ namespace CollectiveMind.TicTac3D.Runtime.LobbyManagement
       return await ConnectionUtils.TryExecuteMethodAsync(
         async () => await LobbyService.Instance.DeleteLobbyAsync(lobbyId), token);
     }
+
+    public static async UniTask<AsyncResult<Lobby>> TryUpdatePlayerAsync(string lobbyId,
+      string playerId,
+      UpdatePlayerOptions options,
+      CancellationToken token = default(CancellationToken))
+    {
+      return await ConnectionUtils.TryExecuteMethodAsync(
+        async () => await LobbyService.Instance.UpdatePlayerAsync(lobbyId, playerId, options), token);
+    }
   }
 }

@@ -6,6 +6,7 @@
     BotMoveCount = 2,
     MoveTime = 3,
     ShapeFading = 4,
-    FadingMoveCount = 5
+    BotFadingMoveCount = 5,
+    PlayerFadingMoveCount = 6
   }
 }

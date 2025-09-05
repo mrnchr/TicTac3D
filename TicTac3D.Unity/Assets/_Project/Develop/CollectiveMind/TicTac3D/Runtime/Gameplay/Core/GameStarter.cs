@@ -97,8 +97,13 @@ namespace CollectiveMind.TicTac3D.Runtime.Gameplay
       data.MoveTime = RandomizeRule(GameRuleType.MoveTime, data.MoveTime, data.MoveTime < 0);
       data.ShapeFading = RandomizeRule(GameRuleType.ShapeFading, data.ShapeFading,
         data.ShapeFading == ShapeFadingType.None);
-      data.FadingMoveCount =
-        RandomizeRule(GameRuleType.FadingMoveCount, data.FadingMoveCount, data.FadingMoveCount < 0);
+      data.BotFadingMoveCount =
+        RandomizeRule(GameRuleType.BotFadingMoveCount, data.BotFadingMoveCount, data.BotFadingMoveCount < 0);
+      data.PlayerFadingMoveCount = RandomizeRule(GameRuleType.PlayerFadingMoveCount, data.PlayerFadingMoveCount,
+        data.PlayerFadingMoveCount < 0);
+      
+      if(!data.ShapeFading.IsPlayersOrRandom() && data.BotMoveCount is >= 0 and < 2)
+        data.BotMoveCount = 2;
       return data;
     }
 

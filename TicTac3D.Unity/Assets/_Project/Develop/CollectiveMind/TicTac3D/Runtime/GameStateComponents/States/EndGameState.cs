@@ -11,28 +11,28 @@ namespace CollectiveMind.TicTac3D.Runtime.GameStateComponents
   public class EndGameState : IGameState, IPaylodedState<LeaveGamePayload>
   {
     private readonly IGameplayTickableManager _gameplayTickableManager;
-    private readonly IFieldCleaner _fieldCleaner;
     private readonly IRpcProvider _rpcProvider;
     private readonly IWindowManager _windowManager;
     private readonly IGameStateMachine _gameStateMachine;
     private readonly LobbyManager _lobbyManager;
+    private readonly FieldCreator _fieldCreator;
     private readonly CameraRotator _cameraRotator;
 
     private bool _isLeaveGamePayloadReceived;
 
     public EndGameState(IGameplayTickableManager gameplayTickableManager,
-      IFieldCleaner fieldCleaner,
       IRpcProvider rpcProvider,
       IWindowManager windowManager,
       IGameStateMachine gameStateMachine,
-      LobbyManager lobbyManager)
+      LobbyManager lobbyManager,
+      FieldCreator fieldCreator)
     {
       _gameplayTickableManager = gameplayTickableManager;
-      _fieldCleaner = fieldCleaner;
       _rpcProvider = rpcProvider;
       _windowManager = windowManager;
       _gameStateMachine = gameStateMachine;
       _lobbyManager = lobbyManager;
+      _fieldCreator = fieldCreator;
 
       _cameraRotator = Object.FindAnyObjectByType<CameraRotator>();
     }
@@ -56,7 +56,7 @@ namespace CollectiveMind.TicTac3D.Runtime.GameStateComponents
     public async UniTask Exit()
     {
       _cameraRotator.ResetRotation();
-      _fieldCleaner.CleanField();
+      _fieldCreator.CleanField();
       if (!_isLeaveGamePayloadReceived)
         _rpcProvider.SendRequest<LeaveGameRequest>();
       

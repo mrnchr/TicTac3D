@@ -175,7 +175,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 468929775370240
-    m_Localized: After {number} turn
+    m_Localized: After {number:plural:{} turn|{} turns}
     m_Metadata:
       m_Items:
       - rid: 4080226617323946123
@@ -228,6 +228,43 @@ MonoBehaviour:
     m_Metadata:
       m_Items:
       - rid: 4080226617323946123
+  - m_Id: 55847938541191168
+    m_Localized: Private lobby
+    m_Metadata:
+      m_Items: []
+  - m_Id: 55853193425289216
+    m_Localized: Search game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 55853333510848512
+    m_Localized: Create lobby
+    m_Metadata:
+      m_Items: []
+  - m_Id: 55853395733348352
+    m_Localized: Join lobby
+    m_Metadata:
+      m_Items: []
+  - m_Id: 55865764270276608
+    m_Localized: 'Join code: <b><color="yellow>{joinCode}</color></b>'
+    m_Metadata:
+      m_Items:
+      - rid: 4080226617323946123
+  - m_Id: 56279743928958976
+    m_Localized: Copy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 56571739541307392
+    m_Localized: Rate of fading of player shapes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 56618354134188032
+    m_Localized: Join code
+    m_Metadata:
+      m_Items: []
+  - m_Id: 56619658621452288
+    m_Localized: Enter code...
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:
@@ -241,3 +278,4 @@ MonoBehaviour:
         - id: 468929775370240
         - id: 466340254023680
         - id: 759173494046720
+        - id: 55865764270276608

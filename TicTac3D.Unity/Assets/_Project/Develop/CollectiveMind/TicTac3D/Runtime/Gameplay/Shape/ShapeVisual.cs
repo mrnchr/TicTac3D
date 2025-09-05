@@ -1,5 +1,4 @@
 ﻿using System;
-using CollectiveMind.TicTac3D.Runtime.AssetManagement;
 using R3;
 using UnityEngine;
 using Zenject;
@@ -12,16 +11,12 @@ namespace CollectiveMind.TicTac3D.Runtime.Gameplay
     private GameInfo _gameInfo;
     private MeshRenderer _renderer;
     private IDisposable _disposable;
-    private IConfigLoader _configLoader;
-    private GameConfig _config;
 
     [Inject]
-    public void Construct(CellModel cell, GameInfo gameInfo, IConfigLoader configLoader)
+    public void Construct(CellModel cell, GameInfo gameInfo)
     {
       _cell = cell;
       _gameInfo = gameInfo;
-      _configLoader = configLoader;
-      _config = configLoader.LoadConfig<GameConfig>();
 
       _renderer = GetComponentInChildren<MeshRenderer>(true);
 
@@ -30,13 +25,19 @@ namespace CollectiveMind.TicTac3D.Runtime.Gameplay
 
     private void ChangeTransparency(int lifeTime)
     {
-      if (_gameInfo.Rules.Data.ShapeFading <= ShapeFadingType.Off)
+      ShapeFadingType fading = _gameInfo.Rules.Data.ShapeFading;
+      if (fading <= ShapeFadingType.Off || _cell.Shape.Value == ShapeType.None)
         return;
 
       Color color = _renderer.material.color;
-      color.a = (float)lifeTime / (_cell.Shape.Value == ShapeType.XO
-        ? _gameInfo.Rules.Data.FadingMoveCount
-        : _config.PlayerShapesLifeTime);
+      var divider = 1;
+      if(fading.IsBot() && _cell.Shape.Value == ShapeType.XO)
+        divider = _gameInfo.Rules.Data.BotFadingMoveCount;
+      
+      if(fading.IsPlayers() && _cell.Shape.Value is ShapeType.X or ShapeType.O)
+        divider = _gameInfo.Rules.Data.PlayerFadingMoveCount;
+
+      color.a = (float)lifeTime / divider;
 
       _renderer.material.color = color;
     }
@@ -44,7 +45,6 @@ namespace CollectiveMind.TicTac3D.Runtime.Gameplay
     private void OnDestroy()
     {
       _disposable?.Dispose();
-      _configLoader.UnloadConfig<GameConfig>();
     }
   }
 }

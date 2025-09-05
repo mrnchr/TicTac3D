@@ -1,4 +1,5 @@
 ﻿using CollectiveMind.TicTac3D.Runtime.Gameplay;
+using CollectiveMind.TicTac3D.Runtime.LobbyManagement;
 using JetBrains.Annotations;
 using Unity.Netcode;
 using UnityEngine;
@@ -89,13 +90,6 @@ namespace CollectiveMind.TicTac3D.Runtime.Network
 
     [Rpc(SendTo.SpecifiedInParams)]
     [UsedImplicitly]
-    public void SendRequestServerRpc(StopSearchGameRequest request, RpcParams rpcParams)
-    {
-      _networkBus.HandleRpc(request, rpcParams);
-    }
-
-    [Rpc(SendTo.SpecifiedInParams)]
-    [UsedImplicitly]
     public void SendRequestServerRpc(LeaveGameRequest request, RpcParams rpcParams)
     {
       _networkBus.HandleRpc(request, rpcParams);
@@ -111,6 +105,20 @@ namespace CollectiveMind.TicTac3D.Runtime.Network
     [Rpc(SendTo.SpecifiedInParams)]
     [UsedImplicitly]
     public void SendResponseClientRpc(UpdateLifeTimeResponse response, RpcParams rpcParams)
+    {
+      _networkBus.HandleRpc(response, rpcParams);
+    }
+    
+    [Rpc(SendTo.SpecifiedInParams)]
+    [UsedImplicitly]
+    public void SendResponseClientRpc(ServerReadyResponse response, RpcParams rpcParams)
+    {
+      _networkBus.HandleRpc(response, rpcParams);
+    }
+    
+    [Rpc(SendTo.SpecifiedInParams)]
+    [UsedImplicitly]
+    public void SendRequestServerRpc(ClientReadyRequest response, RpcParams rpcParams)
     {
       _networkBus.HandleRpc(response, rpcParams);
     }

@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3628d4497d4b4349be57238d43a6abd7, type: 3}
+  m_Name: LobbySettingsConfig
+  m_EditorClassIdentifier: 
+  SearchText:
+    m_TableReference:
+      m_TableCollectionName: GUID:0ceff273c76045e459c6e8364b380d36
+    m_TableEntryReference:
+      m_KeyId: 55853193425289216
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  CreateLobbyText:
+    m_TableReference:
+      m_TableCollectionName: GUID:0ceff273c76045e459c6e8364b380d36
+    m_TableEntryReference:
+      m_KeyId: 55853333510848512
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  JoinLobbyText:
+    m_TableReference:
+      m_TableCollectionName: GUID:0ceff273c76045e459c6e8364b380d36
+    m_TableEntryReference:
+      m_KeyId: 55853395733348352
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  references:
+    version: 2
+    RefIds: []

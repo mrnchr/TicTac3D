@@ -19,7 +19,8 @@ namespace CollectiveMind.TicTac3D.Runtime.Gameplay
         GameRuleType.BotMoveCount when Data.BotMoveCount is TRule rule => rule,
         GameRuleType.MoveTime when Data.MoveTime is TRule rule => rule,
         GameRuleType.ShapeFading when Data.ShapeFading is TRule rule => rule,
-        GameRuleType.FadingMoveCount when Data.FadingMoveCount is TRule rule => rule,
+        GameRuleType.BotFadingMoveCount when Data.BotFadingMoveCount is TRule rule => rule,
+        GameRuleType.PlayerFadingMoveCount when Data.PlayerFadingMoveCount is TRule rule => rule,
         _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
       };
     }
@@ -40,25 +41,36 @@ namespace CollectiveMind.TicTac3D.Runtime.Gameplay
         case GameRuleType.ShapeFading when value is ShapeFadingType fadingType:
           Data.ShapeFading = fadingType;
           break;
-        case GameRuleType.FadingMoveCount when value is int intValue:
-          Data.FadingMoveCount = intValue;
+        case GameRuleType.BotFadingMoveCount when value is int intValue:
+          Data.BotFadingMoveCount = intValue;
+          break;
+        case GameRuleType.PlayerFadingMoveCount when value is int intValue:
+          Data.PlayerFadingMoveCount = intValue;
           break;
         default:
           throw new ArgumentOutOfRangeException(nameof(type), type, null);
       }
+      
+      if(!Data.ShapeFading.IsPlayersOrRandom() && Data.BotMoveCount is >= 0 and < 2)
+        Data.BotMoveCount = 2;
     }
 
     public GameRulesData Join(GameRulesData rules)
     {
-      int thisCount = Data.ShapeFading == ShapeFadingType.None ? -1 : Data.FadingMoveCount;
-      int otherCount = rules.ShapeFading == ShapeFadingType.None ? -1 : rules.FadingMoveCount;
+      int thisBotCount = Data.ShapeFading == ShapeFadingType.None ? -1 : Data.BotFadingMoveCount;
+      int otherBotCount = rules.ShapeFading == ShapeFadingType.None ? -1 : rules.BotFadingMoveCount;
+      
+      int thisPlayerCount = Data.ShapeFading == ShapeFadingType.None ? -1 : Data.PlayerFadingMoveCount;
+      int otherPlayerCount = rules.ShapeFading == ShapeFadingType.None ? -1 : rules.PlayerFadingMoveCount;
+      
       return new GameRulesData
       {
         DesiredShape = ShapeType.XO,
         BotMoveCount = Mathf.Max(Data.BotMoveCount, rules.BotMoveCount),
         MoveTime = Mathf.Max(Data.MoveTime, rules.MoveTime),
         ShapeFading = (ShapeFadingType)Mathf.Max((int)Data.ShapeFading, (int)rules.ShapeFading),
-        FadingMoveCount = Mathf.Max(thisCount, otherCount)
+        BotFadingMoveCount = Mathf.Max(thisBotCount, otherBotCount),
+        PlayerFadingMoveCount = Mathf.Max(thisPlayerCount, otherPlayerCount)
       };
     }
 

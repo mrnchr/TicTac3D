@@ -33,6 +33,9 @@ namespace CollectiveMind.TicTac3D.Runtime.Network
 
     public void SetBridge(NetworkBridge bridge)
     {
+      if (_networkBridge == bridge)
+        return;
+      
       _rpcMap.Clear();
       _variableMap.Clear();
       _networkBridge = bridge;

@@ -31,3 +31,5 @@ MonoBehaviour:
     Path: BackgroundConfig
   - TypeName: SoundConfig
     Path: SoundConfig
+  - TypeName: LobbySettingsConfig
+    Path: LobbySettingsConfig

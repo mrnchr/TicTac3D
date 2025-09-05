@@ -24,7 +24,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Gameplay
         .Bind<List<CellModel>>()
         .AsSingle();
       Container
-        .BindInterfacesTo<FieldCreator>()
+        .BindInterfacesAndSelfTo<FieldCreator>()
         .AsSingle();
 
       Container
@@ -52,7 +52,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Gameplay
         .AsSingle();
 
       Container
-        .BindInterfacesTo<FieldCleaner>()
+        .BindInterfacesTo<GameFinish>()
         .AsSingle();
 
       Container
@@ -62,10 +62,6 @@ namespace CollectiveMind.TicTac3D.Runtime.Gameplay
       Container
         .BindInterfacesTo<MoveTimeFollower>()
         .AsSingle();
-
-      Container
-        .Bind<FadingCountController>()
-        .AsTransient();
 
       Container
         .BindInterfacesTo<ShapeSetter>()

@@ -11,8 +11,6 @@ namespace CollectiveMind.TicTac3D.Runtime.Gameplay
   {
     public GameRulesData DefaultRules;
 
-    public int PlayerShapesLifeTime;
-
     public ShapeFadingType UnifiedFading;
 
     [ValidateInput("ValidateSeparateFading")]
@@ -24,7 +22,8 @@ namespace CollectiveMind.TicTac3D.Runtime.Gameplay
     public List<int> AvailableBotMoveCounts = new List<int>();
     public List<float> AvailableMoveTimes = new List<float>();
     public List<ShapeFadingType> AvailableShapeFadings = new List<ShapeFadingType>();
-    public List<int> AvailableFadingMoveCounts = new List<int>();
+    public List<int> AvailableBotFadingMoveCounts = new List<int>();
+    public List<int> AvailablePlayerFadingMoveCounts = new List<int>();
 
     public List<TRule> GetAvailableRule<TRule>(GameRuleType type)
     {
@@ -34,7 +33,8 @@ namespace CollectiveMind.TicTac3D.Runtime.Gameplay
         GameRuleType.BotMoveCount when AvailableBotMoveCounts is List<TRule> moveCounts => moveCounts,
         GameRuleType.MoveTime when AvailableMoveTimes is List<TRule> moveTimes => moveTimes,
         GameRuleType.ShapeFading when AvailableShapeFadings is List<TRule> shapeFadings => shapeFadings,
-        GameRuleType.FadingMoveCount when AvailableFadingMoveCounts is List<TRule> fadingMoveCounts => fadingMoveCounts,
+        GameRuleType.BotFadingMoveCount when AvailableBotFadingMoveCounts is List<TRule> fadingMoveCounts => fadingMoveCounts,
+        GameRuleType.PlayerFadingMoveCount when AvailablePlayerFadingMoveCounts is List<TRule> fadingMoveCounts => fadingMoveCounts,
         _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
       };
     }

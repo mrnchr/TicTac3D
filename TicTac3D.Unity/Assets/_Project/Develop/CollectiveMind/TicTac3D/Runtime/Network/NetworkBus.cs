@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -44,12 +45,13 @@ namespace CollectiveMind.TicTac3D.Runtime.Network
       Debug.Log($"HandleRpc<{typeof(T).Name}>");
       if (_rpcs.TryGetValue(typeof(T), out Delegate handler))
       {
-        switch (handler.Method.GetParameters().Length)
+        ParameterInfo[] parameters = handler.Method.GetParameters();
+        switch (parameters.Length)
         {
           case > 1:
             handler.DynamicInvoke(rpcData, rpcParams);
             break;
-          case > 0 when handler.Method.GetParameters()[0].ParameterType == typeof(RpcParams):
+          case > 0 when parameters[0].ParameterType == typeof(RpcParams):
             handler.DynamicInvoke(rpcParams);
             break;
           case > 0:

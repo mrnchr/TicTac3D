@@ -34,11 +34,17 @@ namespace CollectiveMind.TicTac3D.Runtime.Session
       {
         SetShapeImplicit(session, cell, shape);
 
-        if (session.Rules.Data.ShapeFading > ShapeFadingType.Off)
+        ShapeFadingType fading = session.Rules.Data.ShapeFading;
+        if (fading > ShapeFadingType.Off && cell.HasShape())
         {
-          SetLifeTime(session,
-            session.CurrentMove == ShapeType.XO ? session.Rules.Data.FadingMoveCount : _config.PlayerShapesLifeTime,
-            cell, session.LastMove);
+          var lifeTime = 0;
+          if(fading.IsBot() && session.CurrentMove == ShapeType.XO)
+            lifeTime = session.Rules.Data.BotFadingMoveCount;
+          
+          if(fading.IsPlayers() && session.CurrentMove.IsPlayer())
+            lifeTime = session.Rules.Data.PlayerFadingMoveCount;
+          
+          SetLifeTime(session, lifeTime, cell, session.LastMove);
         }
 
         ShapeType winner = CheckWin(session);

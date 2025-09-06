@@ -9,10 +9,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Build project
+      - name: Cache Unity Library
+        uses: actions/cache@v3
+        with:
+          path: C4G.Unity/Library
+          key: Library-C4G.Unity-${{ matrix.unityVersion }}
+          restore-keys: |
+            Library-C4G.Unity-
+            Library-
+
+      - name: Build Project
         uses: game-ci/unity-builder@v4
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
@@ -24,7 +33,8 @@ jobs:
           buildProfile: 'Assets/Settings/Build Profiles/Host.Web.asset'
           buildName: TicTac3D.GitHub
 
-      - uses: actions/upload-artifact@v4
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
         with:
           name: Build
           path: build

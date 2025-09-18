@@ -16,9 +16,9 @@ jobs:
         uses: actions/cache@v3
         with:
           path: C4G.Unity/Library
-          key: Library-C4G.Unity-${{ matrix.unityVersion }}
+          key: Library-TicTac3D.Unity-${{ matrix.unityVersion }}
           restore-keys: |
-            Library-C4G.Unity-
+            Library-TicTac3D.Unity-
             Library-
 
       - name: Build Project

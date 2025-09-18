@@ -45,7 +45,7 @@ namespace CollectiveMind.TicTac3D.Runtime.GameStateComponents
       await _windowManager.OpenWindowAsRoot<GameResultWindow>();
     }
 
-    public async UniTask Enter(LeaveGamePayload payload)
+    public UniTask Enter(LeaveGamePayload payload)
     {
       _isLeaveGamePayloadReceived = true;
       _gameplayTickableManager.IsPaused = true;
@@ -53,6 +53,8 @@ namespace CollectiveMind.TicTac3D.Runtime.GameStateComponents
       _lobbyManager.LeaveLobby().Forget();
       YG2.InterstitialAdvShow();
       _gameStateMachine.SwitchState<MenuGameState>().Forget();
+      
+      return UniTask.CompletedTask;
     }
 
     public async UniTask Exit()
@@ -61,7 +63,7 @@ namespace CollectiveMind.TicTac3D.Runtime.GameStateComponents
       _fieldCreator.CleanField();
       if (!_isLeaveGamePayloadReceived)
         _rpcProvider.SendRequest<LeaveGameRequest>();
-      
+
       _isLeaveGamePayloadReceived = false;
       await _windowManager.CloseWindow<GameResultWindow>();
     }

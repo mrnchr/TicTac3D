@@ -12,6 +12,7 @@ using UnityEngine.Localization;
 using UnityEngine.Localization.Components;
 using UnityEngine.Localization.SmartFormat.PersistentVariables;
 using UnityEngine.UI;
+using YG;
 using Zenject;
 
 namespace CollectiveMind.TicTac3D.Runtime.UI
@@ -100,6 +101,7 @@ namespace CollectiveMind.TicTac3D.Runtime.UI
     private void ExitToMenu()
     {
       _gameStateMachine.SwitchState<MenuGameState>().Forget();
+      YG2.InterstitialAdvShow();
     }
 
     private void OnDestroy()

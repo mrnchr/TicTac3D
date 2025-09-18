@@ -5,6 +5,7 @@ using CollectiveMind.TicTac3D.Runtime.UI;
 using CollectiveMind.TicTac3D.Runtime.WindowManagement;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using YG;
 
 namespace CollectiveMind.TicTac3D.Runtime.GameStateComponents
 {
@@ -50,7 +51,8 @@ namespace CollectiveMind.TicTac3D.Runtime.GameStateComponents
       _gameplayTickableManager.IsPaused = true;
       _rpcProvider.SendRequest<LeaveGameRequest>();
       _lobbyManager.LeaveLobby().Forget();
-      await _gameStateMachine.SwitchState<MenuGameState>();
+      YG2.InterstitialAdvShow();
+      _gameStateMachine.SwitchState<MenuGameState>().Forget();
     }
 
     public async UniTask Exit()

@@ -4,3 +4,5 @@ set buildFolder=%~2
 if "%buildFolder%"=="" set buildFolder=TicTac3D
 
 start npx @yandex-games/sdk-dev-proxy -p ".artifacts/Web/%buildFolder%" -i="%appId%" -с
+start cloudpub
+start https://tic-tac-3d.cloudpub.ru

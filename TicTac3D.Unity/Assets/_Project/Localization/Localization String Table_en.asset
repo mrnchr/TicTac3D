@@ -265,6 +265,10 @@ MonoBehaviour:
     m_Localized: Enter code...
     m_Metadata:
       m_Items: []
+  - m_Id: 65341297131487232
+    m_Localized: RMB
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

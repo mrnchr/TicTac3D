@@ -255,6 +255,10 @@ MonoBehaviour:
     m_Key: joinCode.enter
     m_Metadata:
       m_Items: []
+  - m_Id: 65341297131487232
+    m_Key: rightMouseButton.short
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

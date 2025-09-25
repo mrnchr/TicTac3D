@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using CollectiveMind.TicTac3D.Runtime.AssetManagement;
 using CollectiveMind.TicTac3D.Runtime.Gameplay;
+using CollectiveMind.TicTac3D.Runtime.Input;
 using CollectiveMind.TicTac3D.Runtime.WindowManagement;
 using Cysharp.Threading.Tasks;
 using R3;
@@ -34,6 +35,12 @@ namespace CollectiveMind.TicTac3D.Runtime.UI
     [SerializeField]
     private TMP_Text _timerLabel;
 
+    [SerializeField]
+    private GameObject _rotationHint;
+    
+    [SerializeField]
+    private Image _rotationImage;
+
     private IWindowManager _windowManager;
     private IGameplayTickableManager _gameplayTickableManager;
     private GameInfo _gameInfo;
@@ -59,6 +66,18 @@ namespace CollectiveMind.TicTac3D.Runtime.UI
       _settingsButton.AddListener(OpenPauseWindow);
       _gameInfo.CurrentMove.Subscribe(ChangeCurrentMoveText);
       _gameInfo.MoveTime.Subscribe(UpdateTime);
+    }
+
+    private void Start()
+    {
+      SwitchRotateVisual(OverridenPlatformSettings.IsMobilePlatform);
+      return;
+
+      void SwitchRotateVisual(bool mobile)
+      {
+        _rotationImage.raycastTarget = mobile;
+        _rotationHint.SetActive(!mobile);
+      }
     }
 
     protected override UniTask OnInvisible()

@@ -6,17 +6,19 @@ namespace CollectiveMind.TicTac3D.Runtime.Input
   [Serializable]
   public class InputProvider
   {
+    public bool Touch;
     public bool Click;
+    public Vector2 PointerPosition;
     public bool Rotate;
-    public Vector2 Delta;
-    public Vector2 MousePosition;
+    public Vector2 RotateValue;
 
     public void Reset()
     {
+      Touch = false;
       Click = false;
+      PointerPosition = Vector2.zero;
       Rotate = false;
-      Delta = Vector2.zero;
-      MousePosition = Vector2.zero;
+      RotateValue = Vector2.zero;
     }
   }
 }

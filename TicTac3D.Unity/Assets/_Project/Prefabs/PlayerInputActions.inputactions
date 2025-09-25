@@ -7,6 +7,15 @@
             "id": "0c57c970-4f5a-481d-9083-5630faaad8b4",
             "actions": [
                 {
+                    "name": "RotateValue",
+                    "type": "Value",
+                    "id": "e83905a4-0335-46a6-9fd3-7496f1703e7e",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "Rotate",
                     "type": "Value",
                     "id": "cc31a252-ffe0-40f9-9e70-eddeeebae6d6",
@@ -16,16 +25,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Delta",
-                    "type": "Value",
-                    "id": "a6e585c9-982f-4bcd-8cf0-fbf2552fc427",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
-                    "name": "MousePosition",
+                    "name": "PointerPosition",
                     "type": "Value",
                     "id": "c689bd58-d28c-4c23-8dbb-7956d76fa9f0",
                     "expectedControlType": "Vector2",
@@ -41,42 +41,18 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Touch",
+                    "type": "Value",
+                    "id": "b7f5106c-242e-4e8f-882e-f03b68b99523",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
-                {
-                    "name": "",
-                    "id": "3e9a822a-d06d-44aa-94a2-54eb1739e70a",
-                    "path": "<Mouse>/delta",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard & Mouse",
-                    "action": "Delta",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "1D Axis",
-                    "id": "d6270605-f4cf-4f38-8f9a-36915079d21f",
-                    "path": "1DAxis",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Rotate",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "positive",
-                    "id": "6b406172-e55c-4cd4-bb93-30fadd1347b2",
-                    "path": "<Mouse>/rightButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Rotate",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
                 {
                     "name": "",
                     "id": "f3648d78-7142-4803-b677-8810378c1338",
@@ -84,7 +60,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard & Mouse",
-                    "action": "MousePosition",
+                    "action": "PointerPosition",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3d92ae4e-50ce-4d62-ba12-1547e8ac1809",
+                    "path": "<Touchscreen>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Mobile",
+                    "action": "PointerPosition",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -96,6 +83,83 @@
                     "processors": "",
                     "groups": ";Keyboard & Mouse",
                     "action": "Click",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fac3f33b-c067-4d09-ab28-90f0ff9d22ae",
+                    "path": "<Touchscreen>/primaryTouch/tap",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Mobile",
+                    "action": "Click",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "One Modifier",
+                    "id": "e9c57556-37be-4455-b5c6-8d7c16da7bdc",
+                    "path": "OneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RotateValue",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "91a91e55-a9f3-4cd3-9955-ccac60bcb23a",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard & Mouse",
+                    "action": "RotateValue",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "1b520371-0363-451d-9d0d-666ef309eff8",
+                    "path": "<Pointer>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard & Mouse;Mobile",
+                    "action": "RotateValue",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "876d59c1-6ccf-4397-b557-41fd17bc50a7",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard & Mouse",
+                    "action": "Rotate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "34553c5a-7409-4009-a821-5dc3ec75c8ab",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Mobile",
+                    "action": "Rotate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5cd8df7b-52b4-4dc5-b2ee-23f2bd0b9aaa",
+                    "path": "<Touchscreen>/Press",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Mobile",
+                    "action": "Touch",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -379,7 +443,7 @@
                     "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
+                    "groups": "Keyboard&Mouse;Keyboard & Mouse",
                     "action": "Navigate",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -390,7 +454,7 @@
                     "path": "<Keyboard>/upArrow",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
+                    "groups": "Keyboard&Mouse;Keyboard & Mouse",
                     "action": "Navigate",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -401,7 +465,7 @@
                     "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
+                    "groups": "Keyboard&Mouse;Keyboard & Mouse",
                     "action": "Navigate",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -412,7 +476,7 @@
                     "path": "<Keyboard>/downArrow",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
+                    "groups": "Keyboard&Mouse;Keyboard & Mouse",
                     "action": "Navigate",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -423,7 +487,7 @@
                     "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
+                    "groups": "Keyboard&Mouse;Keyboard & Mouse",
                     "action": "Navigate",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -434,7 +498,7 @@
                     "path": "<Keyboard>/leftArrow",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
+                    "groups": "Keyboard&Mouse;Keyboard & Mouse",
                     "action": "Navigate",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -445,7 +509,7 @@
                     "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
+                    "groups": "Keyboard&Mouse;Keyboard & Mouse",
                     "action": "Navigate",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -456,7 +520,7 @@
                     "path": "<Keyboard>/rightArrow",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
+                    "groups": "Keyboard&Mouse;Keyboard & Mouse",
                     "action": "Navigate",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -467,7 +531,7 @@
                     "path": "*/{Submit}",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse;Gamepad;Touch;Joystick;XR",
+                    "groups": "Keyboard&Mouse;Gamepad;Touch;Joystick;XR;Keyboard & Mouse;Mobile",
                     "action": "Submit",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -478,7 +542,7 @@
                     "path": "*/{Cancel}",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse;Gamepad;Touch;Joystick;XR",
+                    "groups": "Keyboard&Mouse;Gamepad;Touch;Joystick;XR;Keyboard & Mouse;Mobile",
                     "action": "Cancel",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -489,7 +553,7 @@
                     "path": "<Mouse>/position",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
+                    "groups": "Keyboard&Mouse;Keyboard & Mouse",
                     "action": "Point",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -511,7 +575,7 @@
                     "path": "<Touchscreen>/touch*/position",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Touch",
+                    "groups": "Touch;Mobile",
                     "action": "Point",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -522,7 +586,7 @@
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Keyboard&Mouse",
+                    "groups": ";Keyboard&Mouse;Keyboard & Mouse",
                     "action": "Click",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -544,7 +608,7 @@
                     "path": "<Touchscreen>/touch*/press",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Touch",
+                    "groups": "Touch;Mobile",
                     "action": "Click",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -566,7 +630,7 @@
                     "path": "<Mouse>/scroll",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Keyboard&Mouse",
+                    "groups": ";Keyboard&Mouse;Keyboard & Mouse",
                     "action": "ScrollWheel",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -577,7 +641,7 @@
                     "path": "<Mouse>/middleButton",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Keyboard&Mouse",
+                    "groups": ";Keyboard&Mouse;Keyboard & Mouse",
                     "action": "MiddleClick",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -588,7 +652,7 @@
                     "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Keyboard&Mouse",
+                    "groups": ";Keyboard&Mouse;Keyboard & Mouse",
                     "action": "RightClick",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -630,6 +694,17 @@
                 },
                 {
                     "devicePath": "<Mouse>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        },
+        {
+            "name": "Mobile",
+            "bindingGroup": "Mobile",
+            "devices": [
+                {
+                    "devicePath": "<Touchscreen>",
                     "isOptional": false,
                     "isOR": false
                 }

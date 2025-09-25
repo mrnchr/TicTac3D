@@ -33,10 +33,10 @@ namespace CollectiveMind.TicTac3D.Runtime.Gameplay
     {
       ClearHovering();
       
-      if (!_gameInfo.IsMoving || _gameInfo.CurrentMove.Value == ShapeType.None)
+      if (!_inputProvider.Touch || !_gameInfo.IsMoving || _gameInfo.CurrentMove.Value == ShapeType.None)
         return;
       
-      Ray ray = _camera.ScreenPointToRay(_inputProvider.MousePosition);
+      Ray ray = _camera.ScreenPointToRay(_inputProvider.PointerPosition);
       var minDistance = float.MaxValue;
       CellModel hoveredCell = null;
       foreach (CellModel cell in _cells.Where(x => !x.HasShape()))

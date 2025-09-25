@@ -52,7 +52,7 @@ namespace CollectiveMind.TicTac3D.Runtime.UI
     private void MoveToMousePosition()
     {
       Vector2 delta = _rectTransform.position - _mouseTarget.position;
-      Vector3 targetPosition = _input.MousePosition + delta;
+      Vector3 targetPosition = _input.PointerPosition + delta;
 
       Rect rect = _rectTransform.rect;
       rect.center = targetPosition;

@@ -33,11 +33,9 @@ namespace CollectiveMind.TicTac3D.Runtime.Gameplay
 
     public void Tick()
     {
-      if (_inputProvider.Rotate)
+      if (_inputProvider.RotateValue != Vector2.zero)
       {
-        Vector2 delta = new Vector2(-_inputProvider.Delta.y, _inputProvider.Delta.x);
-
-        Vector2 rawFrameVelocity = delta * _settingsDataProvider.Data.MouseSensitivity.Value;
+        Vector2 rawFrameVelocity = _inputProvider.RotateValue * _settingsDataProvider.Data.MouseSensitivity.Value;
         Vector2 frameVelocity = Vector2.Lerp(Vector2.zero, rawFrameVelocity, 1 / _rotationConfig.Smoothing);
             
         _angles += frameVelocity;

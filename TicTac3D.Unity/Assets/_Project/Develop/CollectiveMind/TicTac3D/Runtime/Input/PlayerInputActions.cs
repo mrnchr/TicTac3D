@@ -95,6 +95,15 @@ namespace CollectiveMind.TicTac3D.Runtime.Input
             ""id"": ""0c57c970-4f5a-481d-9083-5630faaad8b4"",
             ""actions"": [
                 {
+                    ""name"": ""RotateValue"",
+                    ""type"": ""Value"",
+                    ""id"": ""e83905a4-0335-46a6-9fd3-7496f1703e7e"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
                     ""name"": ""Rotate"",
                     ""type"": ""Value"",
                     ""id"": ""cc31a252-ffe0-40f9-9e70-eddeeebae6d6"",
@@ -104,16 +113,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Input
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Delta"",
-                    ""type"": ""Value"",
-                    ""id"": ""a6e585c9-982f-4bcd-8cf0-fbf2552fc427"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""MousePosition"",
+                    ""name"": ""PointerPosition"",
                     ""type"": ""Value"",
                     ""id"": ""c689bd58-d28c-4c23-8dbb-7956d76fa9f0"",
                     ""expectedControlType"": ""Vector2"",
@@ -129,42 +129,18 @@ namespace CollectiveMind.TicTac3D.Runtime.Input
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Touch"",
+                    ""type"": ""Value"",
+                    ""id"": ""b7f5106c-242e-4e8f-882e-f03b68b99523"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""3e9a822a-d06d-44aa-94a2-54eb1739e70a"",
-                    ""path"": ""<Mouse>/delta"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard & Mouse"",
-                    ""action"": ""Delta"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""1D Axis"",
-                    ""id"": ""d6270605-f4cf-4f38-8f9a-36915079d21f"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Rotate"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""6b406172-e55c-4cd4-bb93-30fadd1347b2"",
-                    ""path"": ""<Mouse>/rightButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Rotate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
                 {
                     ""name"": """",
                     ""id"": ""f3648d78-7142-4803-b677-8810378c1338"",
@@ -172,7 +148,18 @@ namespace CollectiveMind.TicTac3D.Runtime.Input
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard & Mouse"",
-                    ""action"": ""MousePosition"",
+                    ""action"": ""PointerPosition"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3d92ae4e-50ce-4d62-ba12-1547e8ac1809"",
+                    ""path"": ""<Touchscreen>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Mobile"",
+                    ""action"": ""PointerPosition"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -184,6 +171,83 @@ namespace CollectiveMind.TicTac3D.Runtime.Input
                     ""processors"": """",
                     ""groups"": "";Keyboard & Mouse"",
                     ""action"": ""Click"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fac3f33b-c067-4d09-ab28-90f0ff9d22ae"",
+                    ""path"": ""<Touchscreen>/primaryTouch/tap"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Mobile"",
+                    ""action"": ""Click"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""One Modifier"",
+                    ""id"": ""e9c57556-37be-4455-b5c6-8d7c16da7bdc"",
+                    ""path"": ""OneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateValue"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""91a91e55-a9f3-4cd3-9955-ccac60bcb23a"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard & Mouse"",
+                    ""action"": ""RotateValue"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""1b520371-0363-451d-9d0d-666ef309eff8"",
+                    ""path"": ""<Pointer>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard & Mouse;Mobile"",
+                    ""action"": ""RotateValue"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""876d59c1-6ccf-4397-b557-41fd17bc50a7"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard & Mouse"",
+                    ""action"": ""Rotate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""34553c5a-7409-4009-a821-5dc3ec75c8ab"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Mobile"",
+                    ""action"": ""Rotate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5cd8df7b-52b4-4dc5-b2ee-23f2bd0b9aaa"",
+                    ""path"": ""<Touchscreen>/Press"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Mobile"",
+                    ""action"": ""Touch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -467,7 +531,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Input
                     ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
+                    ""groups"": ""Keyboard&Mouse;Keyboard & Mouse"",
                     ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -478,7 +542,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Input
                     ""path"": ""<Keyboard>/upArrow"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
+                    ""groups"": ""Keyboard&Mouse;Keyboard & Mouse"",
                     ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -489,7 +553,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Input
                     ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
+                    ""groups"": ""Keyboard&Mouse;Keyboard & Mouse"",
                     ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -500,7 +564,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Input
                     ""path"": ""<Keyboard>/downArrow"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
+                    ""groups"": ""Keyboard&Mouse;Keyboard & Mouse"",
                     ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -511,7 +575,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Input
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
+                    ""groups"": ""Keyboard&Mouse;Keyboard & Mouse"",
                     ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -522,7 +586,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Input
                     ""path"": ""<Keyboard>/leftArrow"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
+                    ""groups"": ""Keyboard&Mouse;Keyboard & Mouse"",
                     ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -533,7 +597,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Input
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
+                    ""groups"": ""Keyboard&Mouse;Keyboard & Mouse"",
                     ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -544,7 +608,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Input
                     ""path"": ""<Keyboard>/rightArrow"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
+                    ""groups"": ""Keyboard&Mouse;Keyboard & Mouse"",
                     ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -555,7 +619,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Input
                     ""path"": ""*/{Submit}"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse;Gamepad;Touch;Joystick;XR"",
+                    ""groups"": ""Keyboard&Mouse;Gamepad;Touch;Joystick;XR;Keyboard & Mouse;Mobile"",
                     ""action"": ""Submit"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -566,7 +630,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Input
                     ""path"": ""*/{Cancel}"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse;Gamepad;Touch;Joystick;XR"",
+                    ""groups"": ""Keyboard&Mouse;Gamepad;Touch;Joystick;XR;Keyboard & Mouse;Mobile"",
                     ""action"": ""Cancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -577,7 +641,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Input
                     ""path"": ""<Mouse>/position"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
+                    ""groups"": ""Keyboard&Mouse;Keyboard & Mouse"",
                     ""action"": ""Point"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -599,7 +663,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Input
                     ""path"": ""<Touchscreen>/touch*/position"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Touch"",
+                    ""groups"": ""Touch;Mobile"",
                     ""action"": ""Point"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -610,7 +674,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Input
                     ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
+                    ""groups"": "";Keyboard&Mouse;Keyboard & Mouse"",
                     ""action"": ""Click"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -632,7 +696,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Input
                     ""path"": ""<Touchscreen>/touch*/press"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Touch"",
+                    ""groups"": ""Touch;Mobile"",
                     ""action"": ""Click"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -654,7 +718,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Input
                     ""path"": ""<Mouse>/scroll"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
+                    ""groups"": "";Keyboard&Mouse;Keyboard & Mouse"",
                     ""action"": ""ScrollWheel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -665,7 +729,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Input
                     ""path"": ""<Mouse>/middleButton"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
+                    ""groups"": "";Keyboard&Mouse;Keyboard & Mouse"",
                     ""action"": ""MiddleClick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -676,7 +740,7 @@ namespace CollectiveMind.TicTac3D.Runtime.Input
                     ""path"": ""<Mouse>/rightButton"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
+                    ""groups"": "";Keyboard&Mouse;Keyboard & Mouse"",
                     ""action"": ""RightClick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -722,15 +786,27 @@ namespace CollectiveMind.TicTac3D.Runtime.Input
                     ""isOR"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Mobile"",
+            ""bindingGroup"": ""Mobile"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<Touchscreen>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
         }
     ]
 }");
             // Gameplay
             m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
+            m_Gameplay_RotateValue = m_Gameplay.FindAction("RotateValue", throwIfNotFound: true);
             m_Gameplay_Rotate = m_Gameplay.FindAction("Rotate", throwIfNotFound: true);
-            m_Gameplay_Delta = m_Gameplay.FindAction("Delta", throwIfNotFound: true);
-            m_Gameplay_MousePosition = m_Gameplay.FindAction("MousePosition", throwIfNotFound: true);
+            m_Gameplay_PointerPosition = m_Gameplay.FindAction("PointerPosition", throwIfNotFound: true);
             m_Gameplay_Click = m_Gameplay.FindAction("Click", throwIfNotFound: true);
+            m_Gameplay_Touch = m_Gameplay.FindAction("Touch", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -824,10 +900,11 @@ namespace CollectiveMind.TicTac3D.Runtime.Input
         // Gameplay
         private readonly InputActionMap m_Gameplay;
         private List<IGameplayActions> m_GameplayActionsCallbackInterfaces = new List<IGameplayActions>();
+        private readonly InputAction m_Gameplay_RotateValue;
         private readonly InputAction m_Gameplay_Rotate;
-        private readonly InputAction m_Gameplay_Delta;
-        private readonly InputAction m_Gameplay_MousePosition;
+        private readonly InputAction m_Gameplay_PointerPosition;
         private readonly InputAction m_Gameplay_Click;
+        private readonly InputAction m_Gameplay_Touch;
         /// <summary>
         /// Provides access to input actions defined in input action map "Gameplay".
         /// </summary>
@@ -840,21 +917,25 @@ namespace CollectiveMind.TicTac3D.Runtime.Input
             /// </summary>
             public GameplayActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
             /// <summary>
+            /// Provides access to the underlying input action "Gameplay/RotateValue".
+            /// </summary>
+            public InputAction @RotateValue => m_Wrapper.m_Gameplay_RotateValue;
+            /// <summary>
             /// Provides access to the underlying input action "Gameplay/Rotate".
             /// </summary>
             public InputAction @Rotate => m_Wrapper.m_Gameplay_Rotate;
             /// <summary>
-            /// Provides access to the underlying input action "Gameplay/Delta".
+            /// Provides access to the underlying input action "Gameplay/PointerPosition".
             /// </summary>
-            public InputAction @Delta => m_Wrapper.m_Gameplay_Delta;
-            /// <summary>
-            /// Provides access to the underlying input action "Gameplay/MousePosition".
-            /// </summary>
-            public InputAction @MousePosition => m_Wrapper.m_Gameplay_MousePosition;
+            public InputAction @PointerPosition => m_Wrapper.m_Gameplay_PointerPosition;
             /// <summary>
             /// Provides access to the underlying input action "Gameplay/Click".
             /// </summary>
             public InputAction @Click => m_Wrapper.m_Gameplay_Click;
+            /// <summary>
+            /// Provides access to the underlying input action "Gameplay/Touch".
+            /// </summary>
+            public InputAction @Touch => m_Wrapper.m_Gameplay_Touch;
             /// <summary>
             /// Provides access to the underlying input action map instance.
             /// </summary>
@@ -881,18 +962,21 @@ namespace CollectiveMind.TicTac3D.Runtime.Input
             {
                 if (instance == null || m_Wrapper.m_GameplayActionsCallbackInterfaces.Contains(instance)) return;
                 m_Wrapper.m_GameplayActionsCallbackInterfaces.Add(instance);
+                @RotateValue.started += instance.OnRotateValue;
+                @RotateValue.performed += instance.OnRotateValue;
+                @RotateValue.canceled += instance.OnRotateValue;
                 @Rotate.started += instance.OnRotate;
                 @Rotate.performed += instance.OnRotate;
                 @Rotate.canceled += instance.OnRotate;
-                @Delta.started += instance.OnDelta;
-                @Delta.performed += instance.OnDelta;
-                @Delta.canceled += instance.OnDelta;
-                @MousePosition.started += instance.OnMousePosition;
-                @MousePosition.performed += instance.OnMousePosition;
-                @MousePosition.canceled += instance.OnMousePosition;
+                @PointerPosition.started += instance.OnPointerPosition;
+                @PointerPosition.performed += instance.OnPointerPosition;
+                @PointerPosition.canceled += instance.OnPointerPosition;
                 @Click.started += instance.OnClick;
                 @Click.performed += instance.OnClick;
                 @Click.canceled += instance.OnClick;
+                @Touch.started += instance.OnTouch;
+                @Touch.performed += instance.OnTouch;
+                @Touch.canceled += instance.OnTouch;
             }
 
             /// <summary>
@@ -904,18 +988,21 @@ namespace CollectiveMind.TicTac3D.Runtime.Input
             /// <seealso cref="GameplayActions" />
             private void UnregisterCallbacks(IGameplayActions instance)
             {
+                @RotateValue.started -= instance.OnRotateValue;
+                @RotateValue.performed -= instance.OnRotateValue;
+                @RotateValue.canceled -= instance.OnRotateValue;
                 @Rotate.started -= instance.OnRotate;
                 @Rotate.performed -= instance.OnRotate;
                 @Rotate.canceled -= instance.OnRotate;
-                @Delta.started -= instance.OnDelta;
-                @Delta.performed -= instance.OnDelta;
-                @Delta.canceled -= instance.OnDelta;
-                @MousePosition.started -= instance.OnMousePosition;
-                @MousePosition.performed -= instance.OnMousePosition;
-                @MousePosition.canceled -= instance.OnMousePosition;
+                @PointerPosition.started -= instance.OnPointerPosition;
+                @PointerPosition.performed -= instance.OnPointerPosition;
+                @PointerPosition.canceled -= instance.OnPointerPosition;
                 @Click.started -= instance.OnClick;
                 @Click.performed -= instance.OnClick;
                 @Click.canceled -= instance.OnClick;
+                @Touch.started -= instance.OnTouch;
+                @Touch.performed -= instance.OnTouch;
+                @Touch.canceled -= instance.OnTouch;
             }
 
             /// <summary>
@@ -1157,6 +1244,19 @@ namespace CollectiveMind.TicTac3D.Runtime.Input
                 return asset.controlSchemes[m_KeyboardMouseSchemeIndex];
             }
         }
+        private int m_MobileSchemeIndex = -1;
+        /// <summary>
+        /// Provides access to the input control scheme.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputControlScheme" />
+        public InputControlScheme MobileScheme
+        {
+            get
+            {
+                if (m_MobileSchemeIndex == -1) m_MobileSchemeIndex = asset.FindControlSchemeIndex("Mobile");
+                return asset.controlSchemes[m_MobileSchemeIndex];
+            }
+        }
         /// <summary>
         /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Gameplay" which allows adding and removing callbacks.
         /// </summary>
@@ -1165,6 +1265,13 @@ namespace CollectiveMind.TicTac3D.Runtime.Input
         public interface IGameplayActions
         {
             /// <summary>
+            /// Method invoked when associated input action "RotateValue" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnRotateValue(InputAction.CallbackContext context);
+            /// <summary>
             /// Method invoked when associated input action "Rotate" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
             /// </summary>
             /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
@@ -1172,19 +1279,12 @@ namespace CollectiveMind.TicTac3D.Runtime.Input
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
             void OnRotate(InputAction.CallbackContext context);
             /// <summary>
-            /// Method invoked when associated input action "Delta" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// Method invoked when associated input action "PointerPosition" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
             /// </summary>
             /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-            void OnDelta(InputAction.CallbackContext context);
-            /// <summary>
-            /// Method invoked when associated input action "MousePosition" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-            /// </summary>
-            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-            void OnMousePosition(InputAction.CallbackContext context);
+            void OnPointerPosition(InputAction.CallbackContext context);
             /// <summary>
             /// Method invoked when associated input action "Click" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
             /// </summary>
@@ -1192,6 +1292,13 @@ namespace CollectiveMind.TicTac3D.Runtime.Input
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
             void OnClick(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "Touch" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnTouch(InputAction.CallbackContext context);
         }
         /// <summary>
         /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

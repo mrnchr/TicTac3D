@@ -16,19 +16,27 @@ namespace CollectiveMind.TicTac3D.Runtime.Input
     {
       _inputProvider = inputProvider;
       _eventSystem = eventSystem;
-      
+
       playerInputActions.Gameplay.Enable();
+      playerInputActions.UI.Enable();
       _gameplayInputs = playerInputActions.Gameplay;
     }
 
     public void Tick()
     {
+      bool wasTouch = _inputProvider.Touch;
       _inputProvider.Reset();
 
-      _inputProvider.Click = _gameplayInputs.Click.WasPerformedThisFrame() && !_eventSystem.IsPointerOverGameObject();
+      _inputProvider.PointerPosition = _gameplayInputs.PointerPosition.ReadValue<Vector2>();
       _inputProvider.Rotate = _gameplayInputs.Rotate.ReadValue<float>() > 0;
-      _inputProvider.Delta = _gameplayInputs.Delta.ReadValue<Vector2>();
-      _inputProvider.MousePosition = _gameplayInputs.MousePosition.ReadValue<Vector2>();
+      _inputProvider.RotateValue = _gameplayInputs.RotateValue.ReadValue<Vector2>();
+      
+      _inputProvider.Click = (!OverridenPlatformSettings.IsMobilePlatform || !_inputProvider.Rotate)
+        && _gameplayInputs.Click.WasPerformedThisFrame() && !_eventSystem.IsPointerOverGameObject();
+
+      _inputProvider.Touch = !OverridenPlatformSettings.IsMobilePlatform
+        || (_gameplayInputs.Touch.ReadValue<float>() > 0 && !_inputProvider.Rotate
+          && (_gameplayInputs.Touch.WasPerformedThisFrame() || wasTouch));
     }
   }
 }

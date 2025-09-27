@@ -1,3 +1,16 @@
 {
-	"name": "PluginYG2"
+    "name": "PluginYG2",
+    "rootNamespace": "",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "PLUGIN_YOUR_GAMES"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

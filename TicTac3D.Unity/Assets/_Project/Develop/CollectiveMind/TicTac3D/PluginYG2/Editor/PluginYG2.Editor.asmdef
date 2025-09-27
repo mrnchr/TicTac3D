@@ -11,7 +11,8 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [
-        "UNITY_EDITOR"
+        "UNITY_EDITOR",
+        "PLUGIN_YOUR_GAMES"
     ],
     "versionDefines": [],
     "noEngineReferences": false
